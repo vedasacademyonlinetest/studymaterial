@@ -1,0 +1,1317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Olympiad Geometry – Triangles & Quadrilaterals | VEDAS Academy</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --navy:#0d1b2a;
+  --deep:#142133;
+  --gold:#c8972a;
+  --gold-light:#e8b84b;
+  --gold-pale:#f5e6c0;
+  --cream:#fdf8ef;
+  --white:#ffffff;
+  --ink:#1a1a2e;
+  --slate:#3d4f6b;
+  --mist:#e8eef6;
+  --ar-bg:#eef4fb;
+  --ar-border:#3a7bd5;
+  --mc-bg:#fdf0f8;
+  --mc-border:#9b3fa8;
+  --mcq-bg:#f0faf2;
+  --mcq-border:#2a8a4a;
+  --sol-bg:#fffef5;
+  --sol-border:#c8972a;
+  --wrong-bg:#fff5f5;
+  --wrong-border:#c0392b;
+  --concept-bg:#f0f7ff;
+  --concept-border:#2980b9;
+  --font-display:'Playfair Display',Georgia,serif;
+  --font-body:'Source Serif 4',Georgia,serif;
+  --font-mono:'JetBrains Mono',monospace;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+
+body{
+  background:var(--cream);
+  color:var(--ink);
+  font-family:var(--font-body);
+  font-size:15.5px;
+  line-height:1.75;
+}
+
+/* ── COVER HEADER ── */
+.cover{
+  background:linear-gradient(135deg,var(--navy) 0%,#1a2f4a 55%,#0f2238 100%);
+  color:var(--white);
+  padding:50px 60px 44px;
+  position:relative;
+  overflow:hidden;
+}
+.cover::before{
+  content:'';
+  position:absolute;inset:0;
+  background:repeating-linear-gradient(
+    45deg,transparent,transparent 28px,
+    rgba(200,151,42,0.06) 28px,rgba(200,151,42,0.06) 29px
+  );
+}
+.cover-inner{position:relative;max-width:860px;margin:0 auto;}
+.academy-tag{
+  display:inline-block;
+  background:var(--gold);
+  color:var(--navy);
+  font-family:var(--font-mono);
+  font-size:11px;font-weight:600;
+  letter-spacing:2.5px;text-transform:uppercase;
+  padding:5px 14px;border-radius:2px;
+  margin-bottom:20px;
+}
+.cover h1{
+  font-family:var(--font-display);
+  font-size:2.55rem;font-weight:900;
+  line-height:1.15;
+  color:var(--white);
+  margin-bottom:10px;
+}
+.cover h1 span{color:var(--gold-light);}
+.cover-sub{
+  font-family:var(--font-body);
+  font-size:1.05rem;font-weight:300;
+  color:rgba(255,255,255,0.75);
+  font-style:italic;
+  margin-bottom:28px;
+}
+.cover-meta{
+  display:flex;gap:30px;flex-wrap:wrap;
+  border-top:1px solid rgba(200,151,42,0.3);
+  padding-top:20px;
+  margin-top:4px;
+}
+.meta-pill{
+  display:flex;align-items:center;gap:8px;
+  font-family:var(--font-mono);font-size:11.5px;
+  color:rgba(255,255,255,0.65);letter-spacing:0.5px;
+}
+.meta-pill .dot{
+  width:7px;height:7px;border-radius:50%;
+  background:var(--gold);display:inline-block;
+}
+.gold-rule{
+  height:3px;
+  background:linear-gradient(90deg,var(--gold),var(--gold-light),transparent);
+  margin:0;
+}
+
+/* ── TOPIC GRID ── */
+.topic-strip{
+  background:var(--deep);
+  color:rgba(255,255,255,0.85);
+  padding:18px 60px;
+}
+.topic-strip-inner{max-width:860px;margin:0 auto;}
+.topic-label{
+  font-family:var(--font-mono);font-size:10.5px;
+  letter-spacing:2px;text-transform:uppercase;
+  color:var(--gold);margin-bottom:10px;
+}
+.topic-chips{display:flex;flex-wrap:wrap;gap:7px;}
+.chip{
+  background:rgba(200,151,42,0.12);
+  border:1px solid rgba(200,151,42,0.3);
+  color:rgba(255,255,255,0.82);
+  font-size:11px;padding:3px 10px;border-radius:20px;
+  font-family:var(--font-mono);
+}
+
+/* ── MAIN CONTENT ── */
+.main{max-width:860px;margin:0 auto;padding:40px 60px 80px;}
+
+/* ── INSTRUCTION BOX ── */
+.instr-box{
+  background:var(--mist);
+  border-left:4px solid var(--slate);
+  border-radius:0 8px 8px 0;
+  padding:16px 22px;
+  margin-bottom:38px;
+  font-size:13.5px;color:var(--slate);
+}
+.instr-box strong{color:var(--ink);}
+
+/* ── SECTION HEADERS ── */
+.section-head{
+  display:flex;align-items:center;gap:16px;
+  margin:52px 0 28px;
+}
+.sec-badge{
+  width:42px;height:42px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-mono);font-size:14px;font-weight:600;
+  flex-shrink:0;
+}
+.sec-badge.ar{background:var(--ar-border);color:white;}
+.sec-badge.mc{background:var(--mc-border);color:white;}
+.sec-badge.mq{background:var(--mcq-border);color:white;}
+.sec-title-wrap{}
+.sec-title{
+  font-family:var(--font-display);font-size:1.35rem;font-weight:700;
+  color:var(--navy);
+}
+.sec-subtitle{font-size:12.5px;color:var(--slate);font-style:italic;margin-top:1px;}
+.sec-rule{flex:1;height:2px;background:var(--mist);}
+
+/* ── QUESTION CARDS ── */
+.q-card{
+  border-radius:10px;
+  margin-bottom:30px;
+  overflow:hidden;
+  box-shadow:0 2px 12px rgba(13,27,42,0.07);
+}
+.q-head{
+  display:flex;align-items:center;gap:12px;
+  padding:12px 20px;
+}
+.q-num{
+  font-family:var(--font-mono);font-size:12px;font-weight:600;
+  letter-spacing:1px;opacity:0.9;
+}
+.q-tag{font-size:11px;opacity:0.75;font-style:italic;}
+.q-body{padding:18px 22px;}
+
+/* AR card */
+.q-card.ar .q-head{background:var(--ar-border);color:white;}
+.q-card.ar{border:1px solid #c5d8f5;}
+.ar-block{
+  background:var(--ar-bg);border-radius:6px;
+  padding:14px 18px;margin-bottom:12px;
+}
+.ar-label{
+  font-family:var(--font-mono);font-size:11px;font-weight:600;
+  letter-spacing:1px;color:var(--ar-border);margin-bottom:6px;
+}
+.ar-text{font-size:14.5px;line-height:1.65;}
+
+/* MC card */
+.q-card.mc .q-head{background:var(--mc-border);color:white;}
+.q-card.mc{border:1px solid #ddb8e8;}
+.mc-note{
+  font-size:12px;font-style:italic;color:var(--mc-border);
+  margin-bottom:12px;padding:6px 12px;
+  background:#fdf6ff;border-radius:4px;
+  border-left:3px solid var(--mc-border);
+}
+
+/* MCQ card */
+.q-card.mq .q-head{background:var(--mcq-border);color:white;}
+.q-card.mq{border:1px solid #b0ddb8;}
+
+/* Question stem */
+.q-stem{font-size:14.5px;line-height:1.7;margin-bottom:14px;}
+.q-stem strong{color:var(--navy);}
+
+/* Options */
+.options{display:grid;grid-template-columns:1fr 1fr;gap:7px;}
+.opt{
+  background:rgba(255,255,255,0.7);
+  border:1px solid rgba(0,0,0,0.1);
+  border-radius:6px;padding:8px 12px;
+  font-size:13.5px;line-height:1.5;
+}
+.opt-label{
+  font-family:var(--font-mono);font-weight:600;
+  margin-right:6px;font-size:12px;
+}
+.opt.ar-opt{background:white;border-color:#c5d8f5;}
+
+/* AR specific options (4 long ones) */
+.options.ar-opts{grid-template-columns:1fr;}
+.options.ar-opts .opt{font-size:13px;padding:8px 14px;}
+
+/* ── SOLUTION ACCORDION ── */
+details{margin-top:12px;}
+summary{
+  list-style:none;cursor:pointer;
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--gold);color:var(--navy);
+  font-family:var(--font-mono);font-size:11.5px;font-weight:600;
+  letter-spacing:1px;padding:7px 16px;border-radius:4px;
+  user-select:none;transition:background 0.2s;
+}
+summary:hover{background:var(--gold-light);}
+summary::before{content:'▶';font-size:9px;transition:transform 0.2s;}
+details[open] summary::before{transform:rotate(90deg);}
+details[open] summary{border-radius:4px 4px 0 0;}
+
+.solution-box{
+  background:var(--sol-bg);
+  border:1px solid var(--sol-border);
+  border-top:none;
+  border-radius:0 4px 4px 4px;
+  padding:20px 22px;
+  font-size:13.5px;line-height:1.75;
+}
+
+.ans-row{
+  display:flex;align-items:center;gap:10px;
+  margin-bottom:14px;
+}
+.ans-badge{
+  background:var(--navy);color:var(--gold);
+  font-family:var(--font-mono);font-size:11px;font-weight:600;
+  padding:4px 12px;border-radius:20px;letter-spacing:1px;
+  white-space:nowrap;
+}
+.ans-text{font-weight:600;color:var(--navy);font-size:14px;}
+
+.sol-section{margin-bottom:14px;}
+.sol-label{
+  font-family:var(--font-mono);font-size:10.5px;font-weight:600;
+  letter-spacing:2px;text-transform:uppercase;
+  color:var(--slate);margin-bottom:6px;
+}
+
+.wrong-box{
+  background:var(--wrong-bg);
+  border-left:3px solid var(--wrong-border);
+  border-radius:0 6px 6px 0;
+  padding:10px 14px;margin:8px 0;
+  font-size:13px;
+}
+.wrong-label{
+  font-family:var(--font-mono);font-size:10px;font-weight:600;
+  color:var(--wrong-border);letter-spacing:1px;margin-bottom:4px;
+}
+
+.concept-box{
+  background:var(--concept-bg);
+  border:1px solid var(--concept-border);
+  border-radius:6px;padding:12px 16px;
+  margin-top:10px;
+}
+.concept-label{
+  font-family:var(--font-mono);font-size:10px;font-weight:600;
+  letter-spacing:2px;color:var(--concept-border);margin-bottom:5px;
+}
+
+.trick-box{
+  background:linear-gradient(135deg,#fffbea,#fff9e0);
+  border:1px dashed var(--gold);
+  border-radius:6px;padding:11px 15px;margin-top:8px;
+  font-size:13px;
+}
+.trick-label{
+  font-family:var(--font-mono);font-size:10px;font-weight:600;
+  letter-spacing:2px;color:var(--gold);margin-bottom:4px;
+}
+
+/* ── MATH INLINE ── */
+.mf{
+  font-family:var(--font-mono);font-size:13.5px;
+  background:rgba(0,0,0,0.04);
+  padding:1px 5px;border-radius:3px;
+  color:#1a3a60;
+}
+
+/* ── REFERENCE TABLE ── */
+.ref-table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13px;}
+.ref-table th{
+  background:var(--navy);color:white;
+  padding:8px 12px;text-align:left;
+  font-family:var(--font-mono);font-size:11px;letter-spacing:1px;
+}
+.ref-table td{padding:7px 12px;border:1px solid #d0d8e8;}
+.ref-table tr:nth-child(even) td{background:#f5f8fc;}
+.ref-table .tick{color:#2a8a4a;font-weight:700;}
+.ref-table .cross{color:#c0392b;font-weight:700;}
+
+/* ── FIGURE HINTS ── */
+.fig-hint{
+  background:#f8f8f8;border:1px dashed #bbb;
+  border-radius:6px;padding:10px 14px;
+  font-size:12px;color:#555;font-style:italic;
+  text-align:center;margin:8px 0;
+}
+
+/* ── COORD BOX ── */
+.coord-box{
+  background:#fafbff;border:1px solid #c5d8f5;
+  border-radius:6px;padding:12px 16px;
+  font-family:var(--font-mono);font-size:13px;
+  color:#1a3060;margin:8px 0;line-height:1.8;
+}
+
+/* ── FOOTER ── */
+.footer{
+  background:var(--navy);color:rgba(255,255,255,0.5);
+  text-align:center;padding:22px;
+  font-family:var(--font-mono);font-size:11px;letter-spacing:1px;
+}
+.footer span{color:var(--gold);}
+
+@media(max-width:680px){
+  .cover{padding:30px 20px;}
+  .main{padding:24px 16px 60px;}
+  .options{grid-template-columns:1fr;}
+  .cover h1{font-size:1.7rem;}
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════ COVER ══════════════════ -->
+<div class="cover">
+  <div class="cover-inner">
+    <div class="academy-tag">VEDAS Academy · Wanaparthy</div>
+    <h1>Triangles &amp; Quadrilaterals<br/><span>Olympiad Concept Test</span></h1>
+    <div class="cover-sub">Foundation · IIT-JEE Prep · Class 9–10 · Geometry Module IV</div>
+    <div class="cover-meta">
+      <div class="meta-pill"><span class="dot"></span> 20 Questions</div>
+      <div class="meta-pill"><span class="dot"></span> Assertion–Reason · Multi-Correct · Tricky MCQs</div>
+      <div class="meta-pill"><span class="dot"></span> Full Solutions Included</div>
+      <div class="meta-pill"><span class="dot"></span> Olympiad / NTSE / Foundation Level</div>
+    </div>
+  </div>
+</div>
+<div class="gold-rule"></div>
+
+<!-- ══════════════════ TOPIC STRIP ══════════════════ -->
+<div class="topic-strip">
+  <div class="topic-strip-inner">
+    <div class="topic-label">Topics Covered</div>
+    <div class="topic-chips">
+      <span class="chip">Triangle Types via Side² Relations</span>
+      <span class="chip">Acute / Right / Obtuse</span>
+      <span class="chip">Pythagoras Theorem</span>
+      <span class="chip">Perpendicular Bisectors</span>
+      <span class="chip">Parallelogram</span>
+      <span class="chip">Rectangle</span>
+      <span class="chip">Rhombus</span>
+      <span class="chip">Square</span>
+      <span class="chip">Kite</span>
+      <span class="chip">Isosceles Trapezium</span>
+      <span class="chip">Diagonals – Equal / Perpendicular / Bisecting</span>
+      <span class="chip">Distance Formula</span>
+      <span class="chip">Midpoint Formula</span>
+      <span class="chip">Coordinate Identification</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ MAIN ══════════════════ -->
+<div class="main">
+
+<div class="instr-box">
+  <strong>Instructions:</strong> This paper is designed for deep conceptual testing. Questions are <em>not</em> direct formula substitution — they require reasoning, visualization, and multi-step logic. For Assertion–Reason questions, choose the option that best describes both the statement and the explanation. For Multi-Correct questions, <strong>one or more options may be correct</strong>. Click <strong>▶ Show Solution</strong> to reveal detailed answers.
+</div>
+
+<!-- ╔══════════════════════════════════════════╗ -->
+<!-- ║       SECTION 1 : ASSERTION – REASON    ║ -->
+<!-- ╚══════════════════════════════════════════╝ -->
+<div class="section-head">
+  <div class="sec-badge ar">I</div>
+  <div class="sec-title-wrap">
+    <div class="sec-title">Assertion – Reason Questions</div>
+    <div class="sec-subtitle">5 Questions · Choose the correct option (a) to (d)</div>
+  </div>
+  <div class="sec-rule"></div>
+</div>
+
+<div class="instr-box" style="margin-bottom:24px">
+  <strong>(a)</strong> Both A and R are true, and R is the correct explanation of A &nbsp;|&nbsp;
+  <strong>(b)</strong> Both A and R are true, but R is NOT the correct explanation of A &nbsp;|&nbsp;
+  <strong>(c)</strong> A is true, R is false &nbsp;|&nbsp;
+  <strong>(d)</strong> A is false, R is true
+</div>
+
+<!-- Q1 -->
+<div class="q-card ar">
+  <div class="q-head">
+    <span class="q-num">Q1</span>
+    <span class="q-tag">Equal Diagonals · Rhombus vs Square</span>
+  </div>
+  <div class="q-body">
+    <div class="ar-block">
+      <div class="ar-label">ASSERTION (A)</div>
+      <div class="ar-text">A rhombus whose diagonals are equal in length is always a square.</div>
+    </div>
+    <div class="ar-block">
+      <div class="ar-label">REASON (R)</div>
+      <div class="ar-text">In a rhombus, the diagonals are perpendicular bisectors of each other. If the diagonals are also equal, all four vertex angles each become 90°, making the figure a square.</div>
+    </div>
+    <div class="options ar-opts">
+      <div class="opt ar-opt"><span class="opt-label">(a)</span> Both A and R are true, and R is the correct explanation of A</div>
+      <div class="opt ar-opt"><span class="opt-label">(b)</span> Both A and R are true, but R is NOT the correct explanation of A</div>
+      <div class="opt ar-opt"><span class="opt-label">(c)</span> A is true, R is false</div>
+      <div class="opt ar-opt"><span class="opt-label">(d)</span> A is false, R is true</div>
+    </div>
+    <details>
+      <summary>▶ Show Solution</summary>
+      <div class="solution-box">
+        <div class="ans-row"><div class="ans-badge">ANSWER</div><div class="ans-text">(a) Both true; R correctly explains A</div></div>
+        <div class="sol-section">
+          <div class="sol-label">Explanation</div>
+          <p>In a rhombus, let the diagonals be <span class="mf">d₁</span> and <span class="mf">d₂</span>. Since diagonals are perpendicular bisectors of each other, they divide the rhombus into four congruent right triangles, each with legs <span class="mf">d₁/2</span> and <span class="mf">d₂/2</span>.</p><br/>
+          <p>Each vertex angle of the rhombus equals <span class="mf">2 × arctan(d₁/d₂)</span> or <span class="mf">2 × arctan(d₂/d₁)</span> depending on which vertex. If <span class="mf">d₁ = d₂</span>, then <span class="mf">arctan(d₁/d₂) = arctan(1) = 45°</span>, so every vertex angle = <strong>90°</strong>. A rhombus (all sides equal) with all angles 90° is exactly a <strong>square</strong>.</p>
+        </div>
+        <div class="concept-box">
+          <div class="concept-label">Core Concept</div>
+          Rhombus + Equal Diagonals ⟹ Square. The diagonals being perpendicular bisectors is the structural reason why equal diagonals force all angles to 90°.
+        </div>
+        <div class="trick-box">
+          <div class="trick-label">Memory Trick</div>
+          <strong>Rhombus Upgrade Rule:</strong> Add "perpendicular diagonals" → still rhombus. Add "equal diagonals" → becomes square. Both properties live in a square!
+        </div>
+      </div>
+    </details>
+  </div>
+</div>
+
+<!-- Q2 -->
+<div class="q-card ar">
+  <div class="q-head">
+    <span class="q-num">Q2</span>
+    <span class="q-tag">Rectangle Diagonal Misconception</span>
+  </div>
+  <div class="q-body">
+    <div class="ar-block">
+      <div class="ar-label">ASSERTION (A)</div>
+      <div class="ar-text">The diagonals of a rectangle are perpendicular to each other.</div>
+    </div>
+    <div class="ar-block">
+      <div class="ar-label">REASON (R)</div>
+      <div class="ar-text">The diagonals of a rectangle are equal in length and bisect each other.</div>
+    </div>
+    <div class="options ar-opts">
+      <div class="opt ar-opt"><span class="opt-label">(a)</span> Both A and R are true, and R is the correct explanation of A</div>
+      <div class="opt ar-opt"><span class="opt-label">(b)</span> Both A and R are true, but R is NOT the correct explanation of A</div>
+      <div class="opt ar-opt"><span class="opt-label">(c)</span> A is true, R is false</div>
+      <div class="opt ar-opt"><span class="opt-label">(d)</span> A is false, R is true</div>
+    </div>
+    <details>
+      <summary>▶ Show Solution</summary>
+      <div class="solution-box">
+        <div class="ans-row"><div class="ans-badge">ANSWER</div><div class="ans-text">(d) A is false; R is true</div></div>
+        <div class="sol-section">
+          <div class="sol-label">Why A is FALSE</div>
+          <p>Rectangle diagonals are <strong>equal</strong> and <strong>bisect each other</strong>, but they are <em>NOT</em> perpendicular — unless the rectangle is also a square. For a 3×4 rectangle: diagonal slope = 4/3; other diagonal slope = −4/3. Product = −16/9 ≠ −1. Not perpendicular!</p>
+        </div>
+        <div class="sol-section">
+          <div class="sol-label">Why R is TRUE</div>
+          <p>R is a correct and well-known property. Both diagonals of a rectangle have the same length (provable by Pythagoras), and as a parallelogram, its diagonals bisect each other.</p>
+        </div>
+        <div class="wrong-box">
+          <div class="wrong-label">Common Misconception</div>
+          Students confuse "perpendicular diagonals" (property of rhombus, kite) with "equal diagonals" (property of rectangle). These are <em>different</em> properties that only coexist in a square.
+        </div>
+        <div class="concept-box">
+          <div class="concept-label">Core Concept</div>
+          Rectangle: Equal diagonals + bisect each other (NOT perpendicular). Rhombus: Perpendicular diagonals + bisect each other (NOT equal). Square: ALL four diagonal properties.
+        </div>
+      </div>
+    </details>
+  </div>
+</div>
+
+<!-- Q3 -->
+<div class="q-card ar">
+  <div class="q-head">
+    <span class="q-num">Q3</span>
+    <span class="q-tag">Acute Triangle · Side² Relation vs Altitude Property</span>
+  </div>
+  <div class="q-body">
+    <div class="ar-block">
+      <div class="ar-label">ASSERTION (A)</div>
+      <div class="ar-text">For a triangle with sides <span class="mf">a, b, c</span> (where <span class="mf">c</span> is the longest side), if <span class="mf">a² + b² &gt; c²</span>, the triangle is acute-angled.</div>
+    </div>
+    <div class="ar-block">
+      <div class="ar-label">REASON (R)</div>
+      <div class="ar-text">In an acute triangle, all three altitudes lie entirely inside the triangle.</div>
+    </div>
+    <div class="options ar-opts">
+      <div class="opt ar-opt"><span class="opt-label">(a)</span> Both A and R are true, and R is the correct explanation of A</div>
+      <div class="opt ar-opt"><span class="opt-label">(b)</span> Both A and R are true, but R is NOT the correct explanation of A</div>
+      <div class="opt ar-opt"><span class="opt-label">(c)</span> A is true, R is false</div>
+      <div class="opt ar-opt"><span class="opt-label">(d)</span> A is false, R is true</div>
+    </div>
+    <details>
+      <summary>▶ Show Solution</summary>
+      <div class="solution-box">
+        <div class="ans-row"><div class="ans-badge">ANSWER</div><div class="ans-text">(b) Both true; R does NOT explain A</div></div>
+        <div class="sol-section">
+          <div class="sol-label">Why A is TRUE</div>
+          <p>By the generalized Law of Cosines: <span class="mf">cos C = (a² + b² − c²) / (2ab)</span>. If <span class="mf">a² + b² &gt; c²</span>, then cos C &gt; 0, so ∠C &lt; 90°. Since C is the largest angle (opposite longest side c), all other angles are also less than 90°. Hence the triangle is acute.</p>
+        </div>
+        <div class="sol-section">
+          <div class="sol-label">Why R is TRUE but NOT the explanation</div>
+          <p>R states a <em>consequence</em> of being acute — it describes what acute triangles look like geometrically. However, R does not tell us <em>why</em> the algebraic condition <span class="mf">a² + b² &gt; c²</span> leads to an acute triangle. The explanation for A lies in trigonometry (Law of Cosines), not in the altitude property.</p>
+        </div>
+        <div class="concept-box">
+          <div class="concept-label">Core Concept</div>
+          <table class="ref-table">
+            <tr><th>Triangle Type</th><th>Condition (c = longest side)</th></tr>
+            <tr><td>Acute</td><td><span class="mf">a² + b² &gt; c²</span></td></tr>
+            <tr><td>Right</td><td><span class="mf">a² + b² = c²</span></td></tr>
+            <tr><td>Obtuse</td><td><span class="mf">a² + b² &lt; c²</span></td></tr>
+          </table>
+        </div>
+      </div>
+    </details>
+  </div>
+</div>
+
+<!-- Q4 -->
+<div class="q-card ar">
+  <div class="q-head">
+    <span class="q-num">Q4</span>
+    <span class="q-tag">Bisector vs Perpendicular Bisector · Circumcenter</span>
+  </div>
+  <div class="q-body">
+    <div class="ar-block">
+      <div class="ar-label">ASSERTION (A)</div>
+      <div class="ar-text">The perpendicular bisector of side BC of any triangle ABC always passes through vertex A.</div>
+    </div>
+    <div class="ar-block">
+      <div class="ar-label">REASON (R)</div>
+      <div class="ar-text">The circumcenter of a triangle is equidistant from all three vertices, and it is the point of concurrence of the perpendicular bisectors of the three sides.</div>
+    </div>
+    <div class="options ar-opts">
+      <div class="opt ar-opt"><span class="opt-label">(a)</span> Both A and R are true, and R is the correct explanation of A</div>
+      <div class="opt ar-opt"><span class="opt-label">(b)</span> Both A and R are true, but R is NOT the correct explanation of A</div>
+      <div class="opt ar-opt"><span class="opt-label">(c)</span> A is true, R is false</div>
+      <div class="opt ar-opt"><span class="opt-label">(d)</span> A is false, R is true</div>
+    </div>
+    <details>
+      <summary>▶ Show Solution</summary>
+      <div class="solution-box">
+        <div class="ans-row"><div class="ans-badge">ANSWER</div><div class="ans-text">(d) A is false; R is true</div></div>
+        <div class="sol-section">
+          <div class="sol-label">Why A is FALSE</div>
+          <p>The perpendicular bisector of BC passes through the <em>circumcenter</em>, not through vertex A. It passes through A <em>only</em> in the special case when <span class="mf">AB = AC</span> (isosceles triangle), because then A is equidistant from B and C, placing it on the perpendicular bisector of BC.</p><br/>
+          <p>For a scalene triangle (AB ≠ AC), the perpendicular bisector of BC passes nowhere near A.</p>
+        </div>
+        <div class="sol-section">
+          <div class="sol-label">Why R is TRUE</div>
+          <p>R is a standard and correct theorem. The circumcenter O satisfies OA = OB = OC (circumradius), and the three perpendicular bisectors meet exactly at O.</p>
+        </div>
+        <div class="wrong-box">
+          <div class="wrong-label">Classic Trap</div>
+          Students confuse "perpendicular bisector of BC" with "angle bisector from A" or "altitude from A." None of these are the same line in a general triangle.
+        </div>
+        <div class="concept-box">
+          <div class="concept-label">Key Distinction</div>
+          <strong>Altitude from A</strong> → perpendicular to BC, but from vertex A (not mid-BC).<br/>
+          <strong>Perpendicular bisector of BC</strong> → passes through mid-BC, perpendicular to BC, but NOT through A (in general).<br/>
+          <strong>Angle bisector from A</strong> → bisects ∠A, passes through A, but is not perpendicular to BC.
+        </div>
+      </div>
+    </details>
+  </div>
+</div>
+
+<!-- Q5 -->
+<div class="q-card ar">
+  <div class="q-head">
+    <span class="q-num">Q5</span>
+    <span class="q-tag">Kite · Perpendicular Bisector of Diagonal</span>
+  </div>
+  <div class="q-body">
+    <div class="ar-block">
+      <div class="ar-label">ASSERTION (A)</div>
+      <div class="ar-text">In kite ABCD with AB = AD and CB = CD, the diagonal AC is the perpendicular bisector of diagonal BD.</div>
+    </div>
+    <div class="ar-block">
+      <div class="ar-label">REASON (R)</div>
+      <div class="ar-text">In a kite, the "axis diagonal" (the one connecting the vertices where unequal sides meet) bisects the other diagonal at right angles, by the symmetry of the figure.</div>
+    </div>
+    <div class="options ar-opts">
+      <div class="opt ar-opt"><span class="opt-label">(a)</span> Both A and R are true, and R is the correct explanation of A</div>
+      <div class="opt ar-opt"><span class="opt-label">(b)</span> Both A and R are true, but R is NOT the correct explanation of A</div>
+      <div class="opt ar-opt"><span class="opt-label">(c)</span> A is true, R is false</div>
+      <div class="opt ar-opt"><span class="opt-label">(d)</span> A is false, R is true</div>
+    </div>
+    <details>
+      <summary>▶ Show Solution</summary>
+      <div class="solution-box">
+        <div class="ans-row"><div class="ans-badge">ANSWER</div><div class="ans-text">(a) Both true; R correctly explains A</div></div>
+        <div class="sol-section">
+          <div class="sol-label">Explanation</div>
+          <p>Since AB = AD, vertex A lies on the perpendicular bisector of BD. Since CB = CD, vertex C also lies on the perpendicular bisector of BD. Two distinct points (A and C) both lying on the perpendicular bisector of BD determine that line — which is exactly the line AC.</p><br/>
+          <p>Therefore, AC <em>is</em> the perpendicular bisector of BD. This means: (1) AC ⊥ BD, and (2) AC bisects BD at their intersection point. The kite's line of symmetry (AC) reflects B onto D.</p>
+        </div>
+        <div class="wrong-box">
+          <div class="wrong-label">Important Distinction</div>
+          In a kite, AC is the perpendicular bisector of BD, but BD is <em>NOT</em> the perpendicular bisector of AC. BD bisects AC only in a rhombus or square. In a kite, BD merely intersects AC perpendicularly (without bisecting it).
+        </div>
+        <div class="concept-box">
+          <div class="concept-label">Kite Diagonal Summary</div>
+          Diagonal AC (axis): bisects ∠A and ∠C; is perpendicular bisector of BD.<br/>
+          Diagonal BD: bisected by AC; perpendicular to AC; does NOT bisect AC.
+        </div>
+      </div>
+    </details>
+  </div>
+</div>
+
+<!-- ╔══════════════════════════════════════════╗ -->
+<!-- ║       SECTION 2 : MULTI-CORRECT         ║ -->
+<!-- ╚══════════════════════════════════════════╝ -->
+<div class="section-head">
+  <div class="sec-badge mc">II</div>
+  <div class="sec-title-wrap">
+    <div class="sec-title">Multi-Correct Questions</div>
+    <div class="sec-subtitle">5 Questions · One or more options may be correct</div>
+  </div>
+  <div class="sec-rule"></div>
+</div>
+
+<!-- Q6 -->
+<div class="q-card mc">
+  <div class="q-head">
+    <span class="q-num">Q6</span>
+    <span class="q-tag">Perpendicular Diagonals · Shape Classification</span>
+  </div>
+  <div class="q-body">
+    <div class="mc-note">⚑ One or more options are correct. Partial marks are awarded only if ALL correct options are selected.</div>
+    <div class="q-stem">Which of the following quadrilaterals <strong>ALWAYS</strong> have diagonals that are perpendicular to each other?</div>
+    <div class="options">
+      <div class="opt"><span class="opt-label">(A)</span> Rectangle</div>
+      <div class="opt"><span class="opt-label">(B)</span> Rhombus</div>
+      <div class="opt"><span class="opt-label">(C)</span> Square</div>
+      <div class="opt"><span class="opt-label">(D)</span> Kite</div>
+      <div class="opt"><span class="opt-label">(E)</span> Isosceles Trapezium</div>
+      <div class="opt"><span class="opt-label">(F)</span> Parallelogram</div>
+    </div>
+    <details>
+      <summary>▶ Show Solution</summary>
+      <div class="solution-box">
+        <div class="ans-row"><div class="ans-badge">ANSWER</div><div class="ans-text">(B), (C), (D)</div></div>
+        <table class="ref-table">
+          <tr><th>Quadrilateral</th><th>Perpendicular Diagonals?</th><th>Reason</th></tr>
+          <tr><td>Rectangle</td><td class="cross">✗ NOT always</td><td>Only if it's a square (equal sides). 3×4 rectangle has non-perpendicular diagonals.</td></tr>
+          <tr><td>Rhombus</td><td class="tick">✓ ALWAYS</td><td>All sides equal → diagonals are perpendicular bisectors of each other.</td></tr>
+          <tr><td>Square</td><td class="tick">✓ ALWAYS</td><td>Square is a rhombus; inherits perpendicular diagonals.</td></tr>
+          <tr><td>Kite</td><td class="tick">✓ ALWAYS</td><td>Axis of symmetry forces diagonals to meet at 90°.</td></tr>
+          <tr><td>Isosceles Trapezium</td><td class="cross">✗ NOT always</td><td>Equal diagonals, but they are not perpendicular in general.</td></tr>
+          <tr><td>Parallelogram</td><td class="cross">✗ NOT always</td><td>Only when it is a rhombus (special case).</td></tr>
+        </table>
+        <div class="concept-box">
+          <div class="concept-label">Core Concept</div>
+          <strong>Always perpendicular:</strong> Rhombus, Square, Kite.<br/>
+          <strong>Equal diagonals ≠ Perpendicular diagonals.</strong> These are independent properties!
+        </div>
+      </div>
+    </details>
+  </div>
+</div>
+
+<!-- Q7 -->
+<div class="q-card mc">
+  <div class="q-head">
+    <span class="q-num">Q7</span>
+    <span class="q-tag">Diagonals Bisecting Each Other · Parallelogram Family</span>
+  </div>
+  <div class="q-body">
+    <div class="mc-note">⚑ One or more options are correct.</div>
+    <div class="q-stem">Which of the following quadrilaterals have diagonals that <strong>ALWAYS bisect each other</strong>?</div>
+    <div class="options">
+      <div class="opt"><span class="opt-label">(A)</span> Kite</div>
+      <div class="opt"><span class="opt-label">(B)</span> Rhombus</div>
+      <div class="opt"><span class="opt-label">(C)</span> Isosceles Trapezium</div>
+      <div class="opt"><span class="opt-label">(D)</span> Rectangle</div>
+      <div class="opt"><span class="opt-label">(E)</span> Square</div>
+      <div class="opt"><span class="opt-label">(F)</span> General Trapezium</div>
+    </div>
+    <details>
+      <summary>▶ Show Solution</summary>
+      <div class="solution-box">
+        <div class="ans-row"><div class="ans-badge">ANSWER</div><div class="ans-text">(B), (D), (E)</div></div>
+        <div class="sol-section">
+          <div class="sol-label">Key Principle</div>
+          <p>Diagonals bisect each other <strong>if and only if</strong> the quadrilateral is a <em>parallelogram</em>. So any shape in the parallelogram family qualifies.</p>
+        </div>
+        <table class="ref-table">
+          <tr><th>Shape</th><th>Parallelogram?</th><th>Diagonals Bisect?</th></tr>
+          <tr><td>Kite</td><td class="cross">✗</td><td class="cross">✗ (only one diagonal is bisected by the other)</td></tr>
+          <tr><td>Rhombus</td><td class="tick">✓</td><td class="tick">✓</td></tr>
+          <tr><td>Isosceles Trapezium</td><td class="cross">✗</td><td class="cross">✗</td></tr>
+          <tr><td>Rectangle</td><td class="tick">✓</td><td class="tick">✓</td></tr>
+          <tr><td>Square</td><td class="tick">✓</td><td class="tick">✓</td></tr>
+          <tr><td>General Trapezium</td><td class="cross">✗</td><td class="cross">✗</td></tr>
+        </table>
+        <div class="wrong-box">
+          <div class="wrong-label">The Kite Trap</div>
+          In a kite, diagonal AC bisects diagonal BD, but BD does <em>not</em> bisect AC. "Bisect each other" requires <em>mutual</em> bisection — both diagonals cut each other at their respective midpoints.
+        </div>
+      </div>
+    </details>
+  </div>
+</div>
+
+<!-- Q8 -->
+<div class="q-card mc">
+  <div class="q-head">
+    <span class="q-num">Q8</span>
+    <span class="q-tag">Coordinate Geometry · Parallelogram Verification</span>
+  </div>
+  <div class="q-body">
+    <div class="mc-note">⚑ One or more options are correct.</div>
+    <div class="q-stem">Quadrilateral ABCD has vertices <span class="mf">A(0,0), B(4,0), C(5,3), D(1,3)</span>. Which of the following statements are <strong>TRUE</strong>?</div>
+    <div class="options">
+      <div class="opt"><span class="opt-label">(A)</span> ABCD is a parallelogram</div>
+      <div class="opt"><span class="opt-label">(B)</span> ABCD is a rectangle</div>
+      <div class="opt"><span class="opt-label">(C)</span> The diagonals of ABCD bisect each other</div>
+      <div class="opt"><span class="opt-label">(D)</span> The diagonals of ABCD are equal in length</div>
+      <div class="opt"><span class="opt-label">(E)</span> The diagonals of ABCD are perpendicular</div>
+    </div>
+    <details>
+      <summary>▶ Show Solution</summary>
+      <div class="solution-box">
+        <div class="ans-row"><div class="ans-badge">ANSWER</div><div class="ans-text">(A) and (C)</div></div>
+        <div class="sol-section">
+          <div class="sol-label">Step-by-step Verification</div>
+          <div class="coord-box">
+AB: A(0,0)→B(4,0) · slope = 0 · length = 4
+CD: C(5,3)→D(1,3) · slope = 0 · length = 4  → AB ∥ CD, |AB| = |CD| ✓
+BC: B(4,0)→C(5,3) · slope = 3 · length = √10
+DA: D(1,3)→A(0,0) · slope = 3 · length = √10 → BC ∥ DA, |BC| = |DA| ✓</div>
+          <p>Both pairs of opposite sides are parallel and equal → <strong>ABCD is a parallelogram ✓ (A correct)</strong></p><br/>
+          <div class="coord-box">
+Midpoint of AC: ((0+5)/2, (0+3)/2) = (2.5, 1.5)
+Midpoint of BD: ((4+1)/2, (0+3)/2) = (2.5, 1.5)  → Diagonals bisect each other ✓ (C correct)</div>
+          <p><strong>B is false:</strong> Slope of AB = 0, slope of BC = 3. Product = 0, not −1. Sides are not perpendicular → not a rectangle.</p><br/>
+          <div class="coord-box">
+AC = √((5−0)² + (3−0)²) = √(25+9) = √34
+BD = √((1−4)² + (3−0)²) = √(9+9) = √18 = 3√2
+√34 ≠ 3√2 → Diagonals NOT equal ✗ (D false)</div>
+          <p><strong>E is false:</strong> Slope of AC = 3/5, slope of BD = −1. Product = −3/5 ≠ −1. Not perpendicular.</p>
+        </div>
+        <div class="concept-box">
+          <div class="concept-label">Key Takeaway</div>
+          A parallelogram always has bisecting diagonals (C follows from A), but it need not have equal or perpendicular diagonals — those are special properties of rectangles and rhombuses respectively.
+        </div>
+      </div>
+    </details>
+  </div>
+</div>
+
+<!-- Q9 -->
+<div class="q-card mc">
+  <div class="q-head">
+    <span class="q-num">Q9</span>
+    <span class="q-tag">Obtuse Triangle · Side Square Conditions</span>
+  </div>
+  <div class="q-body">
+    <div class="mc-note">⚑ One or more options are correct.</div>
+    <div class="q-stem">A triangle has sides <span class="mf">a ≤ b ≤ c</span>. Which of the following conditions <strong>individually</strong> guarantee the triangle is <strong>obtuse</strong>?</div>
+    <div class="options">
+      <div class="opt"><span class="opt-label">(A)</span> <span class="mf">a² + b² &lt; c²</span></div>
+      <div class="opt"><span class="opt-label">(B)</span> <span class="mf">a² + b² = c²</span></div>
+      <div class="opt"><span class="opt-label">(C)</span> <span class="mf">c² − b² &gt; a²</span></div>
+      <div class="opt"><span class="opt-label">(D)</span> <span class="mf">b² &gt; a² + c²</span></div>
+    </div>
+    <details>
+      <summary>▶ Show Solution</summary>
+      <div class="solution-box">
+        <div class="ans-row"><div class="ans-badge">ANSWER</div><div class="ans-text">(A) and (C)</div></div>
+        <div class="sol-section">
+          <div class="sol-label">Analysis of Each Option</div>
+          <p><strong>(A) a² + b² &lt; c²</strong> — Rearranges to c² &gt; a² + b², i.e., the cosine of angle C is negative → ∠C &gt; 90°. <span style="color:green">✓ Obtuse</span></p><br/>
+          <p><strong>(B) a² + b² = c²</strong> — Pythagoras → ∠C = 90°. This is a <em>right</em> triangle, <em>not</em> obtuse. <span style="color:red">✗</span></p><br/>
+          <p><strong>(C) c² − b² &gt; a²</strong> — This rearranges to c² &gt; a² + b², which is identical to option (A). <span style="color:green">✓ Obtuse</span></p><br/>
+          <p><strong>(D) b² &gt; a² + c²</strong> — Since b ≤ c, we have b² ≤ c². So b² &gt; a² + c² would require c² &lt; b² − a² ≤ b² ≤ c², a contradiction. This condition is <em>impossible</em> for a valid triangle with a ≤ b ≤ c. <span style="color:red">✗ Impossible</span></p>
+        </div>
+        <div class="concept-box">
+          <div class="concept-label">Core Concept</div>
+          In a triangle with a ≤ b ≤ c, the <em>only</em> angle that can be obtuse is ∠C (opposite the longest side). Checking a² + b² vs c² is the definitive test.
+        </div>
+      </div>
+    </details>
+  </div>
+</div>
+
+<!-- Q10 -->
+<div class="q-card mc">
+  <div class="q-head">
+    <span class="q-num">Q10</span>
+    <span class="q-tag">Right Triangle · Multiple Properties</span>
+  </div>
+  <div class="q-body">
+    <div class="mc-note">⚑ One or more options are correct.</div>
+    <div class="q-stem">In a right triangle with legs <span class="mf">3</span> and <span class="mf">4</span>, which of the following statements are <strong>TRUE</strong>?</div>
+    <div class="options">
+      <div class="opt"><span class="opt-label">(A)</span> The hypotenuse has length 5</div>
+      <div class="opt"><span class="opt-label">(B)</span> The median drawn to the hypotenuse has length 2.5</div>
+      <div class="opt"><span class="opt-label">(C)</span> The circumradius of the triangle equals 5</div>
+      <div class="opt"><span class="opt-label">(D)</span> The altitude drawn to the hypotenuse has length 2.4</div>
+    </div>
+    <details>
+      <summary>▶ Show Solution</summary>
+      <div class="solution-box">
+        <div class="ans-row"><div class="ans-badge">ANSWER</div><div class="ans-text">(A), (B), and (D)</div></div>
+        <div class="sol-section">
+          <div class="sol-label">Verification</div>
+          <p><strong>(A)</strong> Hypotenuse = √(3² + 4²) = √25 = <strong>5</strong> ✓</p><br/>
+          <p><strong>(B)</strong> <em>Key theorem:</em> In a right triangle, the median to the hypotenuse equals <em>half the hypotenuse</em>. Median = 5/2 = <strong>2.5</strong> ✓</p><br/>
+          <p><strong>(C)</strong> <em>False!</em> The circumradius of a right triangle = hypotenuse/2 = 5/2 = <strong>2.5</strong>, NOT 5. (The hypotenuse is the diameter of the circumscribed circle.) ✗</p><br/>
+          <p><strong>(D)</strong> Area = (1/2)(3)(4) = 6. Also, Area = (1/2) × hypotenuse × altitude to hypotenuse = (1/2)(5)(h). So h = 12/5 = <strong>2.4</strong> ✓</p>
+        </div>
+        <div class="wrong-box">
+          <div class="wrong-label">Option C Trap</div>
+          Circumradius = hypotenuse/2 (for right triangles). Many students confuse the <em>hypotenuse</em> (5) with the <em>circumradius</em> (2.5). The hypotenuse is the <em>diameter</em>, not the radius.
+        </div>
+        <div class="trick-box">
+          <div class="trick-label">Golden Formula Trio for 3-4-5 triangle</div>
+          Median to hypotenuse = Circumradius = 2.5 &nbsp;|&nbsp; Altitude to hypotenuse = 2.4 &nbsp;|&nbsp; Inradius = (3+4−5)/2 = 1
+        </div>
+      </div>
+    </details>
+  </div>
+</div>
+
+<!-- ╔══════════════════════════════════════════╗ -->
+<!-- ║       SECTION 3 : TRICKY MCQs           ║ -->
+<!-- ╚══════════════════════════════════════════╝ -->
+<div class="section-head">
+  <div class="sec-badge mq">III</div>
+  <div class="sec-title-wrap">
+    <div class="sec-title">Tricky Single-Answer MCQs</div>
+    <div class="sec-subtitle">10 Questions · Only one option is correct</div>
+  </div>
+  <div class="sec-rule"></div>
+</div>
+
+<!-- Q11 -->
+<div class="q-card mq">
+  <div class="q-head">
+    <span class="q-num">Q11</span>
+    <span class="q-tag">Medial Triangle · Right Triangle Inheritance</span>
+  </div>
+  <div class="q-body">
+    <div class="q-stem">The medial triangle of a right-angled triangle (the triangle formed by joining the midpoints of its three sides) is always:</div>
+    <div class="options">
+      <div class="opt"><span class="opt-label">(a)</span> Acute-angled</div>
+      <div class="opt"><span class="opt-label">(b)</span> Right-angled</div>
+      <div class="opt"><span class="opt-label">(c)</span> Obtuse-angled</div>
+      <div class="opt"><span class="opt-label">(d)</span> Equilateral</div>
+    </div>
+    <details>
+      <summary>▶ Show Solution</summary>
+      <div class="solution-box">
+        <div class="ans-row"><div class="ans-badge">ANSWER</div><div class="ans-text">(b) Right-angled</div></div>
+        <div class="sol-section">
+          <div class="sol-label">Proof</div>
+          <p>Let the original right triangle have legs <span class="mf">a, b</span> and hypotenuse <span class="mf">c</span>, where <span class="mf">a² + b² = c²</span>. By the Midpoint Theorem, the medial triangle has sides <span class="mf">a/2, b/2, c/2</span>.</p><br/>
+          <p>Test: <span class="mf">(a/2)² + (b/2)² = a²/4 + b²/4 = (a²+b²)/4 = c²/4 = (c/2)²</span></p><br/>
+          <p>The sides satisfy Pythagoras, so the medial triangle is also <strong>right-angled</strong>. In fact, it is similar to the original triangle with ratio 1:2, so it inherits the same angle measures.</p>
+        </div>
+        <div class="concept-box">
+          <div class="concept-label">Generalisation</div>
+          The medial triangle is <em>always similar</em> to the original triangle (with a ratio of 1:2). So whatever the type of the original — acute, right, or obtuse — the medial triangle is the same type.
+        </div>
+      </div>
+    </details>
+  </div>
+</div>
+
+<!-- Q12 -->
+<div class="q-card mq">
+  <div class="q-head">
+    <span class="q-num">Q12</span>
+    <span class="q-tag">Coordinate Geometry · Square Identification</span>
+  </div>
+  <div class="q-body">
+    <div class="q-stem">The vertices of quadrilateral PQRS are <span class="mf">P(1,0), Q(0,1), R(−1,0), S(0,−1)</span>. What is the most specific classification of PQRS?</div>
+    <div class="options">
+      <div class="opt"><span class="opt-label">(a)</span> Rhombus (but not square)</div>
+      <div class="opt"><span class="opt-label">(b)</span> Rectangle (but not square)</div>
+      <div class="opt"><span class="opt-label">(c)</span> Square</div>
+      <div class="opt"><span class="opt-label">(d)</span> Kite</div>
+    </div>
+    <details>
+      <summary>▶ Show Solution</summary>
+      <div class="solution-box">
+        <div class="ans-row"><div class="ans-badge">ANSWER</div><div class="ans-text">(c) Square</div></div>
+        <div class="sol-section">
+          <div class="sol-label">Full Verification</div>
+          <div class="coord-box">
+PQ = √((1−0)²+(0−1)²) = √2
+QR = √((0+1)²+(1−0)²) = √2
+RS = √((−1−0)²+(0+1)²) = √2
+SP = √((0−1)²+(−1−0)²) = √2  → All sides equal → Rhombus family
+
+Diagonal PR: P(1,0)→R(−1,0), length = 2, along x-axis, slope = 0
+Diagonal QS: Q(0,1)→S(0,−1), length = 2, along y-axis, slope = undefined (vertical)
+Both diagonals have length 2 → Equal diagonals
+PR ⊥ QS (x-axis ⊥ y-axis) → Perpendicular diagonals</div>
+          <p>All sides equal + equal diagonals + perpendicular diagonals → <strong>Square</strong>. Also, midpoint of PR = (0,0) = midpoint of QS → diagonals bisect each other.</p>
+        </div>
+        <div class="concept-box">
+          <div class="concept-label">Square Checklist (any one pair confirms after sides are equal)</div>
+          ✓ All sides equal → Rhombus<br/>
+          ✓ Equal diagonals → upgrades to Square<br/>
+          ✓ Perpendicular diagonals → already had (rhombus property)<br/>
+          ✓ All angles 90° → confirmed Square
+        </div>
+      </div>
+    </details>
+  </div>
+</div>
+
+<!-- Q13 -->
+<div class="q-card mq">
+  <div class="q-head">
+    <span class="q-num">Q13</span>
+    <span class="q-tag">Parallelogram · Perpendicular Bisector of Diagonal</span>
+  </div>
+  <div class="q-body">
+    <div class="q-stem">In parallelogram ABCD, diagonals AC and BD intersect at O. The perpendicular bisector of AC:</div>
+    <div class="options">
+      <div class="opt"><span class="opt-label">(a)</span> Always passes through vertices B and D</div>
+      <div class="opt"><span class="opt-label">(b)</span> Is always parallel to BD</div>
+      <div class="opt"><span class="opt-label">(c)</span> Always passes through the midpoint of BD</div>
+      <div class="opt"><span class="opt-label">(d)</span> Is always perpendicular to BD</div>
+    </div>
+    <details>
+      <summary>▶ Show Solution</summary>
+      <div class="solution-box">
+        <div class="ans-row"><div class="ans-badge">ANSWER</div><div class="ans-text">(c) Always passes through the midpoint of BD</div></div>
+        <div class="sol-section">
+          <div class="sol-label">Reasoning</div>
+          <p>Since ABCD is a parallelogram, the diagonals bisect each other. So O is both the midpoint of AC and the midpoint of BD.</p><br/>
+          <p>The perpendicular bisector of AC, by definition, passes through the <em>midpoint of AC</em>, which is O. Since O is also the midpoint of BD, the perpendicular bisector of AC always passes through the midpoint of BD.</p>
+        </div>
+        <div class="wrong-box">
+          <div class="wrong-label">Why (a) is wrong</div>
+          The perp. bisector of AC passes through B and D only if OB = OA = OC, i.e., when AC = BD (only in a rectangle or square, not all parallelograms).
+        </div>
+        <div class="wrong-box">
+          <div class="wrong-label">Why (b) and (d) are wrong</div>
+          The perpendicular bisector of AC is perpendicular to AC. Whether it is parallel or perpendicular to BD depends on the specific parallelogram — there is no guarantee in general.
+        </div>
+      </div>
+    </details>
+  </div>
+</div>
+
+<!-- Q14 -->
+<div class="q-card mq">
+  <div class="q-head">
+    <span class="q-num">Q14</span>
+    <span class="q-tag">Area Formula · Perpendicular Diagonals (Any Quadrilateral)</span>
+  </div>
+  <div class="q-body">
+    <div class="q-stem">A quadrilateral has diagonals of lengths <span class="mf">p</span> and <span class="mf">q</span> that intersect at right angles (but <em>not necessarily</em> at each other's midpoints). Its area is:</div>
+    <div class="options">
+      <div class="opt"><span class="opt-label">(a)</span> <span class="mf">pq</span></div>
+      <div class="opt"><span class="opt-label">(b)</span> <span class="mf">½ pq</span></div>
+      <div class="opt"><span class="opt-label">(c)</span> <span class="mf">¼ pq</span></div>
+      <div class="opt"><span class="opt-label">(d)</span> Cannot be determined without the intersection point</div>
+    </div>
+    <details>
+      <summary>▶ Show Solution</summary>
+      <div class="solution-box">
+        <div class="ans-row"><div class="ans-badge">ANSWER</div><div class="ans-text">(b) ½ pq</div></div>
+        <div class="sol-section">
+          <div class="sol-label">Elegant Proof</div>
+          <p>Let diagonals intersect at X, dividing one diagonal into segments <span class="mf">a + c = p</span> and the other into <span class="mf">b + d = q</span>, with a right angle at X.</p><br/>
+          <p>The quadrilateral is split into 4 right triangles with areas:</p>
+          <div class="coord-box">
+Area₁ = ½ab, Area₂ = ½bc, Area₃ = ½cd, Area₄ = ½da
+Total = ½(ab + bc + cd + da)
+      = ½ · b(a+c) + ½ · d(a+c)
+      = ½(a+c)(b+d)
+      = ½ · p · q</div>
+          <p>This result is <strong>independent of where exactly on the diagonals they intersect!</strong> The position of X cancels out algebraically.</p>
+        </div>
+        <div class="trick-box">
+          <div class="trick-label">Power Result</div>
+          Area of any quadrilateral with perpendicular diagonals d₁ and d₂ = <strong>½d₁d₂</strong>, regardless of intersection point. This is why rhombus, kite, and square areas all use this formula.
+        </div>
+      </div>
+    </details>
+  </div>
+</div>
+
+<!-- Q15 -->
+<div class="q-card mq">
+  <div class="q-head">
+    <span class="q-num">Q15</span>
+    <span class="q-tag">Triangle Inequality · Degenerate Triangle Trap</span>
+  </div>
+  <div class="q-body">
+    <div class="q-stem">Which of the following sets of lengths <strong>CANNOT</strong> form the sides of a triangle?</div>
+    <div class="options">
+      <div class="opt"><span class="opt-label">(a)</span> 3, 4, 6</div>
+      <div class="opt"><span class="opt-label">(b)</span> 5, 8, 12</div>
+      <div class="opt"><span class="opt-label">(c)</span> 7, 8, 9</div>
+      <div class="opt"><span class="opt-label">(d)</span> 6, 7, 13</div>
+    </div>
+    <details>
+      <summary>▶ Show Solution</summary>
+      <div class="solution-box">
+        <div class="ans-row"><div class="ans-badge">ANSWER</div><div class="ans-text">(d) 6, 7, 13</div></div>
+        <div class="sol-section">
+          <div class="sol-label">Triangle Inequality Check</div>
+          <p>A valid triangle requires: sum of any two sides <em>strictly greater than</em> the third side.</p>
+          <div class="coord-box">
+(a) 3+4=7 > 6 ✓, 3+6=9 > 4 ✓, 4+6=10 > 3 ✓  → Valid triangle
+(b) 5+8=13 > 12 ✓, 5+12=17 > 8 ✓, 8+12=20 > 5 ✓ → Valid triangle
+(c) 7+8=15 > 9 ✓, 7+9=16 > 8 ✓, 8+9=17 > 7 ✓  → Valid triangle
+(d) 6+7=13 = 13, NOT strictly greater → DEGENERATE → NOT a valid triangle ✗</div>
+        </div>
+        <div class="wrong-box">
+          <div class="wrong-label">The Degenerate Case</div>
+          When the sum of two sides <em>equals</em> the third (6+7=13), the triangle collapses into a straight line — a degenerate case. The condition requires <em>strict inequality</em> (&gt;, not ≥).
+        </div>
+        <div class="concept-box">
+          <div class="concept-label">Note on (b)</div>
+          Option (b) is a valid triangle (5+8=13 &gt; 12 — barely!). Students often suspect (b) as the trap, but 13 &gt; 12 is strictly satisfied.
+        </div>
+      </div>
+    </details>
+  </div>
+</div>
+
+<!-- Q16 -->
+<div class="q-card mq">
+  <div class="q-head">
+    <span class="q-num">Q16</span>
+    <span class="q-tag">Quadrilateral Identification · Equal Opposite Sides + Equal Diagonals</span>
+  </div>
+  <div class="q-body">
+    <div class="q-stem">In quadrilateral ABCD, <span class="mf">AB = CD</span>, <span class="mf">BC = AD</span>, and the diagonals satisfy <span class="mf">AC = BD</span>. Which of the following <em>must</em> be true?</div>
+    <div class="options">
+      <div class="opt"><span class="opt-label">(a)</span> ABCD is a parallelogram only</div>
+      <div class="opt"><span class="opt-label">(b)</span> ABCD is a rectangle</div>
+      <div class="opt"><span class="opt-label">(c)</span> ABCD is a rhombus</div>
+      <div class="opt"><span class="opt-label">(d)</span> ABCD is a square</div>
+    </div>
+    <details>
+      <summary>▶ Show Solution</summary>
+      <div class="solution-box">
+        <div class="ans-row"><div class="ans-badge">ANSWER</div><div class="ans-text">(b) Rectangle</div></div>
+        <div class="sol-section">
+          <div class="sol-label">Step-by-step reasoning</div>
+          <p><strong>Step 1:</strong> AB = CD and BC = AD (both pairs of opposite sides equal) → ABCD is a <em>parallelogram</em>.</p><br/>
+          <p><strong>Step 2:</strong> In a parallelogram, if the diagonals are equal (AC = BD), then the parallelogram is a <em>rectangle</em>.</p><br/>
+          <p><em>Proof of Step 2:</em> In parallelogram ABCD, triangles ABC and DCB share side BC. AB = DC (opposite sides), BC = BC (common). If also AC = BD, then △ABC ≅ △DCB (SSS). So ∠ABC = ∠DCB. But co-interior angles AB∥DC give ∠ABC + ∠DCB = 180°, so ∠ABC = ∠DCB = 90°. All angles are 90° → <strong>Rectangle</strong>.</p>
+        </div>
+        <div class="wrong-box">
+          <div class="wrong-label">Why not rhombus or square?</div>
+          We have no information that all four sides are equal, so we can't conclude rhombus or square. A rectangle that isn't a square is a valid answer (e.g., 3×5 rectangle).
+        </div>
+        <div class="concept-box">
+          <div class="concept-label">Upgrade Chain</div>
+          Equal opposite sides → Parallelogram<br/>
+          Parallelogram + equal diagonals → Rectangle<br/>
+          Rectangle + all sides equal → Square
+        </div>
+      </div>
+    </details>
+  </div>
+</div>
+
+<!-- Q17 -->
+<div class="q-card mq">
+  <div class="q-head">
+    <span class="q-num">Q17</span>
+    <span class="q-tag">Midpoint Formula · Varignon's Parallelogram</span>
+  </div>
+  <div class="q-body">
+    <div class="q-stem">The vertices of a square are <span class="mf">A(0,0), B(2a,0), C(2a,2a), D(0,2a)</span> where <span class="mf">a &gt; 0</span>. The quadrilateral formed by joining the <em>midpoints of its four sides</em> (in order) is:</div>
+    <div class="options">
+      <div class="opt"><span class="opt-label">(a)</span> A rectangle but not a square</div>
+      <div class="opt"><span class="opt-label">(b)</span> A rhombus but not a square</div>
+      <div class="opt"><span class="opt-label">(c)</span> A square</div>
+      <div class="opt"><span class="opt-label">(d)</span> A parallelogram but not a rectangle</div>
+    </div>
+    <details>
+      <summary>▶ Show Solution</summary>
+      <div class="solution-box">
+        <div class="ans-row"><div class="ans-badge">ANSWER</div><div class="ans-text">(c) A square</div></div>
+        <div class="sol-section">
+          <div class="sol-label">Calculation</div>
+          <div class="coord-box">
+Midpoint of AB = M₁ = (a, 0)
+Midpoint of BC = M₂ = (2a, a)
+Midpoint of CD = M₃ = (a, 2a)
+Midpoint of DA = M₄ = (0, a)
+
+M₁M₂ = √(a²+a²) = a√2,  slope = a/a = 1
+M₂M₃ = √(a²+a²) = a√2,  slope = a/(−a) = −1
+M₃M₄ = √(a²+a²) = a√2,  slope = a/a = 1
+M₄M₁ = √(a²+a²) = a√2,  slope = a/(−a) = −1</div>
+          <p>All four sides equal (a√2). Adjacent sides have slopes 1 and −1 → product = −1 → perpendicular. All angles = 90°, all sides equal → <strong>Square</strong>.</p>
+        </div>
+        <div class="concept-box">
+          <div class="concept-label">Varignon's Theorem (Extended)</div>
+          The midpoints of any quadrilateral form a parallelogram (Varignon's Theorem). If the original quadrilateral's diagonals are perpendicular, the midpoint parallelogram is a rectangle. If the diagonals are equal, it is a rhombus. If both — it is a square. Since a square has perpendicular AND equal diagonals, its midpoint figure is a <strong>square</strong>.
+        </div>
+      </div>
+    </details>
+  </div>
+</div>
+
+<!-- Q18 -->
+<div class="q-card mq">
+  <div class="q-head">
+    <span class="q-num">Q18</span>
+    <span class="q-tag">Isosceles Trapezium · Identification</span>
+  </div>
+  <div class="q-body">
+    <div class="q-stem">In quadrilateral ABCD: <span class="mf">AB ∥ CD</span>, <span class="mf">AB ≠ CD</span>, and <span class="mf">AC = BD</span>. Which of the following <em>necessarily</em> follows?</div>
+    <div class="options">
+      <div class="opt"><span class="opt-label">(a)</span> ABCD is a rectangle</div>
+      <div class="opt"><span class="opt-label">(b)</span> ABCD is a parallelogram</div>
+      <div class="opt"><span class="opt-label">(c)</span> ABCD is an isosceles trapezium</div>
+      <div class="opt"><span class="opt-label">(d)</span> The diagonals of ABCD bisect each other</div>
+    </div>
+    <details>
+      <summary>▶ Show Solution</summary>
+      <div class="solution-box">
+        <div class="ans-row"><div class="ans-badge">ANSWER</div><div class="ans-text">(c) Isosceles trapezium</div></div>
+        <div class="sol-section">
+          <div class="sol-label">Analysis</div>
+          <p>AB ∥ CD and AB ≠ CD → exactly one pair of parallel sides → this is a <em>trapezium</em> (not a parallelogram).</p><br/>
+          <p>The distinguishing property of an <em>isosceles trapezium</em> among all trapezoids is that the diagonals are equal: AC = BD. Combined with AB ∥ CD, ABCD is an isosceles trapezium.</p>
+        </div>
+        <div class="wrong-box">
+          <div class="wrong-label">Why (b) and (d) fail</div>
+          Since AB ≠ CD, ABCD cannot be a parallelogram (parallelogram requires AB = CD when AB ∥ CD). And since it's not a parallelogram, its diagonals do not bisect each other.
+        </div>
+        <div class="concept-box">
+          <div class="concept-label">Isosceles Trapezium Signature Properties</div>
+          ① Exactly one pair of parallel sides (AB ∥ CD)<br/>
+          ② Non-parallel sides (legs) are equal: AD = BC<br/>
+          ③ Equal diagonals: AC = BD<br/>
+          ④ Base angles are equal: ∠DAB = ∠CBA<br/>
+          ⑤ Symmetric about the perpendicular bisector of AB and CD
+        </div>
+      </div>
+    </details>
+  </div>
+</div>
+
+<!-- Q19 -->
+<div class="q-card mq">
+  <div class="q-head">
+    <span class="q-num">Q19</span>
+    <span class="q-tag">Distance Formula · Symmetric Points</span>
+  </div>
+  <div class="q-body">
+    <div class="q-stem">The distance between the points <span class="mf">A(a, b)</span> and <span class="mf">B(b, a)</span> is:</div>
+    <div class="options">
+      <div class="opt"><span class="opt-label">(a)</span> <span class="mf">|a − b|</span></div>
+      <div class="opt"><span class="opt-label">(b)</span> <span class="mf">√2 · |a − b|</span></div>
+      <div class="opt"><span class="opt-label">(c)</span> <span class="mf">2|a − b|</span></div>
+      <div class="opt"><span class="opt-label">(d)</span> <span class="mf">(a − b)²</span></div>
+    </div>
+    <details>
+      <summary>▶ Show Solution</summary>
+      <div class="solution-box">
+        <div class="ans-row"><div class="ans-badge">ANSWER</div><div class="ans-text">(b) √2 · |a − b|</div></div>
+        <div class="sol-section">
+          <div class="sol-label">Calculation</div>
+          <div class="coord-box">
+AB = √((a−b)² + (b−a)²)
+   = √((a−b)² + (a−b)²)   [since (b−a)² = (a−b)²]
+   = √(2(a−b)²)
+   = |a−b| · √2</div>
+        </div>
+        <div class="sol-section">
+          <div class="sol-label">Geometric Insight</div>
+          <p>Points A(a,b) and B(b,a) are <em>reflections of each other across the line y = x</em>. The line y = x has slope 1, and AB is perpendicular to it (slope −1). The distance from any point (a,b) to the line y = x is <span class="mf">|a−b|/√2</span>, and the total distance AB = twice this = <span class="mf">√2 · |a−b|</span>.</p>
+        </div>
+        <div class="trick-box">
+          <div class="trick-label">Quick Check with Numbers</div>
+          Try a=3, b=1: A(3,1), B(1,3). AB = √(4+4) = √8 = 2√2. Formula: √2·|3−1| = 2√2. ✓
+        </div>
+      </div>
+    </details>
+  </div>
+</div>
+
+<!-- Q20 -->
+<div class="q-card mq">
+  <div class="q-head">
+    <span class="q-num">Q20</span>
+    <span class="q-tag">Surd Sides · Hidden Pythagorean Triple</span>
+  </div>
+  <div class="q-body">
+    <div class="q-stem">A triangle has sides of length <span class="mf">√3</span>, <span class="mf">2</span>, and <span class="mf">√7</span>. Identify the type of this triangle.</div>
+    <div class="options">
+      <div class="opt"><span class="opt-label">(a)</span> Acute-angled</div>
+      <div class="opt"><span class="opt-label">(b)</span> Right-angled</div>
+      <div class="opt"><span class="opt-label">(c)</span> Obtuse-angled</div>
+      <div class="opt"><span class="opt-label">(d)</span> The triangle is invalid (cannot exist)</div>
+    </div>
+    <details>
+      <summary>▶ Show Solution</summary>
+      <div class="solution-box">
+        <div class="ans-row"><div class="ans-badge">ANSWER</div><div class="ans-text">(b) Right-angled</div></div>
+        <div class="sol-section">
+          <div class="sol-label">Verification</div>
+          <div class="coord-box">
+Sides: √3 ≈ 1.732,  2,  √7 ≈ 2.646
+Longest side: √7
+
+Test Pythagoras:
+(√3)² + 2² = 3 + 4 = 7 = (√7)²  ✓</div>
+          <p>The sides <strong>exactly</strong> satisfy <span class="mf">a² + b² = c²</span> → the triangle is right-angled, with the right angle between sides √3 and 2.</p>
+        </div>
+        <div class="sol-section">
+          <div class="sol-label">Validity Check</div>
+          <div class="coord-box">
+Triangle inequality:
+√3 + 2 ≈ 3.73 > √7 ≈ 2.65 ✓
+√3 + √7 ≈ 4.38 > 2 ✓
+2 + √7 ≈ 4.65 > √3 ✓  → Valid triangle</div>
+        </div>
+        <div class="wrong-box">
+          <div class="wrong-label">Why (a) and (c) are wrong</div>
+          Students who approximate (√3 ≈ 1.7, √7 ≈ 2.6) may not recognize the exact sum 3 + 4 = 7. Always compute the exact squares of surd sides — never approximate!
+        </div>
+        <div class="trick-box">
+          <div class="trick-label">Surd Pythagorean Triplets to Know</div>
+          (√3, 2, √7) → 3+4=7 ✓ &nbsp;|&nbsp; (1, √3, 2) → 1+3=4 ✓ (30-60-90) &nbsp;|&nbsp; (1, 1, √2) → 1+1=2 ✓ (45-45-90)
+        </div>
+      </div>
+    </details>
+  </div>
+</div>
+
+<!-- ── END MATTER ── -->
+<div style="margin-top:52px;padding:28px;background:var(--navy);border-radius:12px;color:rgba(255,255,255,0.85);text-align:center;">
+  <div style="font-family:var(--font-display);font-size:1.1rem;color:var(--gold-light);margin-bottom:10px;">Quick Reference: Diagonal Properties of Quadrilaterals</div>
+  <table class="ref-table" style="font-size:12.5px;margin:0 auto;max-width:700px;">
+    <tr>
+      <th>Shape</th>
+      <th>Equal Diagonals</th>
+      <th>Perpendicular</th>
+      <th>Bisect Each Other</th>
+      <th>One bisects Other</th>
+    </tr>
+    <tr><td>Parallelogram</td><td class="cross">✗</td><td class="cross">✗</td><td class="tick">✓</td><td class="cross">–</td></tr>
+    <tr><td>Rectangle</td><td class="tick">✓</td><td class="cross">✗</td><td class="tick">✓</td><td class="cross">–</td></tr>
+    <tr><td>Rhombus</td><td class="cross">✗</td><td class="tick">✓</td><td class="tick">✓</td><td class="cross">–</td></tr>
+    <tr><td>Square</td><td class="tick">✓</td><td class="tick">✓</td><td class="tick">✓</td><td class="cross">–</td></tr>
+    <tr><td>Kite</td><td class="cross">✗</td><td class="tick">✓</td><td class="cross">✗</td><td class="tick">✓ (axis bisects other)</td></tr>
+    <tr><td>Isosceles Trapezium</td><td class="tick">✓</td><td class="cross">✗</td><td class="cross">✗</td><td class="cross">✗</td></tr>
+  </table>
+</div>
+
+</div><!-- /main -->
+
+<div class="footer">
+  <span>VEDAS Academy</span> &nbsp;·&nbsp; Wanaparthy, Telangana &nbsp;·&nbsp;
+  IIT-JEE / NEET Foundation · Class 9–10 Geometry &nbsp;·&nbsp;
+  <span>Olympiad Series — Module IV</span>
+</div>
+
+</body>
+</html>
