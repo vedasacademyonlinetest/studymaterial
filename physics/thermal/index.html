@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thermal → Mechanical Energy | VEDAS Academy</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:   #1a2b4a;
+    --navy2:  #233560;
+    --gold:   #e8a020;
+    --gold2:  #f5c842;
+    --red:    #d93025;
+    --green:  #1a7a3c;
+    --green2: #2da854;
+    --blue:   #1a5fa8;
+    --bg:     #eef2f8;
+    --card:   #ffffff;
+    --border: #c8d4e8;
+    --text:   #1e2b40;
+    --muted:  #4a5a78;
+    --step1:  #1a7a3c;
+    --step2:  #1a5fa8;
+    --step3:  #7a3a1a;
+    --step4:  #6a1a7a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ===== HEADER ===== */
+  .header {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy2) 100%);
+    padding: 14px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 3px solid var(--gold);
+  }
+  .logo-wrap {
+    display: flex; align-items: center; gap: 12px;
+  }
+  .logo-circle {
+    width: 46px; height: 46px;
+    background: linear-gradient(135deg, var(--gold), var(--gold2));
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Baloo 2', sans-serif;
+    font-weight: 800; font-size: 18px;
+    color: var(--navy);
+    box-shadow: 0 0 18px rgba(232,160,32,0.45);
+    flex-shrink: 0;
+  }
+  .logo-text h1 {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 18px; font-weight: 800;
+    color: var(--gold); line-height: 1;
+  }
+  .logo-text p { font-size: 11px; color: rgba(240,180,41,0.6); }
+  .hdr-center h2 {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 15px; font-weight: 700;
+    color: #fff; text-align: center; line-height: 1.4;
+  }
+  .hdr-center p { font-size: 11px; color: rgba(255,255,255,0.55); text-align: center; }
+  .badge {
+    background: linear-gradient(135deg, var(--gold), var(--gold2));
+    color: var(--navy);
+    font-family: 'Baloo 2', sans-serif;
+    font-weight: 700; font-size: 10px;
+    padding: 5px 12px; border-radius: 16px;
+    text-align: center; line-height: 1.5;
+    white-space: nowrap;
+  }
+
+  /* ===== PAGE LAYOUT ===== */
+  .page {
+    max-width: 1160px;
+    margin: 0 auto;
+    padding: 20px 20px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  /* ===== TOP TITLE CARD ===== */
+  .title-card {
+    background: var(--navy);
+    border-radius: 14px;
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    border: 2px solid var(--gold);
+    position: relative;
+    overflow: hidden;
+  }
+  .title-card::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 15% 50%, rgba(232,160,32,0.1) 0%, transparent 60%);
+  }
+  .title-card h2 {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 22px; font-weight: 800;
+    color: #fff; line-height: 1.3;
+  }
+  .title-card h2 span { color: var(--gold2); }
+  .title-card p { font-size: 13px; color: rgba(255,255,255,0.6); margin-top: 4px; }
+  .title-law {
+    background: rgba(232,160,32,0.15);
+    border: 1.5px solid var(--gold);
+    border-radius: 10px;
+    padding: 10px 18px;
+    text-align: center;
+    white-space: nowrap;
+  }
+  .title-law .law-eq {
+    font-family: 'Baloo 2', monospace;
+    font-size: 20px; font-weight: 700;
+    color: var(--gold2);
+  }
+  .title-law .law-label {
+    font-size: 11px; color: rgba(232,160,32,0.7);
+    font-family: 'DM Sans', sans-serif;
+    margin-top: 2px;
+  }
+
+  /* ===== MAIN TWO-COLUMN ===== */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 18px;
+  }
+
+  /* ===== LEFT: DIAGRAM ===== */
+  .diagram-card {
+    background: var(--card);
+    border-radius: 14px;
+    border: 1.5px solid var(--border);
+    padding: 18px;
+    box-shadow: 0 4px 20px rgba(26,43,74,0.08);
+  }
+  .diagram-card h3 {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 13px; font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 12px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .diagram-card h3::before {
+    content: '';
+    width: 3px; height: 16px;
+    background: var(--gold);
+    border-radius: 2px;
+    display: block;
+  }
+  .svg-wrap { width: 100%; height: 330px; }
+  .svg-wrap svg { width: 100%; height: 100%; }
+
+  /* ===== RIGHT: STEPS ===== */
+  .steps-col {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .how-header {
+    background: var(--navy);
+    color: #fff;
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 14px; font-weight: 700;
+    padding: 9px 16px;
+    border-radius: 10px;
+    text-align: center;
+    letter-spacing: 0.3px;
+  }
+  .step-card {
+    background: var(--card);
+    border-radius: 12px;
+    border: 1.5px solid var(--border);
+    padding: 12px 14px;
+    display: flex;
+    gap: 12px;
+    box-shadow: 0 2px 10px rgba(26,43,74,0.06);
+    transition: all 0.3s;
+    cursor: default;
+  }
+  .step-card:hover {
+    border-color: var(--gold);
+    box-shadow: 0 6px 22px rgba(232,160,32,0.15);
+    transform: translateX(3px);
+  }
+  .step-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    min-width: 70px;
+  }
+  .step-num-circle {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Baloo 2', sans-serif;
+    font-weight: 800; font-size: 14px;
+    color: #fff;
+    flex-shrink: 0;
+  }
+  .step-card:nth-child(1) .step-num-circle { background: var(--step1); }
+  .step-card:nth-child(2) .step-num-circle { background: var(--step2); }
+  .step-card:nth-child(3) .step-num-circle { background: var(--step3); }
+  .step-card:nth-child(4) .step-num-circle { background: var(--step4); }
+  .step-mini-icon { font-size: 26px; }
+  .step-right { flex: 1; }
+  .step-title {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 13px; font-weight: 700;
+    color: var(--navy); margin-bottom: 5px;
+  }
+  .step-desc {
+    font-size: 12px; line-height: 1.6;
+    color: var(--muted);
+  }
+  .step-tag {
+    display: inline-block;
+    margin-top: 5px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 2px 8px;
+    font-size: 10px; font-weight: 600;
+    color: var(--navy); font-family: 'Baloo 2', monospace;
+  }
+
+  /* ===== ENERGY CHAIN BAR ===== */
+  .chain-section { }
+  .chain-label {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 13px; font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 10px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .chain-label::before {
+    content: '';
+    width: 3px; height: 16px;
+    background: var(--gold);
+    border-radius: 2px; display: block;
+  }
+  .chain-bar {
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    padding: 18px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4px;
+    box-shadow: 0 3px 14px rgba(26,43,74,0.07);
+    overflow-x: auto;
+  }
+  .chain-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 110px;
+    padding: 10px 8px;
+    border-radius: 10px;
+    background: var(--bg);
+    border: 1.5px solid transparent;
+    transition: all 0.3s;
+    cursor: pointer;
+    position: relative;
+  }
+  .chain-step.active,
+  .chain-step:hover {
+    border-color: var(--gold);
+    background: rgba(232,160,32,0.07);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 18px rgba(232,160,32,0.2);
+  }
+  .chain-icon { font-size: 30px; margin-bottom: 5px; animation: float 3s ease-in-out infinite; }
+  .chain-step:nth-child(3) .chain-icon { animation-delay: 0.4s; }
+  .chain-step:nth-child(5) .chain-icon { animation-delay: 0.8s; }
+  .chain-step:nth-child(7) .chain-icon { animation-delay: 1.2s; }
+  .chain-step:nth-child(9) .chain-icon { animation-delay: 1.6s; }
+  @keyframes float {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+  }
+  .chain-en {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 10px; font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+    text-align: center;
+  }
+  .chain-name {
+    font-size: 11.5px; font-weight: 600;
+    color: var(--navy); text-align: center; line-height: 1.3;
+  }
+  .chain-arrow {
+    font-size: 20px;
+    color: var(--red);
+    flex-shrink: 0;
+    animation: arrow-pulse 1.5s ease-in-out infinite;
+  }
+  @keyframes arrow-pulse {
+    0%,100% { opacity: 0.5; transform: scaleX(1); }
+    50% { opacity: 1; transform: scaleX(1.2); }
+  }
+
+  /* ===== BOTTOM ROW: Principles + Summary ===== */
+  .bottom-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 320px;
+    gap: 14px;
+  }
+  .principle-card {
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 14px;
+    text-align: center;
+    transition: all 0.3s;
+    box-shadow: 0 2px 10px rgba(26,43,74,0.05);
+  }
+  .principle-card:hover {
+    border-color: var(--gold);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 22px rgba(232,160,32,0.15);
+  }
+  .pr-icon { font-size: 26px; margin-bottom: 7px; }
+  .pr-title {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 12px; font-weight: 700;
+    color: var(--navy); margin-bottom: 3px;
+  }
+  .pr-law {
+    font-size: 10px; color: var(--gold);
+    font-family: 'Baloo 2', sans-serif;
+    font-weight: 600; letter-spacing: 0.3px;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+  }
+  .pr-desc {
+    font-size: 11px; line-height: 1.6; color: var(--muted);
+  }
+
+  .summary-card {
+    background: var(--navy);
+    border-radius: 12px;
+    border: 2px dashed var(--gold);
+    padding: 16px;
+    box-shadow: 0 4px 18px rgba(26,43,74,0.15);
+  }
+  .summary-card .sum-head {
+    display: flex; align-items: center; gap: 8px;
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 13px; font-weight: 700;
+    color: var(--gold2);
+    margin-bottom: 10px;
+  }
+  .sum-head span { font-size: 18px; }
+  .summary-card p {
+    font-size: 12.5px; line-height: 1.7;
+    color: rgba(255,255,255,0.78);
+  }
+  .summary-card p strong { color: var(--gold2); font-weight: 600; }
+
+  /* ===== FOOTER ===== */
+  .footer {
+    background: var(--navy);
+    border-top: 2px solid var(--gold);
+    padding: 14px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .footer-left { font-size: 12px; color: rgba(255,255,255,0.5); }
+  .footer-left span { color: var(--gold); font-weight: 600; }
+  .wa-btn {
+    display: flex; align-items: center; gap: 7px;
+    background: linear-gradient(135deg, #25D366, #128C7E);
+    color: #fff;
+    padding: 7px 16px;
+    border-radius: 18px;
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 11px; font-weight: 700;
+    text-decoration: none;
+    transition: all 0.3s;
+    letter-spacing: 0.3px;
+  }
+  .wa-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(37,211,102,0.35);
+  }
+
+  /* SVG Animations */
+  @keyframes flame-flicker {
+    0%,100% { transform: scaleY(1) scaleX(1); }
+    33% { transform: scaleY(1.1) scaleX(0.93); }
+    66% { transform: scaleY(0.95) scaleX(1.06); }
+  }
+  @keyframes steam-up {
+    0% { opacity: 0; transform: translateY(0) scale(0.5); }
+    40% { opacity: 0.75; }
+    100% { opacity: 0; transform: translateY(-44px) scale(1.3); }
+  }
+  @keyframes drum-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  @keyframes weight-lift {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  @keyframes rope-animate {
+    0% { stroke-dashoffset: 60; }
+    100% { stroke-dashoffset: 0; }
+  }
+  @keyframes whistle-bounce {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+  }
+
+  @media (max-width: 900px) {
+    .two-col { grid-template-columns: 1fr; }
+    .bottom-row { grid-template-columns: 1fr 1fr; }
+    .header { flex-direction: column; gap: 8px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="logo-wrap">
+    <div class="logo-circle">V</div>
+    <div class="logo-text">
+      <h1>VEDAS Academy</h1>
+      <p>IIT Foundation · JEE · NEET · Olympiad</p>
+    </div>
+  </div>
+  <div class="hdr-center">
+    <h2>Whistle Cooker — Thermal Energy to Mechanical Energy</h2>
+    <p>Physics · Thermodynamics · Class 9–11</p>
+  </div>
+  <div class="badge">Physics<br>Thermodynamics<br>Class 9–11</div>
+</div>
+
+<div class="page">
+
+  <!-- TITLE CARD -->
+  <div class="title-card">
+    <div>
+      <h2>Converting <span>Thermal Energy</span> into <span>Mechanical Energy</span></h2>
+      <p>Using a Whistle Cooker as a real-life thermodynamic model | A working analogy for Steam Engines &amp; Power Plants</p>
+    </div>
+    <div class="title-law">
+      <div class="law-eq">Q = W + ΔU</div>
+      <div class="law-label">First Law of Thermodynamics</div>
+    </div>
+  </div>
+
+  <!-- TWO-COLUMN: DIAGRAM + STEPS -->
+  <div class="two-col">
+
+    <!-- LEFT: ANIMATED DIAGRAM -->
+    <div class="diagram-card">
+      <h3>How It Works — Visual Diagram</h3>
+      <div class="svg-wrap">
+        <svg viewBox="0 0 680 320" xmlns="http://www.w3.org/2000/svg">
+
+          <!-- ── COOKER ── -->
+          <!-- Stove grate -->
+          <rect x="42" y="228" width="136" height="10" rx="3" fill="#bbb" stroke="#999" stroke-width="1"/>
+          <rect x="55" y="222" width="110" height="8" rx="2" fill="#ccc"/>
+
+          <!-- Cooker body -->
+          <rect x="55" y="162" width="110" height="62" rx="7" fill="#d4d8e0" stroke="#9aa0b0" stroke-width="1.5"/>
+          <!-- Cooker lid -->
+          <rect x="52" y="152" width="116" height="14" rx="5" fill="#e0e4ec" stroke="#9aa0b0" stroke-width="1.5"/>
+          <!-- Side handles -->
+          <rect x="28" y="175" width="28" height="14" rx="5" fill="#888" stroke="#666" stroke-width="1"/>
+          <rect x="164" y="175" width="28" height="14" rx="5" fill="#888" stroke="#666" stroke-width="1"/>
+
+          <!-- Whistle valve -->
+          <g style="transform-origin: 110px 148px; animation: whistle-bounce 1.8s ease-in-out infinite;">
+            <rect x="104" y="136" width="12" height="18" rx="3" fill="#aab0c0" stroke="#7a8090" stroke-width="1.2"/>
+            <ellipse cx="110" cy="134" rx="7" ry="4" fill="#9aa0b0"/>
+          </g>
+
+          <!-- Whistle label -->
+          <line x1="80" y1="145" x2="104" y2="141" stroke="#d93025" stroke-width="1.2"/>
+          <text x="78" y="143" text-anchor="end" fill="#d93025" font-size="9.5" font-family="'DM Sans',sans-serif" font-weight="600">Whistle</text>
+          <text x="78" y="153" text-anchor="end" fill="#888" font-size="8" font-family="'DM Sans',sans-serif">(steam outlet)</text>
+
+          <!-- Cooker label -->
+          <line x1="55" y1="190" x2="26" y2="215" stroke="#d93025" stroke-width="1.2"/>
+          <text x="24" y="213" text-anchor="end" fill="#d93025" font-size="9" font-family="'DM Sans',sans-serif" font-weight="600">Whistle Cooker</text>
+          <text x="24" y="223" text-anchor="end" fill="#888" font-size="8" font-family="'DM Sans',sans-serif">(Steam pressure)</text>
+
+          <!-- FLAME -->
+          <g style="transform-origin: 110px 234px; animation: flame-flicker 0.7s ease-in-out infinite;">
+            <ellipse cx="110" cy="232" rx="36" ry="10" fill="#1a4a9c" opacity="0.55"/>
+            <ellipse cx="93"  cy="229" rx="9"  ry="7"  fill="#3a8aff" opacity="0.9"/>
+            <ellipse cx="110" cy="225" rx="12" ry="9"  fill="#7bbfff"/>
+            <ellipse cx="127" cy="229" rx="9"  ry="7"  fill="#3a8aff" opacity="0.9"/>
+            <ellipse cx="101" cy="226" rx="6"  ry="8"  fill="#bde0ff" opacity="0.8"/>
+            <ellipse cx="119" cy="226" rx="6"  ry="8"  fill="#bde0ff" opacity="0.8"/>
+          </g>
+
+          <!-- STEAM BUBBLES -->
+          <circle cx="106" cy="128" r="5"  fill="rgba(180,200,240,0.55)" style="animation: steam-up 2.2s 0s ease-in-out infinite;"/>
+          <circle cx="116" cy="117" r="7"  fill="rgba(180,200,240,0.45)" style="animation: steam-up 2.2s 0.5s ease-in-out infinite;"/>
+          <circle cx="103" cy="107" r="5"  fill="rgba(180,200,240,0.4)"  style="animation: steam-up 2.2s 1s ease-in-out infinite;"/>
+          <circle cx="120" cy="98"  r="8"  fill="rgba(180,200,240,0.35)" style="animation: steam-up 2.2s 0.3s ease-in-out infinite;"/>
+          <circle cx="108" cy="88"  r="9"  fill="rgba(180,200,240,0.28)" style="animation: steam-up 2.2s 0.8s ease-in-out infinite;"/>
+          <circle cx="113" cy="78"  r="10" fill="rgba(180,200,240,0.2)"  style="animation: steam-up 2.2s 1.3s ease-in-out infinite;"/>
+
+          <!-- Heat label at bottom -->
+          <text x="110" y="258" text-anchor="middle" fill="#1a2b4a" font-family="'Baloo 2',sans-serif" font-size="10" font-weight="700">🔥 Heat Source</text>
+          <text x="110" y="270" text-anchor="middle" fill="#4a5a78" font-family="'DM Sans',sans-serif" font-size="9">Thermal Energy (Q)</text>
+
+          <!-- ── STEAM → DRUM ARROW ── -->
+          <path d="M148 130 Q200 100 242 115" stroke="#e8a020" stroke-width="1.8" fill="none" stroke-dasharray="5,3">
+            <animate attributeName="stroke-dashoffset" from="80" to="0" dur="2s" repeatCount="indefinite"/>
+          </path>
+          <text x="190" y="100" text-anchor="middle" fill="#e8a020" font-size="9" font-family="'DM Sans',sans-serif" font-weight="600">steam →</text>
+
+          <!-- ── DRUM (Rotating) ── -->
+          <g id="drum-group" style="transform-origin: 290px 118px; animation: drum-spin 3s linear infinite;">
+            <circle cx="290" cy="118" r="40" fill="#e8e0d0" stroke="#c8a040" stroke-width="2"/>
+            <circle cx="290" cy="118" r="28" fill="#f5f0e0" stroke="rgba(200,160,64,0.4)" stroke-width="1"/>
+            <!-- Spokes -->
+            <line x1="290" y1="80"  x2="290" y2="156" stroke="#c8a040" stroke-width="1.5" opacity="0.6"/>
+            <line x1="252" y1="118" x2="328" y2="118" stroke="#c8a040" stroke-width="1.5" opacity="0.6"/>
+            <line x1="263" y1="91"  x2="317" y2="145" stroke="#c8a040" stroke-width="1"   opacity="0.5"/>
+            <line x1="263" y1="145" x2="317" y2="91"  stroke="#c8a040" stroke-width="1"   opacity="0.5"/>
+            <!-- Rope on drum -->
+            <path d="M290,78 A40,40 0 1,1 250,118" stroke="#a07820" stroke-width="5" fill="none" opacity="0.65"/>
+          </g>
+          <!-- Hub -->
+          <circle cx="290" cy="118" r="9" fill="#e8a020"/>
+          <circle cx="290" cy="118" r="4" fill="#1a2b4a"/>
+          <!-- Axle post -->
+          <rect x="282" y="156" width="16" height="8" rx="3" fill="#aaa"/>
+
+          <!-- Drum labels -->
+          <line x1="330" y1="100" x2="355" y2="82" stroke="#d93025" stroke-width="1.2"/>
+          <text x="357" y="80" fill="#d93025" font-size="9.5" font-family="'DM Sans',sans-serif" font-weight="600">Rotating Drum</text>
+          <text x="357" y="90" fill="#888" font-size="8" font-family="'DM Sans',sans-serif">(pulley-shaped)</text>
+          <line x1="268" y1="130" x2="240" y2="148" stroke="#d93025" stroke-width="1.2"/>
+          <text x="238" y="158" text-anchor="middle" fill="#d93025" font-size="9" font-family="'DM Sans',sans-serif" font-weight="600">Rotation</text>
+          <text x="238" y="168" text-anchor="middle" fill="#888" font-size="8" font-family="'DM Sans',sans-serif">(drum spinning)</text>
+
+          <!-- Drum label bottom -->
+          <text x="290" y="200" text-anchor="middle" fill="#1a2b4a" font-family="'Baloo 2',sans-serif" font-size="10" font-weight="700">⚙️ Pulley Drum</text>
+          <text x="290" y="212" text-anchor="middle" fill="#4a5a78" font-family="'DM Sans',sans-serif" font-size="9">Rotational Energy</text>
+
+          <!-- ── ROPE HORIZONTAL ── -->
+          <line x1="330" y1="118" x2="450" y2="118" stroke="#a07820" stroke-width="3" opacity="0.85" stroke-dasharray="8,0"/>
+          <text x="390" y="108" text-anchor="middle" fill="#a07820" font-size="9" font-family="'DM Sans',sans-serif" font-weight="600">rope →</text>
+
+          <!-- ── FIXED PULLEY ── -->
+          <!-- Ceiling -->
+          <rect x="432" y="18" width="40" height="10" rx="3" fill="#888" stroke="#666" stroke-width="1"/>
+          <!-- Bracket -->
+          <rect x="448" y="28" width="8" height="14" rx="2" fill="#aaa"/>
+          <!-- Pulley wheel -->
+          <circle cx="452" cy="55" r="20" fill="#d8d0c0" stroke="#b89830" stroke-width="2"/>
+          <circle cx="452" cy="55" r="12" fill="#ece8d8" stroke="rgba(184,152,48,0.4)" stroke-width="1"/>
+          <circle cx="452" cy="55" r="5" fill="#e8a020"/>
+          <circle cx="452" cy="55" r="2" fill="#1a2b4a"/>
+
+          <!-- Rope: drum → pulley (horizontal) then over pulley -->
+          <line x1="450" y1="118" x2="452" y2="75" stroke="#a07820" stroke-width="3" opacity="0.85"/>
+
+          <!-- Rope down from pulley to weight -->
+          <line x1="452" y1="75" x2="500" y2="75" stroke="#a07820" stroke-width="3" opacity="0.85"/>
+          <line x1="500" y1="75" x2="500" y2="148" stroke="#a07820" stroke-width="3" opacity="0.85"/>
+
+          <!-- Pulley label -->
+          <line x1="471" y1="48" x2="505" y2="32" stroke="#d93025" stroke-width="1.2"/>
+          <text x="507" y="30" fill="#d93025" font-size="9.5" font-family="'DM Sans',sans-serif" font-weight="600">Fixed Pulley</text>
+          <text x="507" y="40" fill="#888" font-size="8" font-family="'DM Sans',sans-serif">(stationary)</text>
+
+          <!-- ── WEIGHT ── -->
+          <g id="weight-g" style="animation: weight-lift 2.5s ease-in-out infinite; transform-origin: 500px 185px;">
+            <rect x="472" y="148" width="56" height="70" rx="8" fill="#555" stroke="#888" stroke-width="1.5"/>
+            <text x="500" y="178" text-anchor="middle" fill="#e8a020" font-size="11" font-weight="700" font-family="'Baloo 2',sans-serif">m·g</text>
+            <text x="500" y="193" text-anchor="middle" fill="rgba(232,160,32,0.7)" font-size="9" font-family="'DM Sans',sans-serif">W = mgh</text>
+          </g>
+          <!-- Up arrow -->
+          <text x="538" y="172" fill="#1a7a3c" font-size="20" font-weight="900" font-family="sans-serif">↑</text>
+
+          <!-- Weight labels -->
+          <line x1="472" y1="183" x2="444" y2="210" stroke="#d93025" stroke-width="1.2"/>
+          <text x="442" y="222" text-anchor="middle" fill="#d93025" font-size="9.5" font-family="'DM Sans',sans-serif" font-weight="600">Weight (Load)</text>
+
+          <!-- Weight bottom label -->
+          <text x="500" y="258" text-anchor="middle" fill="#1a2b4a" font-family="'Baloo 2',sans-serif" font-size="10" font-weight="700">🏋️ Weight Lifted</text>
+          <text x="500" y="270" text-anchor="middle" fill="#4a5a78" font-family="'DM Sans',sans-serif" font-size="9">Potential Energy (PE)</text>
+
+          <!-- ── ENERGY LABEL STRIP ── -->
+          <rect x="10" y="292" width="660" height="24" rx="6" fill="rgba(26,43,74,0.07)" stroke="rgba(26,43,74,0.15)" stroke-width="1"/>
+          <text x="340" y="308" text-anchor="middle" fill="#1a5fa8" font-family="'Baloo 2',sans-serif" font-size="11" font-weight="700">
+            Thermal Energy  →  Steam Pressure  →  Rotational KE  →  Linear ME  →  Potential Energy
+          </text>
+
+          <!-- Tiger / model indicator (decorative box) -->
+          <rect x="568" y="100" width="106" height="50" rx="8" fill="rgba(232,160,32,0.07)" stroke="rgba(232,160,32,0.4)" stroke-width="1" stroke-dasharray="4,3"/>
+          <text x="621" y="122" text-anchor="middle" fill="#a07820" font-size="10" font-family="'Baloo 2',sans-serif" font-weight="700">🐯 Tiger Model</text>
+          <text x="621" y="136" text-anchor="middle" fill="#888" font-size="8.5" font-family="'DM Sans',sans-serif">Watt's Steam Engine</text>
+          <text x="621" y="147" text-anchor="middle" fill="#888" font-size="8.5" font-family="'DM Sans',sans-serif">inspired analogy</text>
+        </svg>
+      </div>
+    </div>
+
+    <!-- RIGHT: 4 STEPS -->
+    <div class="steps-col">
+      <div class="how-header">❓ How Does It Work?</div>
+
+      <div class="step-card">
+        <div class="step-left">
+          <div class="step-num-circle">1</div>
+          <div class="step-mini-icon">♨️</div>
+        </div>
+        <div class="step-right">
+          <div class="step-title">Steam Generation</div>
+          <div class="step-desc">Water in the cooker is heated until it boils and converts to steam. As steam pressure builds, the whistle valve is pushed open and steam escapes.</div>
+          <span class="step-tag">Q = mcΔT</span>
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-left">
+          <div class="step-num-circle">2</div>
+          <div class="step-mini-icon">⚙️</div>
+        </div>
+        <div class="step-right">
+          <div class="step-title">Drum Rotation</div>
+          <div class="step-desc">The escaping steam strikes the drum and causes it to spin. The drum acts like a turbine — thermal energy converts into mechanical rotational energy.</div>
+          <span class="step-tag">KE<sub>rot</sub> = ½Iω²</span>
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-left">
+          <div class="step-num-circle">3</div>
+          <div class="step-mini-icon">🪢</div>
+        </div>
+        <div class="step-right">
+          <div class="step-title">Rope Winding</div>
+          <div class="step-desc">As the drum rotates, a rope winds around it. The linear mechanical energy is transferred through the rope via the fixed overhead pulley.</div>
+          <span class="step-tag">W = F · d</span>
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-left">
+          <div class="step-num-circle">4</div>
+          <div class="step-mini-icon">🏋️</div>
+        </div>
+        <div class="step-right">
+          <div class="step-title">Weight Lifted — PE Gained</div>
+          <div class="step-desc">The rope pulls the weight upward, converting mechanical energy into gravitational potential energy. <strong>Thermal → Mechanical energy conversion is complete.</strong></div>
+          <span class="step-tag">PE = mgh</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ENERGY CONVERSION CHAIN -->
+  <div class="chain-section">
+    <div class="chain-label">Energy Conversion Chain (शक्ति रूपांतरण)</div>
+    <div class="chain-bar">
+      <div class="chain-step active" onclick="cycleChain(this)">
+        <div class="chain-icon">🔥</div>
+        <div class="chain-en">Thermal</div>
+        <div class="chain-name">Water Heated<br>(Heat Energy)</div>
+      </div>
+      <div class="chain-arrow">→</div>
+      <div class="chain-step" onclick="cycleChain(this)">
+        <div class="chain-icon">💨</div>
+        <div class="chain-en">Pressure</div>
+        <div class="chain-name">Steam<br>(Pressure Energy)</div>
+      </div>
+      <div class="chain-arrow">→</div>
+      <div class="chain-step" onclick="cycleChain(this)">
+        <div class="chain-icon">⚙️</div>
+        <div class="chain-en">Rotational</div>
+        <div class="chain-name">Drum Spins<br>(Rotational KE)</div>
+      </div>
+      <div class="chain-arrow">→</div>
+      <div class="chain-step" onclick="cycleChain(this)">
+        <div class="chain-icon">🪢</div>
+        <div class="chain-en">Linear</div>
+        <div class="chain-name">Rope Winds<br>(Linear ME)</div>
+      </div>
+      <div class="chain-arrow">→</div>
+      <div class="chain-step" onclick="cycleChain(this)">
+        <div class="chain-icon">🏋️</div>
+        <div class="chain-en">Potential</div>
+        <div class="chain-name">Weight Lifted<br>(Potential Energy)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOTTOM ROW -->
+  <div class="bottom-row">
+    <div class="principle-card">
+      <div class="pr-icon">⚖️</div>
+      <div class="pr-title">Conservation of Energy</div>
+      <div class="pr-law">1st Law of Thermodynamics</div>
+      <div class="pr-desc">Energy cannot be created or destroyed — only transformed from one form to another. Q = W + ΔU</div>
+    </div>
+    <div class="principle-card">
+      <div class="pr-icon">🌡️</div>
+      <div class="pr-title">Entropy Increases</div>
+      <div class="pr-law">2nd Law of Thermodynamics</div>
+      <div class="pr-desc">No conversion is 100% efficient. Some energy always dissipates as waste heat (ΔS &gt; 0). Efficiency η &lt; 1.</div>
+    </div>
+    <div class="principle-card">
+      <div class="pr-icon">🔄</div>
+      <div class="pr-title">Thermodynamic Cycle</div>
+      <div class="pr-law">Rankine / Carnot Cycle</div>
+      <div class="pr-desc">Steam engines &amp; power plants follow the Rankine cycle — the same principle scaled up from this simple cooker model.</div>
+    </div>
+    <div class="summary-card">
+      <div class="sum-head"><span>💡</span> Summary</div>
+      <p>
+        The whistle cooker model shows how <strong>Thermal Energy</strong> (heat from the flame) is used via steam pressure to spin a drum, wind a rope, and ultimately <strong>lift a weight</strong> — demonstrating a complete chain of <strong>Thermal → Mechanical Energy</strong> conversion in everyday life.
+      </p>
+    </div>
+  </div>
+
+</div><!-- /page -->
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-left">
+    <span>VEDAS Academy</span> | Beside Market Yard Gate, Near Green Park, Wanaparthy – 509103, Telangana<br>
+    Venkat Ragava (B.Tech Mech · M.Tech Thermal Engineering) · 📞 81254 91205
+  </div>
+  <a href="https://whatsapp.com/channel/0029VbCztaQHAdNXvPsC7Q34" target="_blank" class="wa-btn">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    WhatsApp Channel
+  </a>
+</div>
+
+<script>
+  // Auto-cycle the chain steps
+  let idx = 0;
+  const steps = document.querySelectorAll('.chain-step');
+  setInterval(() => {
+    steps.forEach(s => s.classList.remove('active'));
+    steps[idx].classList.add('active');
+    idx = (idx + 1) % steps.length;
+  }, 1800);
+
+  function cycleChain(el) {
+    steps.forEach(s => s.classList.remove('active'));
+    el.classList.add('active');
+  }
+</script>
+</body>
+</html>
