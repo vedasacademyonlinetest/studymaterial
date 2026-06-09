@@ -1,0 +1,1276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Ordinary vs Partial Differentiation | VEDAS Academy</title>
+
+<!-- MathJax -->
+<script>
+MathJax = {
+  tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+<style>
+/* ===== TOKENS ===== */
+:root{
+  --navy:   #0A1628;
+  --navy2:  #0F2044;
+  --navy3:  #162952;
+  --orange: #FF6B1A;
+  --amber:  #FFB340;
+  --teal:   #00C8A0;
+  --text:   #E8EDF5;
+  --muted:  #8EA4C8;
+  --card:   #121F38;
+  --card2:  #192840;
+  --border: rgba(255,107,26,.25);
+  --glow:   rgba(255,107,26,.18);
+  --r: 12px;
+  --shadow: 0 4px 32px rgba(0,0,0,.45);
+}
+
+/* ===== RESET ===== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Segoe UI',system-ui,sans-serif;
+  background:var(--navy);
+  color:var(--text);
+  line-height:1.7;
+  overflow-x:hidden;
+}
+h1,h2,h3,h4{line-height:1.25;font-weight:700}
+a{color:var(--orange);text-decoration:none}
+
+/* ===== UTILITIES ===== */
+.container{max-width:1100px;margin:0 auto;padding:0 20px}
+.section{padding:60px 0}
+.section:nth-child(even){background:var(--navy2)}
+
+.badge{
+  display:inline-block;
+  background:var(--orange);
+  color:#fff;
+  font-size:.7rem;
+  font-weight:700;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  padding:3px 10px;
+  border-radius:20px;
+  margin-bottom:10px;
+}
+.te{color:var(--amber);font-style:italic;font-size:.95em;margin-top:6px}
+
+/* ===== LANGUAGE TOGGLE ===== */
+#lang-toggle{
+  position:fixed;top:14px;right:16px;z-index:999;
+  background:var(--orange);
+  color:#fff;border:none;
+  padding:7px 18px;border-radius:20px;
+  font-weight:700;font-size:.85rem;cursor:pointer;
+  box-shadow:0 2px 12px rgba(255,107,26,.4);
+  transition:background .2s;
+}
+#lang-toggle:hover{background:#e05500}
+body.telugu .en-only{display:none!important}
+body.telugu .te-only{display:block!important}
+body:not(.telugu) .te-only{display:none!important}
+body:not(.telugu) .en-only{display:block!important}
+
+/* ===== NAV ===== */
+nav{
+  position:sticky;top:0;z-index:900;
+  background:rgba(10,22,40,.92);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--border);
+  padding:10px 0;
+}
+.nav-inner{
+  display:flex;align-items:center;justify-content:space-between;
+  max-width:1100px;margin:0 auto;padding:0 20px;
+  flex-wrap:wrap;gap:8px;
+}
+.nav-brand{font-size:1.1rem;font-weight:800;color:var(--orange);letter-spacing:.05em}
+.nav-brand span{color:var(--text);font-weight:400}
+.nav-links{display:flex;gap:14px;font-size:.82rem;color:var(--muted)}
+.nav-links a:hover{color:var(--orange)}
+
+/* ===== HERO ===== */
+#hero{
+  min-height:88vh;display:flex;align-items:center;
+  background:
+    radial-gradient(ellipse 60% 60% at 70% 40%, rgba(255,107,26,.12), transparent),
+    radial-gradient(ellipse 40% 50% at 20% 80%, rgba(0,200,160,.07), transparent),
+    var(--navy);
+  padding:80px 0 40px;
+  position:relative;overflow:hidden;
+}
+.hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+.hero-eyebrow{color:var(--orange);font-size:.8rem;letter-spacing:.18em;font-weight:700;text-transform:uppercase;margin-bottom:14px}
+.hero-title{font-size:clamp(1.9rem,4vw,3rem);color:#fff;margin-bottom:10px}
+.hero-title span{color:var(--orange)}
+.hero-te{font-size:1rem;color:var(--amber);margin-bottom:18px;font-style:italic}
+.hero-sub{color:var(--muted);font-size:1rem;max-width:480px}
+.hero-pills{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px}
+.pill{
+  background:rgba(255,107,26,.12);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:4px 14px;
+  font-size:.78rem;
+  color:var(--text);
+}
+
+/* ===== HERO SVG ILLUSTRATION ===== */
+.hero-svg-wrap{position:relative}
+.hero-svg-wrap svg{width:100%;height:auto;filter:drop-shadow(0 0 30px rgba(255,107,26,.2))}
+
+/* ===== CARDS ===== */
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  padding:28px;
+  transition:transform .25s, box-shadow .25s;
+}
+.card:hover{transform:translateY(-3px);box-shadow:0 8px 36px var(--glow)}
+.card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;margin-top:28px}
+
+/* ===== SECTION HEADERS ===== */
+.sec-head{text-align:center;margin-bottom:40px}
+.sec-head h2{font-size:clamp(1.5rem,3vw,2.2rem);color:#fff}
+.sec-head h2 span{color:var(--orange)}
+.sec-line{width:60px;height:3px;background:var(--orange);border-radius:3px;margin:12px auto 0}
+
+/* ===== FORMULA BOX ===== */
+.formula-box{
+  background:var(--navy3);
+  border-left:4px solid var(--orange);
+  border-radius:0 var(--r) var(--r) 0;
+  padding:18px 22px;
+  margin:18px 0;
+  font-size:1.1rem;
+  overflow-x:auto;
+}
+
+/* ===== CAR ANIMATION ===== */
+#car-track{
+  position:relative;
+  background:linear-gradient(var(--navy3),var(--card));
+  border-radius:var(--r);
+  border:1px solid var(--border);
+  padding:20px;
+  margin-top:24px;
+  overflow:hidden;
+  height:160px;
+}
+.road{
+  position:absolute;
+  bottom:36px;left:0;right:0;
+  height:6px;
+  background:repeating-linear-gradient(90deg,#aaa 0 18px,transparent 18px 34px);
+  opacity:.35;
+}
+.road-strip{
+  position:absolute;
+  bottom:34px;left:0;right:0;height:2px;
+  background:#555;
+}
+#car-svg{
+  position:absolute;
+  bottom:42px;
+  transition:left .05s linear;
+}
+
+/* ===== SLIDER ===== */
+.slider-wrap{margin-top:14px}
+.slider-wrap label{color:var(--muted);font-size:.85rem;display:block;margin-bottom:6px}
+input[type=range]{
+  width:100%;accent-color:var(--orange);
+  height:4px;cursor:pointer;
+}
+.data-pills{display:flex;gap:12px;margin-top:12px;flex-wrap:wrap}
+.data-pill{
+  background:var(--navy3);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:8px 16px;
+  font-size:.82rem;
+  min-width:110px;
+}
+.data-pill strong{color:var(--orange);display:block;font-size:1rem}
+
+/* ===== CLASSROOM ===== */
+#classroom-wrap{
+  position:relative;
+  border-radius:var(--r);
+  overflow:hidden;
+  margin-top:24px;
+  border:1px solid var(--border);
+}
+.class-svg{width:100%;height:auto;display:block}
+
+/* ===== ROD ===== */
+.rod-container{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  padding:24px;
+  margin-top:24px;
+}
+.rod-wrap{position:relative;height:60px;margin:12px 0}
+#rod-canvas{
+  width:100%;height:60px;
+  border-radius:8px;
+  overflow:hidden;
+  display:block;
+}
+.rod-labels{display:flex;justify-content:space-between;color:var(--muted);font-size:.8rem;margin-top:4px}
+.rod-arrows{
+  display:flex;justify-content:flex-end;gap:4px;
+  margin-top:6px;
+  font-size:1rem;
+  animation:arrowFlow 1.2s infinite;
+}
+@keyframes arrowFlow{0%,100%{opacity:.3}50%{opacity:1}}
+
+/* ===== TIME ROD ===== */
+.time-rod-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px}
+@media(max-width:600px){.time-rod-grid{grid-template-columns:1fr}}
+
+/* ===== HEAT GRAPH ===== */
+#heat-canvas{width:100%;max-width:700px;height:260px;display:block;margin:0 auto}
+
+/* ===== COMPARISON TABLE ===== */
+.cmp-table{width:100%;border-collapse:collapse;margin-top:20px}
+.cmp-table th{
+  background:var(--orange);
+  color:#fff;
+  padding:12px 16px;
+  font-size:.85rem;
+  text-align:left;
+}
+.cmp-table td{
+  padding:12px 16px;
+  border-bottom:1px solid rgba(255,255,255,.07);
+  font-size:.88rem;
+}
+.cmp-table tr:nth-child(even) td{background:rgba(255,255,255,.03)}
+.cmp-table td:first-child{color:var(--muted);font-weight:600}
+.cmp-table .ord{color:#5BBFFF}
+.cmp-table .par{color:var(--orange)}
+
+/* ===== 3D CANVAS ===== */
+#canvas3d{
+  width:100%;
+  max-width:700px;
+  height:350px;
+  display:block;
+  margin:0 auto;
+  border-radius:var(--r);
+  border:1px solid var(--border);
+  cursor:grab;
+}
+
+/* ===== KEY INSIGHT ===== */
+.insight-card{
+  background:linear-gradient(135deg,var(--card),var(--navy3));
+  border:2px solid var(--orange);
+  border-radius:var(--r);
+  padding:32px;
+  position:relative;
+  overflow:hidden;
+}
+.insight-card::before{
+  content:'';
+  position:absolute;inset:0;
+  background:radial-gradient(circle at 80% 20%, rgba(255,107,26,.12), transparent 60%);
+}
+.insight-card h3{color:var(--orange);font-size:1.2rem;margin-bottom:14px}
+.insight-item{
+  display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;
+}
+.insight-dot{
+  width:8px;height:8px;background:var(--orange);
+  border-radius:50%;margin-top:7px;flex-shrink:0;
+}
+
+/* ===== APPLICATIONS ===== */
+.app-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;margin-top:28px}
+.app-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  padding:22px 16px;
+  text-align:center;
+  transition:transform .25s,box-shadow .25s;
+}
+.app-card:hover{transform:translateY(-4px);box-shadow:0 8px 30px var(--glow)}
+.app-icon{font-size:2.2rem;margin-bottom:8px}
+.app-card h4{font-size:.88rem;color:var(--text);margin-bottom:4px}
+.app-card .te{font-size:.8rem}
+
+/* ===== FOOTER ===== */
+footer{
+  background:var(--navy3);
+  border-top:1px solid var(--border);
+  padding:28px 0;
+  text-align:center;
+  color:var(--muted);
+  font-size:.82rem;
+}
+footer strong{color:var(--orange)}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:760px){
+  .hero-grid{grid-template-columns:1fr}
+  .hero-svg-wrap{display:none}
+  nav .nav-links{display:none}
+  .time-rod-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- Language Toggle -->
+<button id="lang-toggle" onclick="toggleLang()">తెలుగు</button>
+
+<!-- ===== NAV ===== -->
+<nav>
+  <div class="nav-inner">
+    <div class="nav-brand">VEDAS <span>Academy</span></div>
+    <div class="nav-links">
+      <a href="#ordinary">Ordinary</a>
+      <a href="#partial">Partial</a>
+      <a href="#classroom">Classroom</a>
+      <a href="#rod">Steel Rod</a>
+      <a href="#compare">Compare</a>
+      <a href="#applications">Applications</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== SECTION 1: HERO ===== -->
+<section id="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-eyebrow">VEDAS Academy · Physics Mathematics</div>
+        <h1 class="hero-title">
+          Ordinary vs<br><span>Partial Differentiation</span>
+        </h1>
+        <p class="hero-te">సాధారణ డిఫరెన్సియేషన్ vs పార్షియల్ డిఫరెన్సియేషన్</p>
+        <p class="hero-sub">Understanding Mathematics through real Physics — motion, heat, and beyond.</p>
+        <p class="hero-sub te-only" style="margin-top:6px;color:var(--amber);font-style:italic">నిజ జీవిత భౌతిక శాస్త్రం ద్వారా గణితాన్ని అర్థం చేసుకుందాం.</p>
+        <div class="hero-pills">
+          <span class="pill">IIT Foundation</span>
+          <span class="pill">NEET Foundation</span>
+          <span class="pill">Polytechnic</span>
+          <span class="pill">Engineering</span>
+        </div>
+      </div>
+      <!-- Hero SVG Illustration -->
+      <div class="hero-svg-wrap">
+        <svg viewBox="0 0 500 380" xmlns="http://www.w3.org/2000/svg">
+          <!-- Sky bg -->
+          <rect width="500" height="380" fill="#0A1628" rx="16"/>
+          <!-- Stars -->
+          <g fill="#fff" opacity=".3">
+            <circle cx="30" cy="20" r="1.5"/><circle cx="80" cy="10" r="1"/><circle cx="140" cy="25" r="1.5"/>
+            <circle cx="200" cy="8" r="1"/><circle cx="260" cy="18" r="1.5"/><circle cx="320" cy="12" r="1"/>
+            <circle cx="380" cy="22" r="1.5"/><circle cx="450" cy="6" r="1"/>
+          </g>
+
+          <!-- Panel 1: Car / Ordinary -->
+          <rect x="16" y="16" width="222" height="160" rx="10" fill="#0F2044" stroke="#FF6B1A" stroke-width="1"/>
+          <text x="28" y="38" fill="#FF6B1A" font-size="9" font-weight="700" font-family="sans-serif">ORDINARY — Car Motion</text>
+          <!-- Road -->
+          <rect x="20" y="140" width="214" height="28" rx="4" fill="#1a2a40"/>
+          <rect x="20" y="152" width="214" height="4" fill="#252f42"/>
+          <!-- Road markings -->
+          <g stroke="#FFB340" stroke-width="1.5" stroke-dasharray="14 10">
+            <line x1="20" y1="154" x2="234" y2="154"/>
+          </g>
+          <!-- Car body -->
+          <g transform="translate(60,108)">
+            <rect x="0" y="18" width="80" height="22" rx="4" fill="#1e90ff"/>
+            <rect x="12" y="8" width="56" height="22" rx="5" fill="#3aa0ff"/>
+            <!-- windows -->
+            <rect x="16" y="11" width="20" height="14" rx="2" fill="#0A1628" opacity=".7"/>
+            <rect x="42" y="11" width="20" height="14" rx="2" fill="#0A1628" opacity=".7"/>
+            <!-- wheels -->
+            <circle cx="16" cy="40" r="8" fill="#111" stroke="#888" stroke-width="2"/>
+            <circle cx="64" cy="40" r="8" fill="#111" stroke="#888" stroke-width="2"/>
+            <circle cx="16" cy="40" r="3" fill="#aaa"/>
+            <circle cx="64" cy="40" r="3" fill="#aaa"/>
+            <!-- headlight -->
+            <circle cx="82" cy="29" r="3.5" fill="#FFD700" opacity=".8"/>
+          </g>
+          <!-- Formula -->
+          <text x="28" y="88" fill="#8EA4C8" font-size="8" font-family="sans-serif">Position s = f(t)</text>
+          <text x="28" y="102" fill="#FF6B1A" font-size="9" font-weight="700" font-family="sans-serif">v = ds/dt</text>
+
+          <!-- Panel 2: Classroom / Partial -->
+          <rect x="258" y="16" width="226" height="160" rx="10" fill="#0F2044" stroke="#00C8A0" stroke-width="1"/>
+          <text x="270" y="38" fill="#00C8A0" font-size="9" font-weight="700" font-family="sans-serif">PARTIAL — Room Temperature</text>
+          <!-- Room floor -->
+          <rect x="262" y="130" width="218" height="38" rx="0" fill="#1a2a40"/>
+          <!-- AC unit -->
+          <rect x="270" y="55" width="30" height="18" rx="3" fill="#333" stroke="#00C8A0" stroke-width="1"/>
+          <text x="278" y="67" fill="#00C8A0" font-size="7" font-family="sans-serif">AC</text>
+          <!-- Cold air waves from AC -->
+          <g stroke="#00C8A0" stroke-width="1" fill="none" opacity=".5">
+            <path d="M300,64 Q320,58 340,64"/>
+            <path d="M300,68 Q325,62 350,68"/>
+          </g>
+          <!-- Temp gradient blocks -->
+          <g>
+            <rect x="262" y="90" width="40" height="32" fill="#2040a0" opacity=".7"/>
+            <rect x="302" y="90" width="40" height="32" fill="#3060b0" opacity=".7"/>
+            <rect x="342" y="90" width="40" height="32" fill="#c05020" opacity=".7"/>
+            <rect x="382" y="90" width="40" height="32" fill="#e04020" opacity=".7"/>
+            <rect x="422" y="90" width="54" height="32" fill="#ff3010" opacity=".7"/>
+            <text x="268" y="111" fill="#fff" font-size="7" font-family="sans-serif">22°C</text>
+            <text x="308" y="111" fill="#fff" font-size="7" font-family="sans-serif">24°C</text>
+            <text x="348" y="111" fill="#fff" font-size="7" font-family="sans-serif">26°C</text>
+            <text x="388" y="111" fill="#fff" font-size="7" font-family="sans-serif">28°C</text>
+            <text x="432" y="111" fill="#fff" font-size="7" font-family="sans-serif">30°C</text>
+          </g>
+          <text x="270" y="80" fill="#8EA4C8" font-size="8" font-family="sans-serif">T = f(x, y, t)</text>
+          <text x="270" y="152" fill="#00C8A0" font-size="9" font-weight="700" font-family="sans-serif">∂T/∂x, ∂T/∂y, ∂T/∂t</text>
+
+          <!-- Panel 3: Steel Rod -->
+          <rect x="16" y="196" width="468" height="170" rx="10" fill="#0F2044" stroke="#FFB340" stroke-width="1"/>
+          <text x="28" y="218" fill="#FFB340" font-size="9" font-weight="700" font-family="sans-serif">PARTIAL — Steel Rod Heat Conduction  T(x,t)</text>
+          <!-- Rod gradient -->
+          <defs>
+            <linearGradient id="rodGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#FF2200"/>
+              <stop offset="40%" stop-color="#FF8800"/>
+              <stop offset="80%" stop-color="#FFB340"/>
+              <stop offset="100%" stop-color="#4488FF"/>
+            </linearGradient>
+          </defs>
+          <rect x="30" y="228" width="440" height="38" rx="6" fill="url(#rodGrad)"/>
+          <text x="30" y="222" fill="#FF2200" font-size="8" font-family="sans-serif">500°C</text>
+          <text x="442" y="222" fill="#4488FF" font-size="8" font-family="sans-serif">100°C</text>
+          <text x="30" y="282" fill="#8EA4C8" font-size="8" font-family="sans-serif">x = 0 m</text>
+          <text x="436" y="282" fill="#8EA4C8" font-size="8" font-family="sans-serif">x = 1 m</text>
+          <!-- Heat arrows -->
+          <g fill="#FFB340" opacity=".6">
+            <polygon points="120,250 108,244 108,256"/>
+            <polygon points="180,250 168,244 168,256"/>
+            <polygon points="240,250 228,244 228,256"/>
+            <polygon points="300,250 288,244 288,256"/>
+            <polygon points="360,250 348,244 348,256"/>
+          </g>
+          <!-- PDE equation -->
+          <text x="30" y="318" fill="#FFB340" font-size="10" font-weight="700" font-family="sans-serif">∂T/∂t = α · ∂²T/∂x²</text>
+          <text x="30" y="336" fill="#8EA4C8" font-size="8" font-family="sans-serif">(Heat Equation — 1D)</text>
+          <text x="220" y="318" fill="#8EA4C8" font-size="8" font-family="sans-serif">α = thermal diffusivity</text>
+          <!-- Curve sketch -->
+          <polyline points="30,356 80,350 140,344 200,342 270,340 340,342 400,348 470,356"
+            fill="none" stroke="#FF6B1A" stroke-width="2" stroke-dasharray="4 2"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 2: ORDINARY DIFFERENTIATION ===== -->
+<section id="ordinary" class="section">
+  <div class="container">
+    <div class="sec-head">
+      <div class="badge">Section 1</div>
+      <h2>What is <span>Ordinary Differentiation?</span></h2>
+      <div class="sec-line"></div>
+      <p class="te" style="margin-top:10px">ఆర్డినరీ డిఫరెన్సియేషన్ అంటే ఏమిటి?</p>
+    </div>
+
+    <div class="card-grid">
+      <div class="card">
+        <h3 style="color:var(--orange);margin-bottom:10px">📖 Definition</h3>
+        <p class="en-only">Ordinary Differentiation is used when a quantity depends on <strong>only one variable</strong>. We track how that quantity changes as the single variable changes.</p>
+        <p class="te-only te" style="display:none">ఒక పరిమాణం కేవలం <strong>ఒకే వేరియబుల్</strong> పై ఆధారపడి ఉన్నప్పుడు Ordinary Differentiation ఉపయోగిస్తాము. ఆ ఒక వేరియబుల్ మారినప్పుడు పరిమాణం ఎంత వేగంగా మారుతుందో కొలుస్తాము.</p>
+        <div class="formula-box">$$\frac{dy}{dx}$$</div>
+        <p style="color:var(--muted);font-size:.85rem">Read: "The rate of change of y with respect to x"</p>
+      </div>
+      <div class="card">
+        <h3 style="color:#5BBFFF;margin-bottom:10px">🚗 Car Motion Example</h3>
+        <p class="en-only">A car travels at 60 km/h. Its position <strong>s</strong> depends only on <strong>time t</strong>. There is one variable — time.</p>
+        <p class="te-only te" style="display:none">ఒక కారు 60 km/h వేగంతో వెళ్తుంది. దాని స్థానం <strong>s</strong> కేవలం <strong>సమయం t</strong> పై మాత్రమే ఆధారపడుతుంది.</p>
+        <div class="formula-box">$$s = 60t$$$$v = \frac{ds}{dt} = 60 \text{ km/h}$$</div>
+        <p style="color:var(--muted);font-size:.85rem">One input (t) → One output (s) → Ordinary Differentiation</p>
+      </div>
+    </div>
+
+    <!-- Interactive Car -->
+    <div style="margin-top:36px">
+      <h3 style="color:var(--amber);margin-bottom:4px">🎮 Interactive: Car Motion</h3>
+      <p class="en-only" style="color:var(--muted);font-size:.88rem">Drag the slider to change time. Watch the car move and see position & velocity update.</p>
+      <p class="te-only te" style="display:none;color:var(--amber);font-size:.88rem">స్లైడర్‌ను లాగండి — కారు కదలడం మరియు స్థానం, వేగం మారడం చూడండి.</p>
+
+      <div id="car-track">
+        <div class="road"></div>
+        <div class="road-strip"></div>
+        <!-- Car SVG -->
+        <svg id="car-svg" width="90" height="44" viewBox="0 0 90 44">
+          <rect x="0" y="18" width="88" height="22" rx="5" fill="#1e90ff"/>
+          <rect x="12" y="7" width="60" height="22" rx="5" fill="#3aa0ff"/>
+          <rect x="16" y="9" width="22" height="16" rx="2" fill="#0A1628" opacity=".7"/>
+          <rect x="44" y="9" width="22" height="16" rx="2" fill="#0A1628" opacity=".7"/>
+          <circle cx="18" cy="40" r="7" fill="#111" stroke="#888" stroke-width="2"/>
+          <circle cx="70" cy="40" r="7" fill="#111" stroke="#888" stroke-width="2"/>
+          <circle cx="18" cy="40" r="3" fill="#aaa"/>
+          <circle cx="70" cy="40" r="3" fill="#aaa"/>
+          <circle cx="90" cy="29" r="4" fill="#FFD700" opacity=".9"/>
+          <line x1="90" y1="25" x2="110" y2="22" stroke="#FFD700" stroke-width="1.5" opacity=".5"/>
+          <line x1="90" y1="29" x2="112" y2="29" stroke="#FFD700" stroke-width="1.5" opacity=".5"/>
+          <line x1="90" y1="33" x2="110" y2="36" stroke="#FFD700" stroke-width="1.5" opacity=".5"/>
+        </svg>
+        <!-- position marker -->
+        <div id="pos-flag" style="position:absolute;bottom:10px;left:20px;color:var(--orange);font-size:.7rem;font-weight:700">x = 0</div>
+      </div>
+
+      <div class="slider-wrap" style="margin-top:14px">
+        <label>⏱ Time (hours): <span id="time-val">0</span> hr</label>
+        <input type="range" min="0" max="5" step="0.1" value="0" id="car-slider" oninput="updateCar(this.value)"/>
+      </div>
+
+      <div class="data-pills">
+        <div class="data-pill">Time<strong id="dp-time">0 hr</strong></div>
+        <div class="data-pill">Position<strong id="dp-pos" style="color:#5BBFFF">0 km</strong></div>
+        <div class="data-pill">Velocity<strong id="dp-vel" style="color:var(--teal)">60 km/h</strong></div>
+        <div class="data-pill">Formula<strong style="color:var(--amber)">v = ds/dt</strong></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 3: PARTIAL DIFFERENTIATION ===== -->
+<section id="partial" class="section" style="background:var(--navy2)">
+  <div class="container">
+    <div class="sec-head">
+      <div class="badge">Section 2</div>
+      <h2>What is <span>Partial Differentiation?</span></h2>
+      <div class="sec-line"></div>
+      <p class="te" style="margin-top:10px">పార్షియల్ డిఫరెన్సియేషన్ అంటే ఏమిటి?</p>
+    </div>
+
+    <div class="card-grid">
+      <div class="card">
+        <h3 style="color:var(--orange);margin-bottom:10px">📖 Definition</h3>
+        <p class="en-only">When a quantity depends on <strong>more than one variable</strong>, we use Partial Differentiation. We differentiate with respect to one variable while keeping all others <strong>constant</strong>.</p>
+        <p class="te-only te" style="display:none">ఒక పరిమాణం <strong>రెండు లేదా అంతకంటే ఎక్కువ వేరియబుల్స్</strong> పై ఆధారపడినప్పుడు Partial Differentiation ఉపయోగిస్తాము. మిగిలిన వేరియబుల్స్‌ని స్థిరంగా ఉంచి ఒక దానిని మాత్రమే మారుస్తాం.</p>
+        <div class="formula-box">$$\frac{\partial f}{\partial x}, \quad \frac{\partial f}{\partial y}, \quad \frac{\partial f}{\partial t}$$</div>
+        <p style="color:var(--muted);font-size:.85rem">∂ (del) symbol is used for partial derivatives</p>
+      </div>
+      <div class="card">
+        <h3 style="color:var(--orange);margin-bottom:10px">🔑 Key Difference</h3>
+        <div style="margin-top:8px">
+          <div style="display:flex;gap:12px;margin-bottom:14px">
+            <div style="width:4px;background:#5BBFFF;border-radius:2px;flex-shrink:0"></div>
+            <div>
+              <strong style="color:#5BBFFF">Ordinary:</strong>
+              <p style="font-size:.88rem;color:var(--muted)">y = f(x) → only one variable x</p>
+            </div>
+          </div>
+          <div style="display:flex;gap:12px">
+            <div style="width:4px;background:var(--orange);border-radius:2px;flex-shrink:0"></div>
+            <div>
+              <strong style="color:var(--orange)">Partial:</strong>
+              <p style="font-size:.88rem;color:var(--muted)">z = f(x,y,t) → multiple variables</p>
+            </div>
+          </div>
+        </div>
+        <div class="formula-box" style="margin-top:16px">$$T = f(x,\,y,\,t)$$$$\frac{\partial T}{\partial x}\bigg|_{y,t=\text{const}}$$</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 4: CLASSROOM ===== -->
+<section id="classroom" class="section">
+  <div class="container">
+    <div class="sec-head">
+      <div class="badge">Section 3</div>
+      <h2>Classroom <span>Temperature Example</span></h2>
+      <div class="sec-line"></div>
+      <p class="te" style="margin-top:10px">తరగతి గది ఉష్ణోగ్రత ఉదాహరణ</p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start">
+      <div>
+        <p class="en-only">An AC unit cools the classroom from one corner. The temperature at any point depends on <strong>position (x, y)</strong> and <strong>time (t)</strong>. This needs Partial Differentiation.</p>
+        <p class="te-only te" style="display:none">ఒక AC కార్నర్‌లో పెట్టబడింది. తరగతి గదిలో ఏ బిందువు వద్దైనా ఉష్ణోగ్రత <strong>స్థానం (x, y)</strong> మరియు <strong>సమయం (t)</strong> పై ఆధారపడుతుంది.</p>
+
+        <div class="formula-box">$$T = T(x,\,y,\,t)$$</div>
+
+        <div style="margin-top:16px">
+          <div class="card" style="margin-bottom:12px">
+            <strong style="color:var(--orange)">∂T/∂x</strong>
+            <p style="font-size:.85rem;color:var(--muted)" class="en-only">How temperature changes moving left→right (y and t fixed)</p>
+            <p style="font-size:.85rem" class="te-only te" style="display:none">ఎడమ నుండి కుడికి వెళ్ళినప్పుడు ఉష్ణోగ్రత మార్పు</p>
+          </div>
+          <div class="card" style="margin-bottom:12px">
+            <strong style="color:#5BBFFF">∂T/∂y</strong>
+            <p style="font-size:.85rem;color:var(--muted)" class="en-only">How temperature changes front→back (x and t fixed)</p>
+            <p style="font-size:.85rem" class="te-only te" style="display:none">ముందు నుండి వెనక్కి వెళ్ళినప్పుడు ఉష్ణోగ్రత మార్పు</p>
+          </div>
+          <div class="card">
+            <strong style="color:var(--teal)">∂T/∂t</strong>
+            <p style="font-size:.85rem;color:var(--muted)" class="en-only">How temperature changes over time (position fixed)</p>
+            <p style="font-size:.85rem" class="te-only te" style="display:none">సమయం గడిచే కొద్దీ ఉష్ణోగ్రత మార్పు</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Classroom SVG -->
+      <div id="classroom-wrap">
+        <svg class="class-svg" viewBox="0 0 420 280" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="acGrad" cx="0%" cy="50%" r="100%">
+              <stop offset="0%" stop-color="#0066FF" stop-opacity="0.55"/>
+              <stop offset="40%" stop-color="#0088DD" stop-opacity="0.3"/>
+              <stop offset="100%" stop-color="#FF4400" stop-opacity="0.35"/>
+            </radialGradient>
+            <radialGradient id="warmGrad" cx="100%" cy="50%" r="100%">
+              <stop offset="0%" stop-color="#FF3300" stop-opacity=".4"/>
+              <stop offset="100%" stop-color="transparent"/>
+            </radialGradient>
+          </defs>
+          <!-- Room walls -->
+          <rect x="10" y="10" width="400" height="260" rx="8" fill="#0F2044" stroke="#FF6B1A" stroke-width="1.5"/>
+          <!-- Floor -->
+          <rect x="10" y="210" width="400" height="60" rx="0" fill="#0A1830"/>
+          <!-- Ceiling -->
+          <rect x="10" y="10" width="400" height="22" fill="#0d1a30"/>
+          <!-- Board -->
+          <rect x="260" y="30" width="130" height="70" rx="4" fill="#143060" stroke="#5BBFFF" stroke-width="1"/>
+          <text x="325" y="65" text-anchor="middle" fill="#5BBFFF" font-size="9" font-family="sans-serif">Blackboard</text>
+
+          <!-- Temperature gradient overlay -->
+          <rect x="10" y="32" width="400" height="178" fill="url(#acGrad)"/>
+          <rect x="10" y="32" width="400" height="178" fill="url(#warmGrad)"/>
+
+          <!-- Temp labels -->
+          <rect x="20" y="80" width="44" height="22" rx="4" fill="rgba(0,0,200,.5)"/>
+          <text x="42" y="95" text-anchor="middle" fill="#fff" font-size="9" font-family="sans-serif">22°C</text>
+          <rect x="115" y="80" width="44" height="22" rx="4" fill="rgba(0,80,200,.4)"/>
+          <text x="137" y="95" text-anchor="middle" fill="#fff" font-size="9" font-family="sans-serif">24°C</text>
+          <rect x="210" y="80" width="44" height="22" rx="4" fill="rgba(180,60,0,.4)"/>
+          <text x="232" y="95" text-anchor="middle" fill="#fff" font-size="9" font-family="sans-serif">26°C</text>
+          <rect x="340" y="80" width="44" height="22" rx="4" fill="rgba(220,40,0,.5)"/>
+          <text x="362" y="95" text-anchor="middle" fill="#fff" font-size="9" font-family="sans-serif">28°C</text>
+
+          <!-- AC Unit -->
+          <rect x="18" y="32" width="48" height="18" rx="3" fill="#1a3060" stroke="#00C8A0" stroke-width="1.5"/>
+          <text x="42" y="44" text-anchor="middle" fill="#00C8A0" font-size="8" font-family="sans-serif" font-weight="700">AC ❄</text>
+          <!-- Cold air waves -->
+          <g stroke="#00C8A0" stroke-width="1.2" fill="none" opacity=".6">
+            <path d="M70,38 Q100,32 130,38"><animate attributeName="opacity" values=".6;.2;.6" dur="1.8s" repeatCount="indefinite"/></path>
+            <path d="M70,42 Q110,36 150,42"><animate attributeName="opacity" values=".4;.8;.4" dur="2.2s" repeatCount="indefinite"/></path>
+            <path d="M70,46 Q105,40 140,46"><animate attributeName="opacity" values=".6;.2;.6" dur="1.5s" repeatCount="indefinite"/></path>
+          </g>
+
+          <!-- Desks -->
+          <g fill="#1a2a50" stroke="#334" stroke-width=".5">
+            <rect x="80" y="140" width="50" height="30" rx="3"/>
+            <rect x="170" y="140" width="50" height="30" rx="3"/>
+            <rect x="260" y="140" width="50" height="30" rx="3"/>
+            <rect x="80" y="185" width="50" height="30" rx="3"/>
+            <rect x="170" y="185" width="50" height="30" rx="3"/>
+            <rect x="260" y="185" width="50" height="30" rx="3"/>
+          </g>
+          <!-- People -->
+          <g fill="#4488cc">
+            <circle cx="105" cy="135" r="7"/><rect x="99" y="140" width="12" height="14" rx="2"/>
+            <circle cx="195" cy="135" r="7"/><rect x="189" y="140" width="12" height="14" rx="2"/>
+            <circle cx="285" cy="135" r="7"/><rect x="279" y="140" width="12" height="14" rx="2"/>
+          </g>
+          <!-- Teacher -->
+          <circle cx="210" cy="115" r="8" fill="#FF6B1A"/>
+          <rect x="203" y="121" width="14" height="16" rx="3" fill="#FF6B1A"/>
+
+          <!-- Axes indicator -->
+          <g stroke="#fff" stroke-width="1" opacity=".5">
+            <line x1="18" y1="260" x2="80" y2="260" marker-end="url(#arr)"/>
+            <line x1="18" y1="260" x2="18" y2="200" marker-end="url(#arr)"/>
+          </g>
+          <text x="85" y="264" fill="#fff" font-size="8" font-family="sans-serif" opacity=".7">x</text>
+          <text x="14" y="198" fill="#fff" font-size="8" font-family="sans-serif" opacity=".7">y</text>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Interactive buttons -->
+    <div style="display:flex;gap:12px;margin-top:24px;flex-wrap:wrap">
+      <button onclick="showTempMode('x')"
+        style="background:var(--orange);border:none;color:#fff;padding:10px 22px;border-radius:8px;font-weight:700;cursor:pointer">
+        Fix Time — Move x →
+      </button>
+      <button onclick="showTempMode('y')"
+        style="background:#5BBFFF;border:none;color:#0A1628;padding:10px 22px;border-radius:8px;font-weight:700;cursor:pointer">
+        Fix Time — Move y ↑
+      </button>
+      <button onclick="showTempMode('t')"
+        style="background:var(--teal);border:none;color:#0A1628;padding:10px 22px;border-radius:8px;font-weight:700;cursor:pointer">
+        Fix Position — Change Time
+      </button>
+    </div>
+    <div id="temp-msg" class="card" style="margin-top:16px;display:none;border-color:var(--orange)">
+      <p id="temp-msg-en" class="en-only"></p>
+      <p id="temp-msg-te" class="te-only te" style="display:none"></p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 5: STEEL ROD ===== -->
+<section id="rod" class="section" style="background:var(--navy2)">
+  <div class="container">
+    <div class="sec-head">
+      <div class="badge">Section 4</div>
+      <h2>Steel Rod <span>Heat Conduction</span></h2>
+      <div class="sec-line"></div>
+      <p class="te" style="margin-top:10px">స్టీల్ రాడ్ వేడి వాహకత</p>
+    </div>
+
+    <div class="rod-container">
+      <p class="en-only">One end of a 1m steel rod is held at <strong style="color:#FF2200">500°C</strong>, the other at <strong style="color:#4488FF">100°C</strong>. Temperature decreases linearly along the rod.</p>
+      <p class="te-only te" style="display:none">1m పొడవున్న స్టీల్ రాడ్ ఒక చివర <strong style="color:#FF2200">500°C</strong>, మరో చివర <strong style="color:#4488FF">100°C</strong>. రాడ్ పొడవు పెరిగే కొద్దీ ఉష్ణోగ్రత సరళ రేఖలా తగ్గుతుంది.</p>
+
+      <div class="formula-box" style="margin-top:14px">$$T(x) = 500 - 400x, \quad 0 \leq x \leq 1$$$$\frac{dT}{dx} = -400 \text{ °C/m}$$</div>
+
+      <div class="rod-wrap">
+        <canvas id="rod-canvas" width="900" height="60"></canvas>
+      </div>
+      <div class="rod-labels">
+        <span style="color:#FF2200">🔥 500°C (x = 0)</span>
+        <span>← Heat flows this way →</span>
+        <span style="color:#4488FF">❄ 100°C (x = 1 m)</span>
+      </div>
+      <div class="rod-arrows">
+        <span>←🌡</span><span>←🌡</span><span>←🌡</span><span>←🌡</span><span>←🌡</span>
+      </div>
+
+      <p style="margin-top:16px;color:var(--muted);font-size:.88rem" class="en-only">Here <strong style="color:#5BBFFF">dT/dx</strong> is ordinary differentiation — temperature only depends on position x (steady state, no time dependence).</p>
+      <p style="margin-top:16px;color:var(--amber);font-size:.88rem;font-style:italic" class="te-only te" style="display:none">ఇక్కడ <strong style="color:#5BBFFF">dT/dx</strong> ఆర్డినరీ డిఫరెన్సియేషన్ — స్థిర స్థితిలో ఉష్ణోగ్రత కేవలం స్థానం x పై మాత్రమే ఆధారపడుతుంది.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 6: TIME-DEPENDENT HEATING ===== -->
+<section id="timedep" class="section">
+  <div class="container">
+    <div class="sec-head">
+      <div class="badge">Section 5</div>
+      <h2>Time-Dependent <span>Heating of Rod</span></h2>
+      <div class="sec-line"></div>
+      <p class="te" style="margin-top:10px">సమయంతో పాటు రాడ్ వేడెక్కుట</p>
+    </div>
+
+    <p class="en-only">Now the rod starts at 30°C everywhere. Heat is applied at x=0. As time passes, temperature changes at <em>every position</em> and at <em>every moment</em>. This requires Partial Differentiation.</p>
+    <p class="te-only te" style="display:none;color:var(--amber)">ఇప్పుడు రాడ్ మొత్తం 30°C వద్ద ఉంది. x=0 వద్ద వేడి అందిస్తున్నారు. సమయం గడిచే కొద్దీ ప్రతి స్థానంలో ఉష్ణోగ్రత మారుతుంది — కాబట్టి Partial Differentiation అవసరం.</p>
+
+    <div class="formula-box" style="margin-top:18px">$$\frac{\partial T}{\partial t} = \alpha \frac{\partial^2 T}{\partial x^2}$$<p style="font-size:.8rem;color:var(--muted);margin-top:6px">The Heat Equation — Nobel Prize–level physics!</p></div>
+
+    <div class="time-rod-grid">
+      <div class="rod-container">
+        <strong style="color:var(--muted);font-size:.82rem">t = 0 min (Initial — All 30°C)</strong>
+        <canvas id="rod0" width="500" height="40" style="width:100%;height:40px;border-radius:6px;margin-top:8px;display:block"></canvas>
+      </div>
+      <div class="rod-container">
+        <strong style="color:var(--amber);font-size:.82rem">t = 5 min</strong>
+        <canvas id="rod5" width="500" height="40" style="width:100%;height:40px;border-radius:6px;margin-top:8px;display:block"></canvas>
+      </div>
+      <div class="rod-container">
+        <strong style="color:var(--orange);font-size:.82rem">t = 10 min</strong>
+        <canvas id="rod10" width="500" height="40" style="width:100%;height:40px;border-radius:6px;margin-top:8px;display:block"></canvas>
+      </div>
+      <div class="rod-container">
+        <strong style="color:#FF2200;font-size:.82rem">t = 20 min (Nearly Steady)</strong>
+        <canvas id="rod20" width="500" height="40" style="width:100%;height:40px;border-radius:6px;margin-top:8px;display:block"></canvas>
+      </div>
+    </div>
+
+    <!-- Interactive heat graph -->
+    <div style="margin-top:36px">
+      <h3 style="color:var(--amber);margin-bottom:10px">📊 Temperature Profile — Drag Time Slider</h3>
+      <div class="slider-wrap">
+        <label>⏱ Time: <span id="heat-time-val">0</span> minutes</label>
+        <input type="range" min="0" max="20" step="0.5" value="0" id="heat-slider" oninput="updateHeatGraph(this.value)"/>
+      </div>
+      <canvas id="heat-canvas" width="700" height="260" style="border-radius:var(--r);border:1px solid var(--border);margin-top:12px;background:var(--card)"></canvas>
+      <div style="display:flex;gap:20px;margin-top:10px;flex-wrap:wrap;font-size:.8rem;color:var(--muted)">
+        <span style="color:#4488FF">■ t = 0 min</span>
+        <span style="color:#FFB340">■ Current time</span>
+        <span style="color:#FF2200">■ Steady state</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 7: COMPARISON TABLE ===== -->
+<section id="compare" class="section" style="background:var(--navy2)">
+  <div class="container">
+    <div class="sec-head">
+      <div class="badge">Section 6</div>
+      <h2>Side-by-Side <span>Comparison</span></h2>
+      <div class="sec-line"></div>
+      <p class="te" style="margin-top:10px">తులనాత్మక పట్టిక</p>
+    </div>
+
+    <div style="overflow-x:auto">
+      <table class="cmp-table">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th class="ord">Ordinary Differentiation</th>
+            <th class="par">Partial Differentiation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Variables / వేరియబుల్స్</td>
+            <td class="ord">One (ఒకటి)</td>
+            <td class="par">Many (అనేకం)</td>
+          </tr>
+          <tr>
+            <td>Symbol / చిహ్నం</td>
+            <td class="ord">d (dee)</td>
+            <td class="par">∂ (del / partial)</td>
+          </tr>
+          <tr>
+            <td>Formula</td>
+            <td class="ord">$dy/dx$</td>
+            <td class="par">$\partial T/\partial x$</td>
+          </tr>
+          <tr>
+            <td>Example / ఉదాహరణ</td>
+            <td class="ord">🚗 Car velocity</td>
+            <td class="par">🔥 Rod temperature</td>
+          </tr>
+          <tr>
+            <td>Physics Use / భౌతిక ఉపయోగం</td>
+            <td class="ord">Kinematics, circuits</td>
+            <td class="par">Heat, fluids, EM waves</td>
+          </tr>
+          <tr>
+            <td>Graph / గ్రాఫ్</td>
+            <td class="ord">2D curve (x-y)</td>
+            <td class="par">3D surface (x-y-z)</td>
+          </tr>
+          <tr>
+            <td>Meaning / అర్థం</td>
+            <td class="ord">Total rate of change</td>
+            <td class="par">Rate in ONE direction only</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 8: 3D VISUALIZATION ===== -->
+<section id="viz3d" class="section">
+  <div class="container">
+    <div class="sec-head">
+      <div class="badge">Section 7</div>
+      <h2>3D Surface — <span>T(x, t)</span></h2>
+      <div class="sec-line"></div>
+      <p class="te" style="margin-top:10px">3D ఉపరితలం — స్థానం × సమయం × ఉష్ణోగ్రత</p>
+    </div>
+    <p class="en-only" style="color:var(--muted);text-align:center;margin-bottom:16px">Drag to rotate. Each vertical slice = temperature profile at one instant. Each horizontal slice = one point's temperature over time.</p>
+    <p class="te-only te" style="display:none;color:var(--amber);text-align:center;margin-bottom:16px">లాగి తిప్పవచ్చు. నిలువు కోత = ఒక్క క్షణంలో ఉష్ణోగ్రత. అడ్డు కోత = ఒక స్థానంలో సమయంతో మార్పు.</p>
+    <canvas id="canvas3d" width="700" height="350"></canvas>
+  </div>
+</section>
+
+<!-- ===== SECTION 9: KEY INSIGHT ===== -->
+<section id="insight" class="section" style="background:var(--navy2)">
+  <div class="container">
+    <div class="sec-head">
+      <div class="badge">Section 8</div>
+      <h2>The <span>Key Insight</span></h2>
+      <div class="sec-line"></div>
+    </div>
+    <div class="insight-card">
+      <h3>💡 Why Do Both Exist?</h3>
+      <div class="insight-item">
+        <div class="insight-dot"></div>
+        <div>
+          <strong style="color:#5BBFFF">Ordinary Differentiation</strong>
+          <p class="en-only" style="color:var(--muted);font-size:.9rem">Tracks the rate of change when only ONE variable is changing. Perfect for simple motion, single-loop circuits, free fall.</p>
+          <p class="te-only te" style="display:none;color:var(--amber);font-size:.9rem">ఒకే వేరియబుల్ మారినప్పుడు మొత్తం మార్పు వేగాన్ని కొలుస్తుంది. సాధారణ చలనం, సర్క్యూట్‌లకు సరిపోతుంది.</p>
+        </div>
+      </div>
+      <div class="insight-item">
+        <div class="insight-dot"></div>
+        <div>
+          <strong style="color:var(--orange)">Partial Differentiation</strong>
+          <p class="en-only" style="color:var(--muted);font-size:.9rem">Tracks the rate of change with respect to ONE variable while freezing all others. Lets you isolate individual effects in complex multi-variable systems.</p>
+          <p class="te-only te" style="display:none;color:var(--amber);font-size:.9rem">మిగిలిన వేరియబుల్స్‌ని స్థిరంగా ఉంచి, ఒక వేరియబుల్ ప్రభావాన్ని మాత్రమే అధ్యయనం చేస్తాం. సంక్లిష్ట వ్యవస్థలలో వ్యక్తిగత ప్రభావాలను వేరు చేయడానికి అవసరం.</p>
+        </div>
+      </div>
+      <div class="insight-item">
+        <div class="insight-dot" style="background:var(--teal)"></div>
+        <div>
+          <strong style="color:var(--teal)">The Real Difference</strong>
+          <p class="en-only" style="color:var(--muted);font-size:.9rem">Nature is complex. Temperature, pressure, electric fields — all depend on position, time, and direction simultaneously. Partial Differentiation is the mathematical tool that makes such complexity tractable.</p>
+          <p class="te-only te" style="display:none;color:var(--amber);font-size:.9rem">ప్రకృతి సంక్లిష్టమైనది. ఉష్ణోగ్రత, పీడనం, విద్యుత్ క్షేత్రాలు — అన్నీ ఒకే సమయంలో స్థానం, దిశ, సమయంపై ఆధారపడతాయి. Partial Differentiation అటువంటి సంక్లిష్టతను పరిష్కరించే గణిత సాధనం.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 10: APPLICATIONS ===== -->
+<section id="applications" class="section">
+  <div class="container">
+    <div class="sec-head">
+      <div class="badge">Section 9</div>
+      <h2>Physics <span>Applications</span></h2>
+      <div class="sec-line"></div>
+      <p class="te" style="margin-top:10px">భౌతిక శాస్త్ర అనువర్తనాలు</p>
+    </div>
+
+    <div class="app-grid">
+      <div class="app-card">
+        <div class="app-icon">🚗</div>
+        <h4>Motion / చలనం</h4>
+        <p style="font-size:.8rem;color:var(--muted)" class="en-only">Velocity, acceleration — ordinary derivatives of position.</p>
+        <p class="te te-only" style="display:none">వేగం, త్వరణం — స్థానానికి ఆర్డినరీ డెరివేటివ్‌లు.</p>
+      </div>
+      <div class="app-card">
+        <div class="app-icon">🔥</div>
+        <h4>Heat Transfer / వేడి వాహకత</h4>
+        <p style="font-size:.8rem;color:var(--muted)" class="en-only">The heat equation uses partial derivatives in space and time.</p>
+        <p class="te te-only" style="display:none">వేడి సమీకరణం స్థలం & సమయంలో పార్షియల్ డెరివేటివ్‌లు వాడుతుంది.</p>
+      </div>
+      <div class="app-card">
+        <div class="app-icon">⚡</div>
+        <h4>Electromagnetism</h4>
+        <p style="font-size:.8rem;color:var(--muted)" class="en-only">Maxwell's equations are all partial differential equations.</p>
+        <p class="te te-only" style="display:none">మాక్స్వెల్ సమీకరణాలు అన్నీ పార్షియల్ డిఫరెన్షియల్ సమీకరణాలే.</p>
+      </div>
+      <div class="app-card">
+        <div class="app-icon">🌊</div>
+        <h4>Fluid Flow / ద్రవ ప్రవాహం</h4>
+        <p style="font-size:.8rem;color:var(--muted)" class="en-only">Navier–Stokes equations describe fluid velocity fields.</p>
+        <p class="te te-only" style="display:none">నేవియర్–స్టోక్స్ సమీకరణాలు ద్రవ వేగ క్షేత్రాలను వివరిస్తాయి.</p>
+      </div>
+      <div class="app-card">
+        <div class="app-icon">🛰</div>
+        <h4>Space Science</h4>
+        <p style="font-size:.8rem;color:var(--muted)" class="en-only">Orbital mechanics, gravitational fields — multi-variable problems.</p>
+        <p class="te te-only" style="display:none">కక్ష్య యంత్రశాస్త్రం, గురుత్వాకర్షణ క్షేత్రాలు — బహుళ వేరియబుల్ సమస్యలు.</p>
+      </div>
+      <div class="app-card">
+        <div class="app-icon">🧬</div>
+        <h4>Biology / జీవశాస్త్రం</h4>
+        <p style="font-size:.8rem;color:var(--muted)" class="en-only">Diffusion of oxygen in tissue — uses the heat equation!</p>
+        <p class="te te-only" style="display:none">కణజాలంలో ఆక్సిజన్ వ్యాప్తి — వేడి సమీకరణాన్ని ఉపయోగిస్తుంది!</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="container">
+    <p><strong>VEDAS Academy</strong></p>
+    <p style="margin-top:4px">Beside Market Yard Gate, Near Green Park, Wanaparthy – 509103, Telangana</p>
+    <p style="margin-top:4px">📞 81254 91205 &nbsp;|&nbsp; Faculty: Venkat Ragava (B.Tech ME, M.Tech Thermal Engg.)</p>
+    <p style="margin-top:4px">IIT Foundation · NEET Foundation · Olympiad · Classes 6–11</p>
+    <p style="margin-top:8px;color:rgba(255,255,255,.2);font-size:.75rem">© 2026 VEDAS Academy. Educational content for student use.</p>
+  </div>
+</footer>
+
+<!-- ===== JAVASCRIPT ===== -->
+<script>
+/* ---------- Language Toggle ---------- */
+function toggleLang(){
+  document.body.classList.toggle('telugu');
+  const btn = document.getElementById('lang-toggle');
+  btn.textContent = document.body.classList.contains('telugu') ? 'English' : 'తెలుగు';
+}
+
+/* ---------- Car Slider ---------- */
+function updateCar(t){
+  t = parseFloat(t);
+  const speed = 60;
+  const pos = speed * t;
+  const trackW = document.getElementById('car-track').offsetWidth;
+  const carW = 90;
+  const maxLeft = trackW - carW - 20;
+  const leftPx = Math.min((t/5)*maxLeft, maxLeft);
+  const car = document.getElementById('car-svg');
+  car.style.left = leftPx + 'px';
+  document.getElementById('time-val').textContent = t.toFixed(1);
+  document.getElementById('dp-time').textContent = t.toFixed(1) + ' hr';
+  document.getElementById('dp-pos').textContent = pos.toFixed(0) + ' km';
+  document.getElementById('dp-vel').textContent = '60 km/h';
+  document.getElementById('pos-flag').style.left = (leftPx + 20) + 'px';
+  document.getElementById('pos-flag').textContent = 's = ' + pos.toFixed(0) + ' km';
+}
+
+/* ---------- Rod Canvas: Steady State ---------- */
+function drawRod(canvasId, profile){
+  const cv = document.getElementById(canvasId);
+  if(!cv) return;
+  const ctx = cv.getContext('2d');
+  const W = cv.width, H = cv.height;
+  ctx.clearRect(0,0,W,H);
+  const grad = ctx.createLinearGradient(0,0,W,0);
+  profile.forEach(([stop, r, g, b]) => {
+    grad.addColorStop(stop, `rgb(${r},${g},${b})`);
+  });
+  ctx.fillStyle = grad;
+  ctx.beginPath();
+  ctx.roundRect(0,0,W,H,8);
+  ctx.fill();
+}
+
+function tempToRGB(T){
+  // map 30-500 to blue→cyan→green→yellow→orange→red
+  const t = Math.max(0, Math.min(1, (T-30)/470));
+  let r,g,b;
+  if(t<0.25){ r=0; g=Math.round(t/0.25*150); b=255; }
+  else if(t<0.5){ r=0; g=150+Math.round((t-0.25)/0.25*105); b=255-Math.round((t-0.25)/0.25*255); }
+  else if(t<0.75){ r=Math.round((t-0.5)/0.25*255); g=255-Math.round((t-0.5)/0.25*100); b=0; }
+  else { r=255; g=155-Math.round((t-0.75)/0.25*155); b=0; }
+  return [r,g,b];
+}
+
+function drawSteadyRod(){
+  const cv = document.getElementById('rod-canvas');
+  if(!cv) return;
+  const ctx = cv.getContext('2d');
+  const W = cv.width, H = cv.height;
+  const grad = ctx.createLinearGradient(0,0,W,0);
+  grad.addColorStop(0,'#FF2200');
+  grad.addColorStop(0.25,'#FF6600');
+  grad.addColorStop(0.5,'#FFB340');
+  grad.addColorStop(0.75,'#88BBFF');
+  grad.addColorStop(1,'#4488FF');
+  ctx.fillStyle = grad;
+  ctx.beginPath(); ctx.roundRect(0,5,W,H-10,8); ctx.fill();
+}
+
+/* Heat profile at time t (simplified analytical solution) */
+function heatProfile(t, N=200){
+  // simplified: T(x,t)= 500-400x  + correction for transient
+  // use truncated series: T = Tss + sum bn sin(nπx) exp(-n²π²α t)
+  const alpha = 0.03; // simplified
+  const pts = [];
+  for(let i=0;i<=N;i++){
+    const x = i/N;
+    const Tss = 500 - 400*x;
+    let transient = 0;
+    for(let n=1;n<=8;n++){
+      // b_n for step from T0=30
+      const bn = (2/(n*Math.PI)) * (30 - (500-400*x)) * Math.sin(n*Math.PI*x);
+      const correction = 2*(30-500)/(n*Math.PI) * (Math.cos(n*Math.PI)-1) * Math.sin(n*Math.PI*x) * Math.exp(-n*n*Math.PI*Math.PI*alpha*t);
+      transient += correction;
+    }
+    pts.push(Math.max(30, Math.min(500, Tss + transient)));
+  }
+  return pts;
+}
+
+function drawTimedRod(canvasId, t){
+  const cv = document.getElementById(canvasId);
+  if(!cv) return;
+  const ctx = cv.getContext('2d');
+  const W = cv.width, H = cv.height;
+  ctx.clearRect(0,0,W,H);
+  const pts = heatProfile(t);
+  for(let i=0;i<pts.length-1;i++){
+    const x1 = i/pts.length*W;
+    const x2 = (i+1)/pts.length*W;
+    const avg = (pts[i]+pts[i+1])/2;
+    const [r,g,b] = tempToRGB(avg);
+    ctx.fillStyle = `rgb(${r},${g},${b})`;
+    ctx.fillRect(x1,4,x2-x1+1,H-8);
+  }
+  // rounded clip
+  ctx.save();
+  ctx.globalCompositeOperation='destination-in';
+  ctx.beginPath(); ctx.roundRect(0,0,W,H,6); ctx.fill();
+  ctx.restore();
+}
+
+/* ---------- Heat Graph ---------- */
+function updateHeatGraph(t){
+  t = parseFloat(t);
+  document.getElementById('heat-time-val').textContent = t.toFixed(1);
+  const cv = document.getElementById('heat-canvas');
+  if(!cv) return;
+  const ctx = cv.getContext('2d');
+  const W = cv.width, H = cv.height;
+  ctx.clearRect(0,0,W,H);
+
+  const pad = {l:50,r:20,t:20,b:40};
+  const iW = W-pad.l-pad.r, iH = H-pad.t-pad.b;
+
+  // axes
+  ctx.strokeStyle='rgba(255,255,255,.2)'; ctx.lineWidth=1;
+  ctx.beginPath();
+  ctx.moveTo(pad.l,pad.t); ctx.lineTo(pad.l,H-pad.b);
+  ctx.lineTo(W-pad.r,H-pad.b);
+  ctx.stroke();
+
+  // y labels
+  ctx.fillStyle='rgba(255,255,255,.5)';ctx.font='11px sans-serif';ctx.textAlign='right';
+  [0,100,200,300,400,500].forEach(v=>{
+    const y = H-pad.b - (v/500)*iH;
+    ctx.fillText(v+'°',pad.l-6,y+4);
+    ctx.strokeStyle='rgba(255,255,255,.07)';ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(W-pad.r,y);ctx.stroke();
+  });
+  ctx.textAlign='center';
+  ['0','0.25','0.5','0.75','1'].forEach((v,i)=>{
+    const x = pad.l + i/4*iW;
+    ctx.fillStyle='rgba(255,255,255,.5)';
+    ctx.fillText(v+'m',x,H-pad.b+16);
+  });
+
+  const N=200;
+  // Initial (t=0 approx)
+  const init = heatProfile(0.001);
+  ctx.beginPath(); ctx.strokeStyle='#4488FF'; ctx.lineWidth=1.5;
+  init.forEach((T,i)=>{
+    const x=pad.l+i/N*iW, y=H-pad.b-(T/500)*iH;
+    i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+  });
+  ctx.stroke();
+
+  // Steady state
+  ctx.beginPath(); ctx.strokeStyle='#FF2200'; ctx.lineWidth=1; ctx.setLineDash([6,4]);
+  for(let i=0;i<=N;i++){
+    const x=pad.l+i/N*iW, T=500-400*(i/N), y=H-pad.b-(T/500)*iH;
+    i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+  }
+  ctx.stroke(); ctx.setLineDash([]);
+
+  // Current time
+  const cur = heatProfile(t);
+  ctx.beginPath(); ctx.strokeStyle='#FFB340'; ctx.lineWidth=2.5;
+  cur.forEach((T,i)=>{
+    const x=pad.l+i/N*iW, y=H-pad.b-(T/500)*iH;
+    i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+  });
+  ctx.stroke();
+
+  // axis labels
+  ctx.fillStyle='rgba(255,255,255,.6)';ctx.font='12px sans-serif';
+  ctx.textAlign='center'; ctx.fillText('Position x (m)', pad.l+iW/2, H-2);
+  ctx.save(); ctx.translate(14,pad.t+iH/2); ctx.rotate(-Math.PI/2);
+  ctx.fillText('Temperature (°C)',0,0); ctx.restore();
+}
+
+/* ---------- 3D Canvas ---------- */
+(function(){
+  let angleX = 0.4, angleY = -0.6;
+  let dragging=false, lastX=0, lastY=0;
+  const cv = document.getElementById('canvas3d');
+  if(!cv)return;
+  const ctx = cv.getContext('2d');
+
+  cv.addEventListener('mousedown',e=>{dragging=true;lastX=e.clientX;lastY=e.clientY;cv.style.cursor='grabbing';});
+  cv.addEventListener('mousemove',e=>{if(!dragging)return;angleY+=(e.clientX-lastX)*0.008;angleX+=(e.clientY-lastY)*0.008;lastX=e.clientX;lastY=e.clientY;draw3D();});
+  cv.addEventListener('mouseup',()=>{dragging=false;cv.style.cursor='grab';});
+  cv.addEventListener('mouseleave',()=>{dragging=false;cv.style.cursor='grab';});
+  cv.addEventListener('touchstart',e=>{dragging=true;lastX=e.touches[0].clientX;lastY=e.touches[0].clientY;},{passive:true});
+  cv.addEventListener('touchmove',e=>{if(!dragging)return;angleY+=(e.touches[0].clientX-lastX)*0.008;angleX+=(e.touches[0].clientY-lastY)*0.008;lastX=e.touches[0].clientX;lastY=e.touches[0].clientY;draw3D();},{passive:true});
+  cv.addEventListener('touchend',()=>{dragging=false;});
+
+  function project(x3,y3,z3){
+    const cx=Math.cos(angleY),sx=Math.sin(angleY);
+    const cy=Math.cos(angleX),sy=Math.sin(angleX);
+    const rx=x3*cx-z3*sx, rz=x3*sx+z3*cx;
+    const ry=y3*cy-rz*sy, rz2=y3*sy+rz*cy;
+    const fov=500, scale=fov/(fov+rz2+3);
+    return {x:cv.width/2+rx*scale*90, y:cv.height/2-ry*scale*80};
+  }
+
+  function T3D(x,t){
+    // T(x,t) = 500-400x + transient (simplified)
+    const alpha=0.03;
+    const Tss=500-400*x;
+    let tr=0;
+    for(let n=1;n<=4;n++) tr+=2*(30-500)/(n*Math.PI)*(Math.cos(n*Math.PI)-1)*Math.sin(n*Math.PI*x)*Math.exp(-n*n*Math.PI*Math.PI*alpha*t);
+    return Math.max(30,Math.min(500,Tss+tr));
+  }
+
+  function draw3D(){
+    ctx.clearRect(0,0,cv.width,cv.height);
+    const NX=20, NT=20;
+    // draw grid patches back-to-front (simple)
+    for(let ti=0;ti<NT;ti++){
+      for(let xi=0;xi<NX;xi++){
+        const x=xi/NX, t=ti/NT*20;
+        const T=T3D(x,t);
+        const [r,g,b]=tempToRGB(T);
+        const x1=xi/NX-0.5, x2=(xi+1)/NX-0.5;
+        const t1=ti/NT-0.5, t2=(ti+1)/NT-0.5;
+        const y1=(T-30)/470*0.9-0.45, y2=(T3D((xi+1)/NX,t)-30)/470*0.9-0.45;
+        const y3=(T3D((xi+1)/NX,(ti+1)/NT*20)-30)/470*0.9-0.45;
+        const y4=(T3D(xi/NX,(ti+1)/NT*20)-30)/470*0.9-0.45;
+        const a=project(x1,y1,t1), b2=project(x2,y2,t1), c=project(x2,y3,t2), d=project(x1,y4,t2);
+        ctx.beginPath();
+        ctx.moveTo(a.x,a.y);ctx.lineTo(b2.x,b2.y);ctx.lineTo(c.x,c.y);ctx.lineTo(d.x,d.y);
+        ctx.closePath();
+        ctx.fillStyle=`rgba(${r},${g},${b},0.82)`;
+        ctx.fill();
+        ctx.strokeStyle='rgba(0,0,0,.25)';ctx.lineWidth=.5;ctx.stroke();
+      }
+    }
+    // axis labels
+    const o=project(-0.5,-0.45,-0.5);
+    const xA=project(0.52,-0.45,-0.5);
+    const tA=project(-0.5,-0.45,0.52);
+    const yA=project(-0.5,0.5,-0.5);
+    ctx.strokeStyle='rgba(255,255,255,.4)';ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(o.x,o.y);ctx.lineTo(xA.x,xA.y);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(o.x,o.y);ctx.lineTo(tA.x,tA.y);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(o.x,o.y);ctx.lineTo(yA.x,yA.y);ctx.stroke();
+    ctx.fillStyle='#FFB340';ctx.font='bold 12px sans-serif';
+    ctx.fillText('Position x',xA.x+6,xA.y);
+    ctx.fillStyle='#5BBFFF';ctx.fillText('Time t',tA.x+4,tA.y+4);
+    ctx.fillStyle='#FF6B1A';ctx.fillText('Temp T',yA.x-28,yA.y-6);
+  }
+  draw3D();
+})();
+
+/* ---------- Classroom temp mode ---------- */
+const tempMsgs={
+  x:{en:"∂T/∂x: Moving horizontally (y and t fixed). Temperature rises as you move away from the AC unit.",te:"∂T/∂x: అడ్డంగా కదులుతూ (y మరియు t స్థిరంగా ఉంటే) — AC నుండి దూరం పెరిగే కొద్దీ ఉష్ణోగ్రత పెరుగుతుంది."},
+  y:{en:"∂T/∂y: Moving front to back (x and t fixed). Temperature changes with row position in the classroom.",te:"∂T/∂y: ముందు నుండి వెనక్కి కదులుతూ (x మరియు t స్థిరంగా ఉంటే) — వరుస స్థానంతో ఉష్ణోగ్రత మారుతుంది."},
+  t:{en:"∂T/∂t: Waiting at one spot (x and y fixed). Temperature drops as the AC runs longer and cools the room.",te:"∂T/∂t: ఒకే చోట నిలబడి (x మరియు y స్థిరంగా ఉంటే) — AC ఎక్కువ సేపు నడిచే కొద్దీ ఉష్ణోగ్రత తగ్గుతుంది."},
+};
+function showTempMode(mode){
+  const box=document.getElementById('temp-msg');
+  box.style.display='block';
+  document.getElementById('temp-msg-en').textContent=tempMsgs[mode].en;
+  document.getElementById('temp-msg-te').textContent=tempMsgs[mode].te;
+}
+
+/* ---------- Init ---------- */
+window.addEventListener('load',()=>{
+  drawSteadyRod();
+  drawTimedRod('rod0', 0.001);
+  drawTimedRod('rod5', 5);
+  drawTimedRod('rod10', 10);
+  drawTimedRod('rod20', 20);
+  updateHeatGraph(0);
+  MathJax.typesetPromise && MathJax.typesetPromise();
+});
+window.addEventListener('resize',()=>{drawSteadyRod();});
+</script>
+</body>
+</html>
