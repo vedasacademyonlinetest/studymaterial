@@ -1,0 +1,1754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Understanding Derivatives – VEDAS Academy</title>
+<style>
+:root {
+  --ink: #0f1117;
+  --paper: #f7f5ef;
+  --accent: #e84b30;
+  --gold: #c47d00;
+  --teal: #1a8c7a;
+  --violet: #6c45d6;
+  --sky: #2978e8;
+  --glass-bg: rgba(255,255,255,0.85);
+  --glass-border: rgba(0,0,0,0.10);
+  --grad1: #f0f4f8;
+  --grad2: linear-gradient(135deg,#1a8c7a,#2978e8);
+  --grad3: linear-gradient(135deg,#6c45d6,#e84b30);
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+html{scroll-behavior:smooth;}
+
+body{
+  font-family:'Segoe UI',system-ui,sans-serif;
+  background:#f0f4f8;
+  color:#1a1a2e;
+  overflow-x:hidden;
+  min-height:100vh;
+}
+
+/* ── TYPOGRAPHY ── */
+.en{font-family:'Segoe UI',sans-serif;font-weight:500;line-height:1.7;}
+.te{font-family:'Noto Sans Telugu','Segoe UI',sans-serif;font-weight:400;
+    color:#1a6b5a;font-size:0.93em;line-height:1.9;margin-top:6px;}
+
+h1,h2,h3{font-weight:800;letter-spacing:-0.02em;}
+
+/* ── LAYOUT ── */
+.container{max-width:960px;margin:0 auto;padding:0 20px;}
+
+/* ── NAV ── */
+nav{
+  position:sticky;top:0;z-index:100;
+  background:rgba(255,255,255,0.95);
+  backdrop-filter:blur(18px);
+  border-bottom:1px solid rgba(0,0,0,0.10);
+  padding:12px 20px;
+  display:flex;align-items:center;gap:12px;
+}
+.nav-logo{
+  font-size:1.1rem;font-weight:900;
+  background:linear-gradient(90deg,#f5a623,#e84b30);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  letter-spacing:0.05em;
+}
+.nav-sub{font-size:0.72rem;color:rgba(30,30,60,0.5);margin-left:auto;}
+
+/* ── HERO ── */
+.hero{
+  min-height:92vh;display:flex;flex-direction:column;
+  justify-content:center;align-items:center;text-align:center;
+  padding:60px 20px;
+  position:relative;overflow:hidden;
+}
+.hero-bg-circle{
+  position:absolute;border-radius:50%;filter:blur(80px);opacity:0.08;pointer-events:none;
+}
+.hbc1{width:600px;height:600px;background:#6c45d6;top:-200px;right:-200px;}
+.hbc2{width:400px;height:400px;background:#1a8c7a;bottom:-100px;left:-100px;}
+.hbc3{width:300px;height:300px;background:#e84b30;top:40%;left:50%;transform:translateX(-50%);}
+
+.hero-eyebrow{
+  font-size:0.72rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;
+  color:#b87a00;border:1px solid #b87a00;padding:4px 14px;border-radius:20px;
+  margin-bottom:24px;display:inline-block;
+}
+.hero h1{
+  font-size:clamp(2.2rem,6vw,4.2rem);
+  line-height:1.1;
+  background:linear-gradient(135deg,#0f1117 0%,#1a6b5a 40%,#2978e8 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  margin-bottom:12px;
+}
+.hero-te{
+  font-family:'Noto Sans Telugu',sans-serif;
+  font-size:clamp(1.1rem,3vw,1.8rem);
+  color:#1a6b5a;margin-bottom:28px;
+}
+.hero-desc{
+  max-width:620px;color:rgba(20,20,50,0.68);
+  font-size:1.05rem;line-height:1.75;margin-bottom:10px;
+}
+.hero-desc-te{
+  font-family:'Noto Sans Telugu',sans-serif;
+  max-width:620px;color:rgba(26,107,90,0.75);
+  font-size:0.93rem;line-height:1.9;margin-bottom:40px;
+}
+.scroll-hint{
+  margin-top:40px;animation:bounce 2s infinite;
+  color:rgba(20,20,50,0.40);font-size:0.8rem;
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+}
+.scroll-arrow{width:24px;height:24px;border-right:2px solid rgba(20,20,50,0.25);
+  border-bottom:2px solid rgba(20,20,50,0.25);transform:rotate(45deg);}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
+
+/* ── SECTION WRAPPER ── */
+.section{
+  padding:80px 0;
+  position:relative;
+}
+.section:nth-child(even){background:rgba(26,120,100,0.03);}
+
+.sec-header{margin-bottom:48px;text-align:center;}
+.sec-num{
+  font-size:0.7rem;font-weight:800;letter-spacing:0.18em;text-transform:uppercase;
+  color:#8a5500;margin-bottom:8px;
+}
+.sec-title{
+  font-size:clamp(1.6rem,4vw,2.4rem);
+  background:linear-gradient(90deg,#0f1117,#1a6b5a);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  margin-bottom:8px;
+}
+.sec-title-te{
+  font-family:'Noto Sans Telugu',sans-serif;
+  font-size:clamp(1rem,2.5vw,1.4rem);
+  color:#1a6b5a;
+}
+.sec-divider{
+  width:60px;height:3px;margin:20px auto 0;
+  background:linear-gradient(90deg,var(--teal),var(--sky));
+  border-radius:3px;
+}
+
+/* ── GLASS CARD ── */
+.card{
+  background:#ffffff;
+  border:1px solid rgba(0,0,0,0.09);
+  backdrop-filter:blur(4px);
+  border-radius:20px;
+  padding:32px;
+  margin-bottom:24px;
+  transition:transform 0.3s ease,box-shadow 0.3s ease;
+}
+.card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 20px 60px rgba(0,0,0,0.10);
+}
+.card-accent-teal{border-top:3px solid var(--teal);}
+.card-accent-violet{border-top:3px solid var(--violet);}
+.card-accent-gold{border-top:3px solid var(--gold);}
+.card-accent-red{border-top:3px solid var(--accent);}
+.card-accent-sky{border-top:3px solid var(--sky);}
+
+/* ── GRID ── */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+@media(max-width:700px){
+  .grid-2,.grid-3{grid-template-columns:1fr;}
+}
+
+/* ── HIGHLIGHT BOX ── */
+.highlight{
+  background:linear-gradient(135deg,rgba(26,140,122,0.07),rgba(41,120,232,0.07));
+  border-left:4px solid var(--teal);
+  border-radius:0 12px 12px 0;
+  padding:20px 24px;
+  margin:20px 0;
+}
+.highlight-violet{
+  background:linear-gradient(135deg,rgba(108,69,214,0.07),rgba(232,75,48,0.07));
+  border-left:4px solid var(--violet);
+}
+.highlight-gold{
+  background:linear-gradient(135deg,rgba(245,166,35,0.08),rgba(232,75,48,0.08));
+  border-left:4px solid var(--gold);
+}
+
+/* ── FORMULA BOX ── */
+.formula{
+  font-family:'Courier New',monospace;
+  font-size:1.4rem;font-weight:700;
+  text-align:center;
+  background:rgba(26,140,122,0.05);
+  border:1px solid rgba(245,166,35,0.5);
+  border-radius:12px;
+  padding:20px;
+  color:#8a5500;
+  margin:20px 0;
+  letter-spacing:0.04em;
+}
+.formula sup{font-size:0.65em;vertical-align:super;}
+.formula sub{font-size:0.65em;vertical-align:sub;}
+
+/* ── EXAMPLE TABLE ── */
+.etable{
+  width:100%;border-collapse:collapse;
+  font-size:1rem;
+}
+.etable th{
+  background:rgba(26,140,122,0.06);
+  color:#0d5748;
+  padding:10px 16px;text-align:left;
+  font-size:0.8rem;text-transform:uppercase;letter-spacing:0.08em;
+}
+.etable td{
+  padding:10px 16px;
+  border-bottom:1px solid rgba(0,0,0,0.06);
+  font-size:0.95rem;
+}
+.etable tr:hover td{background:rgba(0,0,0,0.02);}
+.em-en{font-weight:600;color:#1a1a3e;}
+.em-arrow{color:#8a5500;font-size:1.3rem;}
+.em-result{color:#0d6b58;}
+.em-te{font-family:'Noto Sans Telugu',sans-serif;font-size:0.82rem;color:#1a6b5a;}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(30px);}
+  to{opacity:1;transform:translateY(0);}
+}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+@keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.04);}}
+@keyframes spin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}  }
+@keyframes growRight{from{width:0;}to{width:100%;}}
+
+.fade-up{animation:fadeUp 0.7s ease forwards;}
+.anim-delay-1{animation-delay:0.1s;opacity:0;}
+.anim-delay-2{animation-delay:0.2s;opacity:0;}
+.anim-delay-3{animation-delay:0.3s;opacity:0;}
+
+/* ── SLIDER ── */
+.slider-wrap{margin:20px 0;}
+.slider-label{
+  display:flex;justify-content:space-between;
+  font-size:0.85rem;color:rgba(20,20,50,0.60);margin-bottom:8px;
+}
+input[type=range]{
+  width:100%;
+  -webkit-appearance:none;
+  height:6px;
+  border-radius:3px;
+  background:linear-gradient(90deg,var(--teal),var(--sky));
+  outline:none;
+}
+input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;
+  width:20px;height:20px;
+  border-radius:50%;
+  background:#2978e8;
+  box-shadow:0 2px 8px rgba(0,0,0,0.4);
+  cursor:pointer;
+}
+
+/* ── QUIZ ── */
+.q-block{
+  background:#fff;
+  border:1px solid rgba(108,69,214,0.2);
+  border-radius:16px;
+  padding:28px;
+  margin-bottom:20px;
+}
+.q-num{
+  font-size:0.72rem;font-weight:800;letter-spacing:0.12em;
+  color:var(--violet);text-transform:uppercase;margin-bottom:8px;
+}
+.q-text{font-size:1.05rem;font-weight:600;margin-bottom:6px;color:#1a1a2e;}
+.q-te{font-family:'Noto Sans Telugu',sans-serif;
+  font-size:0.88rem;color:#5a3db0;margin-bottom:16px;}
+.q-options{display:flex;flex-direction:column;gap:10px;margin-bottom:16px;}
+.q-opt{
+  background:#f5f5fa;
+  border:1px solid rgba(0,0,0,0.10);
+  border-radius:10px;padding:12px 16px;
+  cursor:pointer;transition:all 0.2s ease;
+  font-size:0.95rem;
+}
+.q-opt:hover{background:rgba(108,69,214,0.25);border-color:var(--violet);}
+.q-opt.correct{background:rgba(26,140,122,0.3);border-color:var(--teal);}
+.q-opt.wrong{background:rgba(232,75,48,0.25);border-color:var(--accent);}
+.q-explanation{
+  display:none;
+  background:rgba(26,140,122,0.06);
+  border-left:3px solid var(--teal);
+  border-radius:0 10px 10px 0;
+  padding:16px;margin-top:12px;
+  font-size:0.9rem;line-height:1.7;
+}
+.q-explanation.show{display:block;animation:fadeIn 0.4s ease;}
+.q-exp-te{
+  font-family:'Noto Sans Telugu',sans-serif;
+  font-size:0.83rem;color:#1a6b5a;margin-top:8px;
+}
+
+/* ── MISCONCEPTION ── */
+.myth-card{
+  display:flex;gap:16px;align-items:flex-start;
+  background:rgba(232,75,48,0.05);
+  border:1px solid rgba(232,75,48,0.20);
+  border-radius:14px;padding:20px;margin-bottom:16px;
+}
+.myth-icon{font-size:1.8rem;flex-shrink:0;}
+.truth-card{
+  display:flex;gap:16px;align-items:flex-start;
+  background:rgba(26,140,122,0.05);
+  border:1px solid rgba(26,140,122,0.22);
+  border-radius:14px;padding:20px;margin-bottom:16px;
+}
+
+/* ── FINAL QUOTE ── */
+.quote-section{
+  padding:80px 20px;
+  text-align:center;
+  background:radial-gradient(ellipse at center,rgba(108,69,214,0.06) 0%,transparent 70%);
+}
+.big-quote{
+  font-size:clamp(1.4rem,3.5vw,2.2rem);
+  font-weight:800;
+  line-height:1.45;
+  background:linear-gradient(135deg,#0f1117 0%,#1a6b5a 40%,#2978e8 80%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  max-width:800px;margin:0 auto 24px;
+}
+.big-quote-te{
+  font-family:'Noto Sans Telugu',sans-serif;
+  font-size:clamp(1rem,2.5vw,1.5rem);
+  color:#1a6b5a;max-width:800px;margin:0 auto;
+  line-height:1.9;
+}
+.quote-attr{
+  margin-top:20px;font-size:0.78rem;letter-spacing:0.12em;
+  text-transform:uppercase;color:rgba(20,20,50,0.40);
+}
+
+/* ── BADGE ── */
+.badge{
+  display:inline-block;padding:3px 10px;border-radius:20px;
+  font-size:0.72rem;font-weight:700;letter-spacing:0.06em;
+  text-transform:uppercase;margin-right:8px;
+}
+.badge-teal{background:rgba(26,140,122,0.25);color:#0a5c4c;border:1px solid rgba(26,140,122,0.4);}
+.badge-violet{background:rgba(108,69,214,0.10);color:#4a2ab0;border:1px solid rgba(108,69,214,0.4);}
+.badge-gold{background:rgba(180,120,0,0.10);color:#7a5000;border:1px solid rgba(245,166,35,0.35);}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar{width:6px;}
+::-webkit-scrollbar-track{background:rgba(0,0,0,0.05);}
+::-webkit-scrollbar-thumb{background:var(--teal);border-radius:3px;}
+
+/* ── FOOTER ── */
+footer{
+  background:#1a1f35;
+  border-top:1px solid rgba(255,255,255,0.08);
+  padding:32px 20px;text-align:center;
+}
+.footer-logo{
+  font-size:1.4rem;font-weight:900;
+  background:linear-gradient(90deg,#f5a623,#e84b30);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  margin-bottom:8px;
+}
+.footer-sub{font-size:0.78rem;color:rgba(20,20,50,0.40);line-height:1.7;}
+
+/* intersection observer fade */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity 0.7s ease,transform 0.7s ease;}
+.reveal.visible{opacity:1;transform:none;}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">VEDAS ACADEMY</div>
+  <div class="nav-sub">IIT Foundation · JEE · NEET · Olympiad &nbsp;|&nbsp; Wanaparthy</div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-circle hbc1"></div>
+  <div class="hero-bg-circle hbc2"></div>
+  <div class="hero-bg-circle hbc3"></div>
+
+  <!-- Hero SVG: animated curve + point -->
+  <svg width="260" height="120" viewBox="0 0 260 120" style="margin-bottom:28px;opacity:0.9;" aria-hidden="true">
+    <defs>
+      <linearGradient id="hg1" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#1a8c7a"/>
+        <stop offset="100%" stop-color="#f5a623"/>
+      </linearGradient>
+    </defs>
+    <!-- axes -->
+    <line x1="20" y1="100" x2="240" y2="100" stroke="rgba(20,20,50,0.15)" stroke-width="1.5"/>
+    <line x1="20" y1="10" x2="20" y2="100" stroke="rgba(20,20,50,0.15)" stroke-width="1.5"/>
+    <!-- curve: y = 80 - 0.003*(x-20)^2 * scale so it fits -->
+    <path d="M20,98 C60,95 80,70 110,50 S170,20 240,10" fill="none" stroke="url(#hg1)" stroke-width="3" stroke-linecap="round"/>
+    <!-- tangent at x=110, y=50 -->
+    <line x1="80" y1="65" x2="145" y2="35" stroke="#f5a623" stroke-width="1.5" stroke-dasharray="5,4" opacity="0.7"/>
+    <!-- moving dot -->
+    <circle cx="110" cy="50" r="6" fill="#f5a623">
+      <animate attributeName="cx" values="60;170;60" dur="4s" repeatCount="indefinite"/>
+      <animate attributeName="cy" values="80;15;80" dur="4s" repeatCount="indefinite"/>
+    </circle>
+    <!-- tangent label -->
+    <text x="148" y="32" font-size="10" fill="rgba(245,166,35,0.8)" font-family="Courier New">slope = dy/dx</text>
+  </svg>
+
+  <div class="hero-eyebrow">IIT Foundation · Olympiad · NEET Foundation</div>
+  <h1>Understanding Derivatives<br>Through Real-Life Thinking</h1>
+  <p class="hero-te">వాస్తవ జీవితం ద్వారా డెరివేటివ్‌లను అర్థం చేసుకోవడం</p>
+  <p class="hero-desc">This is not a formula sheet. This is a journey into <em>why</em> calculus exists — told through squares, cubes, circles, motion, and change.</p>
+  <p class="hero-desc-te">ఇది ఫార్ముల పట్టిక కాదు. ఇది క్యాల్క్యులస్ ఎందుకు అస్తిత్వంలో ఉందో అర్థం చేసుకునే ప్రయాణం — చతురస్రాలు, ఘనాలు, వృత్తాలు, చలనం మరియు మార్పు ద్వారా.</p>
+
+  <div class="scroll-hint">
+    <span>Scroll to begin</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     SECTION 1 — PHILOSOPHY OF DIFFERENTIATION
+════════════════════════════════════════════ -->
+<section class="section" id="s1">
+<div class="container">
+  <div class="sec-header reveal">
+    <div class="sec-num">Section 01</div>
+    <h2 class="sec-title">The Philosophy of Differentiation</h2>
+    <p class="sec-title-te">విభేదనం యొక్క తత్వశాస్త్రం</p>
+    <div class="sec-divider"></div>
+  </div>
+
+  <!-- Big idea card -->
+  <div class="card card-accent-teal reveal">
+    <p class="en" style="font-size:1.15rem;font-weight:700;color:#fff;">
+      Differentiation is <span style="color:var(--gold)">NOT</span> a formula. It is a way of asking a single powerful question:
+    </p>
+    <p class="te">విభేదనం ఫార్ముల కాదు. ఇది ఒక శక్తివంతమైన ప్రశ్న అడగడానికి ఒక మార్గం:</p>
+    <div class="formula" style="margin-top:20px;font-size:1.6rem;">
+      "How fast is something changing?"<br>
+      <span style="font-family:'Noto Sans Telugu',sans-serif;font-size:1rem;color:#0a5c4c;font-weight:400;">"ఏదైనా ఎంత వేగంగా మారుతోంది?"</span>
+    </div>
+    <p class="en">Every derivative formula you will ever learn is simply the <em>answer</em> to this question for a specific situation. The formula did not appear from thin air — it was discovered by asking this question carefully.</p>
+    <p class="te">మీరు నేర్చుకునే ప్రతి డెరివేటివ్ ఫార్ముల ఒక నిర్దిష్ట పరిస్థితిలో ఈ ప్రశ్నకు <em>సమాధానం</em> మాత్రమే. ఫార్ముల ఆకాశం నుండి పడలేదు — ఈ ప్రశ్నను జాగ్రత్తగా అడగడం ద్వారా అది కనుగొనబడింది.</p>
+  </div>
+
+  <!-- Real-life table -->
+  <div class="card card-accent-gold reveal">
+    <h3 class="en" style="margin-bottom:6px;">Real-Life Examples of Rate of Change</h3>
+    <p class="te" style="margin-bottom:20px;">మార్పు రేటు యొక్క వాస్తవ జీవిత ఉదాహరణలు</p>
+
+    <div style="overflow-x:auto;">
+    <table class="etable">
+      <thead>
+        <tr>
+          <th>What we measure</th>
+          <th>→</th>
+          <th>What derivative tells us</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="em-en">Distance (s)</span><br><span class="em-te">దూరం</span></td>
+          <td class="em-arrow">→</td>
+          <td><span class="em-result">Velocity (ds/dt)</span><br><span class="em-te">వేగం</span></td>
+        </tr>
+        <tr>
+          <td><span class="em-en">Velocity (v)</span><br><span class="em-te">వేగం</span></td>
+          <td class="em-arrow">→</td>
+          <td><span class="em-result">Acceleration (dv/dt)</span><br><span class="em-te">త్వరణం</span></td>
+        </tr>
+        <tr>
+          <td><span class="em-en">Population (P)</span><br><span class="em-te">జనాభా</span></td>
+          <td class="em-arrow">→</td>
+          <td><span class="em-result">Growth Rate (dP/dt)</span><br><span class="em-te">వృద్ధి రేటు</span></td>
+        </tr>
+        <tr>
+          <td><span class="em-en">Temperature (T)</span><br><span class="em-te">ఉష్ణోగ్రత</span></td>
+          <td class="em-arrow">→</td>
+          <td><span class="em-result">Heating Rate (dT/dt)</span><br><span class="em-te">వేడెక్కే రేటు</span></td>
+        </tr>
+        <tr>
+          <td><span class="em-en">Square Area (A)</span><br><span class="em-te">చతురస్రం వైశాల్యం</span></td>
+          <td class="em-arrow">→</td>
+          <td><span class="em-result">Area Growth Rate (dA/dx)</span><br><span class="em-te">వైశాల్య వృద్ధి రేటు</span></td>
+        </tr>
+        <tr>
+          <td><span class="em-en">Stock Price (S)</span><br><span class="em-te">స్టాక్ ధర</span></td>
+          <td class="em-arrow">→</td>
+          <td><span class="em-result">Price Change Rate (dS/dt)</span><br><span class="em-te">ధర మార్పు రేటు</span></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <!-- SVG: rate of change illustration -->
+  <div class="card reveal" style="text-align:center;">
+    <p class="en" style="margin-bottom:16px;font-weight:600;">A derivative is the <span style="color:var(--gold)">slope</span> of a curve at any point — the steeper the curve, the faster the change.</p>
+    <p class="te" style="margin-bottom:20px;">ఒక డెరివేటివ్ అనేది ఏ బిందువు వద్దైనా వక్రరేఖ యొక్క వాలు — వక్రరేఖ నిటారుగా ఉంటే, మార్పు వేగంగా ఉంటుంది.</p>
+    <svg id="roc-svg" viewBox="0 0 460 200" width="100%" style="max-width:460px;" aria-label="Rate of change graph">
+      <defs>
+        <linearGradient id="g-curve" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#1a8c7a"/>
+          <stop offset="100%" stop-color="#f5a623"/>
+        </linearGradient>
+      </defs>
+      <!-- grid lines -->
+      <line x1="40" y1="20" x2="40" y2="170" stroke="rgba(20,20,50,0.08)" stroke-width="1"/>
+      <line x1="40" y1="170" x2="440" y2="170" stroke="rgba(20,20,50,0.08)" stroke-width="1"/>
+      <line x1="40" y1="120" x2="440" y2="120" stroke="rgba(20,20,50,0.05)" stroke-dasharray="4,4"/>
+      <line x1="40" y1="70" x2="440" y2="70" stroke="rgba(20,20,50,0.05)" stroke-dasharray="4,4"/>
+      <!-- parabola y = 170 - 0.003*(x-40)^2 scaled -->
+      <path d="M40,167 Q120,155 200,120 Q280,75 360,38 Q400,22 440,12" fill="none" stroke="url(#g-curve)" stroke-width="3" stroke-linecap="round"/>
+      <!-- three tangent lines at x=80,200,360 -->
+      <line x1="60" y1="162" x2="110" y2="158" stroke="rgba(245,166,35,0.5)" stroke-width="1.5" stroke-dasharray="5,3"/>
+      <line x1="165" y1="130" x2="240" y2="108" stroke="rgba(245,166,35,0.7)" stroke-width="1.5" stroke-dasharray="5,3"/>
+      <line x1="310" y1="55" x2="415" y2="20" stroke="rgba(245,166,35,0.9)" stroke-width="1.5" stroke-dasharray="5,3"/>
+      <!-- dots -->
+      <circle cx="80" cy="160" r="5" fill="#9be8d8"/>
+      <circle cx="200" cy="120" r="5" fill="#f5a623"/>
+      <circle cx="360" cy="38" r="5" fill="#e84b30"/>
+      <!-- labels -->
+      <text x="60" y="180" font-size="9" fill="rgba(155,232,216,0.7)" font-family="sans-serif">Slow change</text>
+      <text x="175" y="145" font-size="9" fill="rgba(245,166,35,0.8)" font-family="sans-serif">Medium</text>
+      <text x="340" y="28" font-size="9" fill="rgba(232,75,48,0.9)" font-family="sans-serif">Fast!</text>
+      <!-- axis labels -->
+      <text x="230" y="190" font-size="10" fill="rgba(20,20,50,0.40)" font-family="sans-serif" text-anchor="middle">x (side / time / input)</text>
+      <text x="15" y="100" font-size="10" fill="rgba(20,20,50,0.40)" font-family="sans-serif" text-anchor="middle" transform="rotate(-90,15,100)">f(x)</text>
+    </svg>
+    <p style="font-size:0.82rem;color:rgba(20,20,50,0.45);margin-top:8px;">
+      The tangent line's steepness = the derivative value at that point &nbsp;|&nbsp; 
+      <span style="font-family:'Noto Sans Telugu',sans-serif;">టాంజెంట్ వాలు = ఆ బిందువు వద్ద డెరివేటివ్ విలువ</span>
+    </p>
+  </div>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     SECTION 2 — WHY d(x²)/dx = 2x
+════════════════════════════════════════════ -->
+<section class="section" id="s2">
+<div class="container">
+  <div class="sec-header reveal">
+    <div class="sec-num">Section 02</div>
+    <h2 class="sec-title">Why does d(x²)/dx = 2x ?</h2>
+    <p class="sec-title-te">d(x²)/dx = 2x ఎందుకు అవుతుంది?</p>
+    <div class="sec-divider"></div>
+  </div>
+
+  <div class="card card-accent-sky reveal">
+    <p class="en" style="font-size:1.05rem;font-weight:600;">Don't start with algebra. Start with a square tile on the floor.</p>
+    <p class="te">బీజగణితంతో మొదలు పెట్టకండి. నేలపై చతురస్ర అంచుతో మొదలు పెట్టండి.</p>
+    <div class="highlight" style="margin-top:16px;">
+      <p class="en">You have a square. Its side is <strong>x</strong> cm. Its area is <strong>x²</strong> cm². Now ask: <em>"If the side grows by a tiny amount, how quickly does the area grow?"</em></p>
+      <p class="te">మీకు ఒక చతురస్రం ఉంది. దాని భుజం <strong>x</strong> సెంటీమీటర్లు. దాని వైశాల్యం <strong>x²</strong> చ.సెం.మీ. ఇప్పుడు అడగండి: <em>"భుజం కొంచెం పెరిగితే, వైశాల్యం ఎంత వేగంగా పెరుగుతుంది?"</em></p>
+    </div>
+  </div>
+
+  <!-- Interactive square comparison -->
+  <div class="card card-accent-violet reveal">
+    <h3 class="en" style="margin-bottom:4px;">Observe the Pattern</h3>
+    <p class="te" style="margin-bottom:20px;">నమూనాను గమనించండి</p>
+
+    <div class="grid-2">
+      <!-- Case 1: x=10 -->
+      <div style="text-align:center;">
+        <p class="en" style="font-weight:700;color:var(--teal);margin-bottom:12px;">Small Square (side = 10)</p>
+        <p class="te" style="margin-bottom:12px;">చిన్న చతురస్రం (భుజం = 10)</p>
+        <svg viewBox="0 0 140 140" width="140" height="140" style="display:block;margin:0 auto 10px;">
+          <rect x="10" y="10" width="100" height="100" fill="rgba(26,140,122,0.25)" stroke="#1a8c7a" stroke-width="2"/>
+          <rect x="10" y="10" width="110" height="110" fill="none" stroke="rgba(245,166,35,0.5)" stroke-width="1.5" stroke-dasharray="5,3"/>
+          <!-- new strips -->
+          <rect x="110" y="10" width="10" height="100" fill="rgba(245,166,35,0.3)" stroke="#f5a623" stroke-width="1"/>
+          <rect x="10" y="110" width="100" height="10" fill="rgba(245,166,35,0.3)" stroke="#f5a623" stroke-width="1"/>
+          <rect x="110" y="110" width="10" height="10" fill="rgba(232,75,48,0.5)" stroke="#e84b30" stroke-width="1"/>
+          <!-- labels -->
+          <text x="60" y="65" text-anchor="middle" font-size="13" fill="#9be8d8" font-weight="bold">10×10=100</text>
+          <text x="115" y="65" text-anchor="middle" font-size="8" fill="#f5a623" transform="rotate(90,115,65)">+10</text>
+          <text x="60" y="125" text-anchor="middle" font-size="8" fill="#f5a623">+10</text>
+          <text x="115" y="125" text-anchor="middle" font-size="7" fill="#e84b30">+1</text>
+        </svg>
+        <div style="background:rgba(0,0,0,0.04);border-radius:10px;padding:12px;font-size:0.88rem;">
+          <p>Side 10 → Area = 100</p>
+          <p>Side 11 → Area = 121</p>
+          <p style="color:#8a5500;font-weight:700;">Increase = 21 ≈ 2×10 + 1</p>
+          <p class="te" style="font-size:0.78rem;">పెరుగుదల = 21 ≈ 2×10 + 1</p>
+        </div>
+      </div>
+
+      <!-- Case 2: x=50 -->
+      <div style="text-align:center;">
+        <p class="en" style="font-weight:700;color:var(--violet);margin-bottom:12px;">Large Square (side = 50)</p>
+        <p class="te" style="margin-bottom:12px;">పెద్ద చతురస్రం (భుజం = 50)</p>
+        <svg viewBox="0 0 140 140" width="140" height="140" style="display:block;margin:0 auto 10px;">
+          <rect x="5" y="5" width="110" height="110" fill="rgba(108,69,214,0.2)" stroke="#6c45d6" stroke-width="2"/>
+          <rect x="5" y="5" width="120" height="120" fill="none" stroke="rgba(245,166,35,0.5)" stroke-width="1.5" stroke-dasharray="5,3"/>
+          <rect x="115" y="5" width="10" height="110" fill="rgba(245,166,35,0.35)" stroke="#f5a623" stroke-width="1"/>
+          <rect x="5" y="115" width="110" height="10" fill="rgba(245,166,35,0.35)" stroke="#f5a623" stroke-width="1"/>
+          <rect x="115" y="115" width="10" height="10" fill="rgba(232,75,48,0.5)" stroke="#e84b30" stroke-width="1"/>
+          <text x="60" y="62" text-anchor="middle" font-size="11" fill="#c8b8f8" font-weight="bold">50×50</text>
+          <text x="60" y="78" text-anchor="middle" font-size="10" fill="#c8b8f8">=2500</text>
+          <text x="120" y="62" text-anchor="middle" font-size="8" fill="#f5a623" transform="rotate(90,120,62)">+50</text>
+          <text x="60" y="128" text-anchor="middle" font-size="8" fill="#f5a623">+50</text>
+          <text x="120" y="128" text-anchor="middle" font-size="7" fill="#e84b30">+1</text>
+        </svg>
+        <div style="background:rgba(0,0,0,0.04);border-radius:10px;padding:12px;font-size:0.88rem;">
+          <p>Side 50 → Area = 2500</p>
+          <p>Side 51 → Area = 2601</p>
+          <p style="color:#8a5500;font-weight:700;">Increase = 101 ≈ 2×50 + 1</p>
+          <p class="te" style="font-size:0.78rem;">పెరుగుదల = 101 ≈ 2×50 + 1</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Key question -->
+    <div class="highlight-gold" style="margin-top:24px;border-radius:12px;padding:20px;">
+      <p class="en" style="font-size:1.05rem;font-weight:700;color:#f5d080;">
+        🤔 Why does area increase <em>faster</em> when the side is larger?
+      </p>
+      <p class="te">చతురస్రం భుజం పెద్దదైనప్పుడు వైశాల్యం <em>వేగంగా</em> ఎందుకు పెరుగుతుంది?</p>
+      <p class="en" style="margin-top:12px;">Because when the side is larger, you are adding strips to <strong>all four edges</strong> — and longer edges mean wider strips!</p>
+      <p class="te">ఎందుకంటే భుజం పెద్దదైనప్పుడు, <strong>నాలుగు అంచుల</strong> అన్నింటికీ పట్టీలు జోడిస్తున్నారు — మరియు పొడవైన అంచులు అంటే వెడల్పైన పట్టీలు!</p>
+    </div>
+  </div>
+
+  <!-- Interactive slider -->
+  <div class="card card-accent-teal reveal">
+    <h3 class="en" style="margin-bottom:6px;">Interactive: Move the slider to see area growth</h3>
+    <p class="te" style="margin-bottom:16px;">ఇంటరాక్టివ్: వైశాల్య వృద్ధి చూడటానికి స్లయిడర్ కదపండి</p>
+    <div class="slider-wrap">
+      <div class="slider-label">
+        <span>Side length (x): <strong id="side-val">10</strong></span>
+        <span>Growth rate ≈ 2x = <strong id="rate-val" style="color:var(--gold)">20</strong></span>
+      </div>
+      <input type="range" min="1" max="20" value="10" id="side-slider" oninput="updateSquare(this.value)">
+    </div>
+    <div id="sq-demo" style="text-align:center;margin-top:12px;">
+      <svg id="sq-svg" viewBox="0 0 260 200" width="100%" style="max-width:280px;">
+        <defs>
+          <linearGradient id="sq-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="rgba(26,140,122,0.4)"/>
+            <stop offset="100%" stop-color="rgba(41,120,232,0.4)"/>
+          </linearGradient>
+        </defs>
+        <rect id="sq-main" x="10" y="10" width="100" height="100" fill="url(#sq-grad)" stroke="#1a8c7a" stroke-width="2"/>
+        <rect id="sq-strip-r" x="110" y="10" width="12" height="100" fill="rgba(245,166,35,0.4)" stroke="#f5a623" stroke-width="1"/>
+        <rect id="sq-strip-b" x="10" y="110" width="100" height="12" fill="rgba(245,166,35,0.4)" stroke="#f5a623" stroke-width="1"/>
+        <rect id="sq-corner" x="110" y="110" width="12" height="12" fill="rgba(232,75,48,0.6)"/>
+        <text id="sq-area-text" x="60" y="65" text-anchor="middle" font-size="13" fill="#1a1a2e" font-weight="bold">x²=100</text>
+        <text id="sq-side-label" x="60" y="155" text-anchor="middle" font-size="10" fill="rgba(20,20,50,0.50)">Area increase ≈ 2x·Δx</text>
+      </svg>
+    </div>
+    <div id="sq-numbers" style="text-align:center;margin-top:8px;font-size:0.95rem;color:rgba(20,20,50,0.85);">
+      Area = <span id="sq-area" style="color:#0a5c4c;font-weight:700;">100</span> &nbsp;|&nbsp;
+      New Area (x+1)² = <span id="sq-new-area" style="color:#8a5500;font-weight:700;">121</span> &nbsp;|&nbsp;
+      Increase ≈ <span id="sq-inc" style="color:var(--accent);font-weight:700;">21</span>
+    </div>
+  </div>
+
+  <!-- The algebraic reveal -->
+  <div class="card card-accent-gold reveal">
+    <h3 class="en" style="margin-bottom:6px;">Now the Algebra — After Intuition is Built</h3>
+    <p class="te" style="margin-bottom:16px;">ఇప్పుడు బీజగణితం — అంతర్జ్ఞానం నిర్మించిన తర్వాత</p>
+
+    <p class="en">Let side = x. Increase side by tiny h. New area:</p>
+    <p class="te" style="margin-bottom:12px;">భుజం = x అనుకుందాం. భుజాన్ని చిన్న h పెంచుదాం. కొత్త వైశాల్యం:</p>
+
+    <div class="formula">(x + h)² = x² + 2xh + h²</div>
+
+    <p class="en">The <strong>extra area</strong> gained = 2xh + h²</p>
+    <p class="te">పొందిన <strong>అదనపు వైశాల్యం</strong> = 2xh + h²</p>
+
+    <svg viewBox="0 0 280 200" width="100%" style="max-width:280px;display:block;margin:20px auto;" aria-label="Algebraic expansion of square">
+      <rect x="10" y="10" width="170" height="170" fill="rgba(26,140,122,0.2)" stroke="#1a8c7a" stroke-width="2"/>
+      <rect x="180" y="10" width="50" height="170" fill="rgba(245,166,35,0.2)" stroke="#f5a623" stroke-width="1.5"/>
+      <rect x="10" y="180" width="170" height="50" fill="rgba(245,166,35,0.2)" stroke="#f5a623" stroke-width="1.5" transform="translate(0,-40)"/>
+      <rect x="180" y="140" width="50" height="30" fill="rgba(232,75,48,0.3)" stroke="#e84b30" stroke-width="1.5"/>
+      <!-- labels -->
+      <text x="95" y="100" text-anchor="middle" font-size="15" fill="#9be8d8" font-weight="bold">x²</text>
+      <text x="205" y="82" text-anchor="middle" font-size="13" fill="#f5d080">xh</text>
+      <text x="95" y="155" text-anchor="middle" font-size="13" fill="#f5d080">xh</text>
+      <text x="205" y="152" text-anchor="middle" font-size="11" fill="#ff9080">h²</text>
+      <!-- dimension labels -->
+      <text x="95" y="198" text-anchor="middle" font-size="10" fill="rgba(20,20,50,0.45)">x</text>
+      <text x="205" y="198" text-anchor="middle" font-size="10" fill="rgba(20,20,50,0.45)">h</text>
+      <text x="5" y="100" font-size="10" fill="rgba(20,20,50,0.45)" transform="rotate(-90,5,100)">x</text>
+      <text x="5" y="152" font-size="10" fill="rgba(20,20,50,0.45)" transform="rotate(-90,5,152)">h</text>
+    </svg>
+
+    <p class="en">Rate of area change = <strong>(2xh + h²)/h</strong> = 2x + h</p>
+    <p class="te" style="margin-bottom:12px;">వైశాల్య మార్పు రేటు = (2xh + h²)/h = 2x + h</p>
+
+    <p class="en">As h → 0 (tiny change), the corner square h² disappears:</p>
+    <p class="te" style="margin-bottom:12px;">h → 0 (అతి చిన్న మార్పు) అయినప్పుడు, మూల చతురస్రం h² అదృశ్యమవుతుంది:</p>
+
+    <div class="formula" style="font-size:1.8rem;color:#8a5500;">
+      d(x²)/dx = <span style="color:#c0300a">2x</span>
+    </div>
+
+    <div class="highlight" style="margin-top:0;">
+      <p class="en"><strong>Physical meaning:</strong> When the side is x, growing it by 1 unit adds area at a rate of 2x. A bigger square grows faster — exactly as we saw with 10→21 and 50→101!</p>
+      <p class="te"><strong>భౌతిక అర్థం:</strong> భుజం x అయినప్పుడు, దాన్ని 1 యూనిట్ పెంచడం వైశాల్యాన్ని 2x రేటుతో పెంచుతుంది. పెద్ద చతురస్రం వేగంగా పెరుగుతుంది — 10→21 మరియు 50→101 లో మనం చూసినట్టే!</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     SECTION 3 — WHY d(x³)/dx = 3x²
+════════════════════════════════════════════ -->
+<section class="section" id="s3">
+<div class="container">
+  <div class="sec-header reveal">
+    <div class="sec-num">Section 03</div>
+    <h2 class="sec-title">Why does d(x³)/dx = 3x² ?</h2>
+    <p class="sec-title-te">d(x³)/dx = 3x² ఎందుకు అవుతుంది?</p>
+    <div class="sec-divider"></div>
+  </div>
+
+  <div class="card card-accent-violet reveal">
+    <p class="en" style="font-size:1.05rem;font-weight:600;">Now imagine a cube — a 3D box where all sides equal x.</p>
+    <p class="te" style="margin-bottom:16px;">ఇప్పుడు ఒక ఘనాన్ని ఊహించండి — అన్ని భుజాలూ x తో సమాన 3D పెట్టె.</p>
+
+    <div class="grid-2">
+      <div>
+        <p class="en">Volume of cube = x³</p>
+        <p class="te" style="margin-bottom:12px;">ఘనం యొక్క ఘనపరిమాణం = x³</p>
+        <p class="en">When side grows by h, new volume = (x+h)³</p>
+        <p class="te" style="margin-bottom:12px;">భుజం h పెరిగినప్పుడు, కొత్త ఘనపరిమాణం = (x+h)³</p>
+        <p class="en">The cube grows in <strong>three directions</strong>. Three large slabs get added.</p>
+        <p class="te">ఘనం <strong>మూడు దిశలలో</strong> పెరుగుతుంది. మూడు పెద్ద పలకలు జోడించబడతాయి.</p>
+        <div class="formula" style="font-size:1rem;margin-top:16px;">
+          (x+h)³ = x³ + 3x²h + 3xh² + h³
+        </div>
+        <p class="en" style="margin-top:12px;">As h→0, only 3x²h survives. Rate = <strong style="color:var(--gold)">3x²</strong></p>
+        <p class="te">h→0 అయినప్పుడు, 3x²h మాత్రమే మిగులుతుంది. రేటు = 3x²</p>
+      </div>
+      <!-- 3D cube SVG -->
+      <div style="display:flex;align-items:center;justify-content:center;">
+        <svg viewBox="0 0 200 200" width="180" height="180" aria-label="Growing cube diagram">
+          <defs>
+            <linearGradient id="cg-front" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="rgba(108,69,214,0.5)"/>
+              <stop offset="100%" stop-color="rgba(108,69,214,0.2)"/>
+            </linearGradient>
+            <linearGradient id="cg-top" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="rgba(108,69,214,0.35)"/>
+              <stop offset="100%" stop-color="rgba(108,69,214,0.15)"/>
+            </linearGradient>
+            <linearGradient id="cg-side" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="rgba(108,69,214,0.28)"/>
+              <stop offset="100%" stop-color="rgba(108,69,214,0.1)"/>
+            </linearGradient>
+          </defs>
+          <!-- Main cube -->
+          <!-- front face -->
+          <polygon points="40,70 130,70 130,160 40,160" fill="url(#cg-front)" stroke="#6c45d6" stroke-width="2"/>
+          <!-- top face -->
+          <polygon points="40,70 90,40 180,40 130,70" fill="url(#cg-top)" stroke="#6c45d6" stroke-width="2"/>
+          <!-- right side -->
+          <polygon points="130,70 180,40 180,130 130,160" fill="url(#cg-side)" stroke="#6c45d6" stroke-width="2"/>
+          <!-- dimension labels -->
+          <text x="85" y="120" text-anchor="middle" font-size="14" fill="#1a1a2e" font-weight="bold">x³</text>
+          <!-- growth slabs (h thin) -->
+          <!-- right slab -->
+          <polygon points="130,70 148,55 148,148 130,160" fill="rgba(245,166,35,0.35)" stroke="#f5a623" stroke-width="1.5"/>
+          <!-- top slab -->
+          <polygon points="40,70 58,55 148,55 130,70" fill="rgba(245,166,35,0.35)" stroke="#f5a623" stroke-width="1.5"/>
+          <!-- front-bottom slab (mimicked) -->
+          <polygon points="40,160 130,160 130,172 40,172" fill="rgba(245,166,35,0.35)" stroke="#f5a623" stroke-width="1.5"/>
+
+          <!-- arrows indicating directions -->
+          <line x1="130" y1="115" x2="155" y2="115" stroke="rgba(245,166,35,0.7)" stroke-width="2" marker-end="url(#arr)"/>
+          <line x1="85" y1="70" x2="85" y2="45" stroke="rgba(245,166,35,0.7)" stroke-width="2"/>
+          <line x1="85" y1="170" x2="85" y2="185" stroke="rgba(245,166,35,0.7)" stroke-width="2"/>
+
+          <!-- labels on slabs -->
+          <text x="140" y="108" font-size="9" fill="#f5d080">x²h</text>
+          <text x="88" y="40" font-size="9" fill="#f5d080">x²h</text>
+          <text x="88" y="182" font-size="9" fill="#f5d080">x²h</text>
+
+          <text x="110" y="195" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.45)">Three faces × x²h = 3x²h</text>
+          <text x="110" y="208" text-anchor="middle" font-family="Noto Sans Telugu,sans-serif" font-size="8" fill="rgba(155,232,216,0.6)">మూడు ముఖాలు × x²h = 3x²h</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="card card-accent-teal reveal">
+    <div class="highlight">
+      <p class="en"><strong>Physical meaning of 3x²:</strong> When the cube has side x, three large square slabs (each of area x²) are added simultaneously as the side grows. Three faces, each area x², each growing by h — total growth ≈ 3x²h.</p>
+      <p class="te"><strong>3x² యొక్క భౌతిక అర్థం:</strong> ఘనానికి భుజం x ఉన్నప్పుడు, భుజం పెరిగేకొద్దీ మూడు పెద్ద చతురస్రాకార పలకలు (ఒక్కొక్కటి వైశాల్యం x²) ఏకకాలంలో జోడించబడతాయి. మూడు ముఖాలు, ఒక్కొక్కటి వైశాల్యం x², ఒక్కొక్కటి h పెరుగుతుంది — మొత్తం వృద్ధి ≈ 3x²h.</p>
+    </div>
+    <div class="formula" style="font-size:1.8rem;color:var(--teal);">
+      d(x³)/dx = <span style="color:#c0300a">3x²</span>
+    </div>
+  </div>
+</div>
+</section>
+
+<script>
+// Section 2 interactive square
+function updateSquare(val){
+  val = parseInt(val);
+  document.getElementById('side-val').textContent = val;
+  document.getElementById('rate-val').textContent = 2*val;
+  const area = val*val;
+  const newArea = (val+1)*(val+1);
+  const inc = newArea - area;
+  document.getElementById('sq-area').textContent = area;
+  document.getElementById('sq-new-area').textContent = newArea;
+  document.getElementById('sq-inc').textContent = inc;
+  // update SVG (scale from 1-20 to pixel 10-180)
+  const px = Math.round(10 + (val-1)*(170/19));
+  const stripW = Math.max(6, Math.round(px*0.12));
+  const sq = document.getElementById('sq-main');
+  if(sq){ sq.setAttribute('width',px); sq.setAttribute('height',px); }
+  const sr = document.getElementById('sq-strip-r');
+  if(sr){ sr.setAttribute('x',10+px); sr.setAttribute('height',px); sr.setAttribute('width',stripW); }
+  const sb = document.getElementById('sq-strip-b');
+  if(sb){ sb.setAttribute('y',10+px); sb.setAttribute('width',px); sb.setAttribute('height',stripW); }
+  const sc = document.getElementById('sq-corner');
+  if(sc){ sc.setAttribute('x',10+px); sc.setAttribute('y',10+px); sc.setAttribute('width',stripW); sc.setAttribute('height',stripW); }
+  const at = document.getElementById('sq-area-text');
+  if(at){ at.setAttribute('x',10+px/2); at.setAttribute('y',10+px/2+5); at.textContent = 'x²='+area; }
+}
+updateSquare(10);
+
+// Intersection Observer for reveal
+const observer = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){ e.target.classList.add('visible'); }
+  });
+},{threshold:0.12});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+</script>
+<!-- SECTIONS 4-10, FINAL QUOTE, FOOTER -->
+<!-- This file is concatenated with part1 by the build script -->
+
+<!-- ═══════════════════════════════════════════
+     SECTION 4 — POWER RULE HIDDEN MEANING
+════════════════════════════════════════════ -->
+<section class="section" id="s4">
+<div class="container">
+  <div class="sec-header reveal">
+    <div class="sec-num">Section 04</div>
+    <h2 class="sec-title">Power Rule — The Hidden Growth Pattern</h2>
+    <p class="sec-title-te">పవర్ రూల్ — దాగి ఉన్న వృద్ధి నమూనా</p>
+    <div class="sec-divider"></div>
+  </div>
+
+  <div class="card card-accent-gold reveal">
+    <p class="en" style="font-size:1.05rem;font-weight:600;">Look at this as a growth comparison, not a formula.</p>
+    <p class="te" style="margin-bottom:16px;">దీన్ని ఒక ఫార్ముల కాకుండా వృద్ధి పోలికగా చూడండి.</p>
+
+    <div style="overflow-x:auto;">
+    <table class="etable">
+      <thead>
+        <tr>
+          <th>Function</th>
+          <th>Geometric meaning</th>
+          <th>Derivative</th>
+          <th>Meaning</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="color:#0a5c4c;font-weight:700;">x¹ = x</td>
+          <td><span class="en">Length of a line</span><br><span class="em-te">రేఖ పొడవు</span></td>
+          <td style="color:#8a5500;font-weight:700;">1 · x⁰ = 1</td>
+          <td><span class="en">Grows at constant speed</span><br><span class="em-te">స్థిర వేగంతో పెరుగుతుంది</span></td>
+        </tr>
+        <tr>
+          <td style="color:#0a5c4c;font-weight:700;">x²</td>
+          <td><span class="en">Area of a square</span><br><span class="em-te">చతురస్ర వైశాల్యం</span></td>
+          <td style="color:#8a5500;font-weight:700;">2x</td>
+          <td><span class="en">Grows faster as x grows</span><br><span class="em-te">x పెరిగేకొద్దీ వేగంగా పెరుగుతుంది</span></td>
+        </tr>
+        <tr>
+          <td style="color:#0a5c4c;font-weight:700;">x³</td>
+          <td><span class="en">Volume of a cube</span><br><span class="em-te">ఘన పరిమాణం</span></td>
+          <td style="color:#8a5500;font-weight:700;">3x²</td>
+          <td><span class="en">Three faces expanding</span><br><span class="em-te">మూడు ముఖాలు విస్తరించడం</span></td>
+        </tr>
+        <tr>
+          <td style="color:#0a5c4c;font-weight:700;">x⁴</td>
+          <td><span class="en">4D hypercube</span><br><span class="em-te">4D హైపర్‌క్యూబ్</span></td>
+          <td style="color:#8a5500;font-weight:700;">4x³</td>
+          <td><span class="en">Four 3D "faces" expanding</span><br><span class="em-te">నాలుగు 3D ముఖాలు విస్తరించడం</span></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+    <div class="highlight-violet" style="margin-top:20px;border-radius:12px;padding:20px;">
+      <p class="en" style="font-weight:700;font-size:1.05rem;color:#4a2ab0;">The Pattern: d(xⁿ)/dx = nxⁿ⁻¹</p>
+      <p class="te" style="margin-bottom:12px;">నమూనా: d(xⁿ)/dx = nxⁿ⁻¹</p>
+      <p class="en">The coefficient <strong>n</strong> counts the number of "faces" (or dimensions) that participate in the growth. The power <strong>xⁿ⁻¹</strong> is the area of each of those faces.</p>
+      <p class="te">గుణకం <strong>n</strong> వృద్ధిలో పాల్గొనే "ముఖాల" (లేదా పరిమాణాల) సంఖ్యను లెక్కిస్తుంది. గుణిజం <strong>xⁿ⁻¹</strong> ఆ ముఖాల్లో ప్రతిదాని వైశాల్యం.</p>
+    </div>
+  </div>
+
+  <!-- Interactive growth speed comparison graph -->
+  <div class="card reveal">
+    <h3 class="en" style="margin-bottom:6px;">Growth Speed Comparison</h3>
+    <p class="te" style="margin-bottom:16px;">వృద్ధి వేగం పోలిక — x=1 దగ్గర అన్నీ ఒకేలా ఉన్నాయి, కానీ x పెరిగేకొద్దీ వ్యత్యాసం పెరుగుతుంది!</p>
+
+    <div class="slider-wrap">
+      <div class="slider-label">
+        <span>x value: <strong id="pw-x-val">3</strong></span>
+      </div>
+      <input type="range" min="1" max="8" value="3" id="pw-slider" oninput="updatePower(this.value)" step="0.5">
+    </div>
+
+    <div id="pw-display" style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:16px;text-align:center;">
+      <div style="background:rgba(26,140,122,0.07);border-radius:10px;padding:14px;">
+        <div style="font-size:0.8rem;color:rgba(20,20,50,0.55);margin-bottom:6px;">d(x)/dx</div>
+        <div id="pw1" style="font-size:1.6rem;font-weight:800;color:#0a5c4c;">1</div>
+        <div style="font-size:0.72rem;color:rgba(20,20,50,0.45);">constant</div>
+      </div>
+      <div style="background:rgba(41,120,232,0.07);border-radius:10px;padding:14px;">
+        <div style="font-size:0.8rem;color:rgba(20,20,50,0.55);margin-bottom:6px;">d(x²)/dx</div>
+        <div id="pw2" style="font-size:1.6rem;font-weight:800;color:#1050b8;">6</div>
+        <div style="font-size:0.72rem;color:rgba(20,20,50,0.45);">= 2x</div>
+      </div>
+      <div style="background:rgba(108,69,214,0.07);border-radius:10px;padding:14px;">
+        <div style="font-size:0.8rem;color:rgba(20,20,50,0.55);margin-bottom:6px;">d(x³)/dx</div>
+        <div id="pw3" style="font-size:1.6rem;font-weight:800;color:#4a2ab0;">27</div>
+        <div style="font-size:0.72rem;color:rgba(20,20,50,0.45);">= 3x²</div>
+      </div>
+      <div style="background:rgba(232,75,48,0.06);border-radius:10px;padding:14px;">
+        <div style="font-size:0.8rem;color:rgba(20,20,50,0.55);margin-bottom:6px;">d(x⁴)/dx</div>
+        <div id="pw4" style="font-size:1.6rem;font-weight:800;color:#f8a898;">108</div>
+        <div style="font-size:0.72rem;color:rgba(20,20,50,0.45);">= 4x³</div>
+      </div>
+    </div>
+
+    <!-- Mini bar chart -->
+    <svg id="pw-chart" viewBox="0 0 320 120" width="100%" style="max-width:320px;display:block;margin:20px auto 0;" aria-label="Growth rate comparison bar chart">
+      <text x="160" y="14" text-anchor="middle" font-size="10" fill="rgba(20,20,50,0.45)" font-family="sans-serif">Growth rates at current x</text>
+      <rect id="b1" x="30" y="30" width="40" height="70" rx="4" fill="rgba(26,140,122,0.6)"/>
+      <rect id="b2" x="90" y="30" width="40" height="70" rx="4" fill="rgba(41,120,232,0.6)"/>
+      <rect id="b3" x="150" y="30" width="40" height="70" rx="4" fill="rgba(108,69,214,0.6)"/>
+      <rect id="b4" x="210" y="30" width="40" height="70" rx="4" fill="rgba(232,75,48,0.6)"/>
+      <text x="50" y="115" text-anchor="middle" font-size="9" fill="rgba(20,20,50,0.45)" font-family="sans-serif">x¹</text>
+      <text x="110" y="115" text-anchor="middle" font-size="9" fill="rgba(20,20,50,0.45)" font-family="sans-serif">x²</text>
+      <text x="170" y="115" text-anchor="middle" font-size="9" fill="rgba(20,20,50,0.45)" font-family="sans-serif">x³</text>
+      <text x="230" y="115" text-anchor="middle" font-size="9" fill="rgba(20,20,50,0.45)" font-family="sans-serif">x⁴</text>
+    </svg>
+  </div>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     SECTION 5 — SIN AND COS THROUGH CIRCLE MOTION
+════════════════════════════════════════════ -->
+<section class="section" id="s5">
+<div class="container">
+  <div class="sec-header reveal">
+    <div class="sec-num">Section 05</div>
+    <h2 class="sec-title">Understanding sin and cos Through Motion</h2>
+    <p class="sec-title-te">చలనం ద్వారా sin మరియు cos అర్థం చేసుకోవడం</p>
+    <div class="sec-divider"></div>
+  </div>
+
+  <div class="card card-accent-sky reveal">
+    <p class="en" style="font-size:1.05rem;font-weight:600;">Before any formula — imagine a point walking around a circle.</p>
+    <p class="te" style="margin-bottom:16px;">ఏ ఫార్ముల కంటే ముందు — ఒక బిందువు వృత్తం చుట్టూ నడుస్తుందని ఊహించండి.</p>
+
+    <div class="grid-2">
+      <div>
+        <div class="highlight" style="margin-bottom:16px;">
+          <p class="en"><strong>Horizontal position</strong> of the point = cos θ</p>
+          <p class="te"><strong>క్షితిజ సమాంతర స్థానం</strong> = cos θ</p>
+        </div>
+        <div class="highlight" style="margin-bottom:16px;">
+          <p class="en"><strong>Vertical position</strong> of the point = sin θ</p>
+          <p class="te"><strong>నిలువు స్థానం</strong> = sin θ</p>
+        </div>
+        <p class="en" style="margin-bottom:8px;">As the point moves around the circle, both positions change. The <strong>rate of change</strong> of sin θ is what cos θ measures!</p>
+        <p class="te">బిందువు వృత్తం చుట్టూ కదులుతున్నప్పుడు రెండు స్థానాలూ మారతాయి. sin θ యొక్క <strong>మార్పు రేటు</strong> అనేది cos θ కొలిచేదే!</p>
+
+        <div id="circle-angle-display" style="margin-top:16px;">
+          <div class="slider-wrap">
+            <div class="slider-label">
+              <span>θ = <strong id="angle-deg">0</strong>°</span>
+              <span id="sin-change-rate" style="color:var(--gold)">sin changing: Fast ↑</span>
+            </div>
+            <input type="range" min="0" max="360" value="0" id="angle-slider" oninput="updateCircle(this.value)">
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;font-size:0.9rem;">
+            <div style="background:rgba(0,0,0,0.04);padding:12px;border-radius:10px;text-align:center;">
+              <div style="font-size:0.75rem;color:rgba(20,20,50,0.45);">sin θ (vertical)</div>
+              <div id="sin-val" style="font-size:1.4rem;font-weight:800;color:#0a5c4c;">0.000</div>
+            </div>
+            <div style="background:rgba(0,0,0,0.04);padding:12px;border-radius:10px;text-align:center;">
+              <div style="font-size:0.75rem;color:rgba(20,20,50,0.45);">cos θ (horizontal)</div>
+              <div id="cos-val" style="font-size:1.4rem;font-weight:800;color:#8a5500;">1.000</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Unit circle SVG -->
+      <div style="display:flex;justify-content:center;align-items:center;">
+        <svg id="unit-circle-svg" viewBox="0 0 220 220" width="210" height="210" aria-label="Animated unit circle">
+          <!-- circle -->
+          <circle cx="110" cy="110" r="80" fill="none" stroke="rgba(20,20,50,0.12)" stroke-width="1.5"/>
+          <!-- axes -->
+          <line x1="30" y1="110" x2="190" y2="110" stroke="rgba(20,20,50,0.15)" stroke-width="1"/>
+          <line x1="110" y1="30" x2="110" y2="190" stroke="rgba(20,20,50,0.15)" stroke-width="1"/>
+          <!-- sin projection line (vertical) -->
+          <line id="uc-sinline" x1="190" y1="110" x2="190" y2="110" stroke="#9be8d8" stroke-width="2" stroke-dasharray="4,3" opacity="0.7"/>
+          <!-- cos projection line (horizontal) -->
+          <line id="uc-cosline" x1="110" y1="110" x2="190" y2="110" stroke="var(--gold)" stroke-width="2" stroke-dasharray="4,3" opacity="0.7"/>
+          <!-- radius -->
+          <line id="uc-radius" x1="110" y1="110" x2="190" y2="110" stroke="rgba(255,255,255,0.6)" stroke-width="2"/>
+          <!-- point -->
+          <circle id="uc-point" cx="190" cy="110" r="7" fill="#e84b30"/>
+          <!-- labels -->
+          <text x="195" y="114" font-size="9" fill="rgba(20,20,50,0.45)" font-family="sans-serif">(cos θ, sin θ)</text>
+          <text x="130" y="108" font-size="9" fill="rgba(245,166,35,0.7)" font-family="sans-serif">cos θ</text>
+          <text id="uc-sinlabel" x="197" y="110" font-size="9" fill="rgba(155,232,216,0.7)" font-family="sans-serif">sin θ</text>
+          <!-- angle arc -->
+          <path id="uc-arc" d="M150,110 A40,40 0 0,0 150,110" fill="none" stroke="rgba(20,20,50,0.20)" stroke-width="1.5"/>
+          <text id="uc-theta" x="155" y="107" font-size="10" fill="rgba(20,20,50,0.45)" font-family="sans-serif">θ</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- Key angle insights -->
+  <div class="grid-3 reveal" style="margin-top:4px;">
+    <div class="card card-accent-teal" style="text-align:center;">
+      <div style="font-size:2rem;margin-bottom:8px;">0°</div>
+      <p class="en" style="font-size:0.9rem;"><strong>sin = 0</strong>, rising fast<br>cos = 1 → derivative = 1</p>
+      <p class="te" style="font-size:0.78rem;">sin = 0, వేగంగా పెరుగుతోంది<br>cos = 1 → మార్పు రేటు = 1</p>
+    </div>
+    <div class="card card-accent-gold" style="text-align:center;">
+      <div style="font-size:2rem;margin-bottom:8px;">90°</div>
+      <p class="en" style="font-size:0.9rem;"><strong>sin = 1</strong>, peak — not changing<br>cos = 0 → derivative = 0</p>
+      <p class="te" style="font-size:0.78rem;">sin = 1, శిఖరం — మారడం లేదు<br>cos = 0 → మార్పు రేటు = 0</p>
+    </div>
+    <div class="card card-accent-red" style="text-align:center;">
+      <div style="font-size:2rem;margin-bottom:8px;">180°</div>
+      <p class="en" style="font-size:0.9rem;"><strong>sin = 0</strong>, falling fast<br>cos = -1 → derivative = -1</p>
+      <p class="te" style="font-size:0.78rem;">sin = 0, వేగంగా తగ్గుతోంది<br>cos = -1 → మార్పు రేటు = -1</p>
+    </div>
+  </div>
+
+  <div class="card card-accent-violet reveal" style="margin-top:4px;">
+    <p class="en" style="font-weight:700;font-size:1.05rem;margin-bottom:8px;">The pattern becomes clear:</p>
+    <p class="te" style="margin-bottom:16px;">నమూనా స్పష్టమవుతుంది:</p>
+    <p class="en">When sin θ is at zero (but climbing) → cos θ = 1 (maximum climbing rate)</p>
+    <p class="en">When sin θ is at peak → cos θ = 0 (no change at the top)</p>
+    <p class="en" style="margin-bottom:16px;">When sin θ is falling → cos θ is negative (going down)</p>
+    <p class="te">sin θ శూన్యం వద్ద ఉన్నప్పుడు (పెరుగుతూ) → cos θ = 1 (గరిష్ట పెరుగుదల రేటు)</p>
+    <p class="te">sin θ శిఖరం వద్ద ఉన్నప్పుడు → cos θ = 0 (శిఖరం వద్ద మార్పు లేదు)</p>
+    <p class="te" style="margin-bottom:16px;">sin θ తగ్గుతున్నప్పుడు → cos θ రుణాత్మకంగా ఉంటుంది (తగ్గుతోంది)</p>
+    <div class="formula" style="font-size:1.8rem;color:var(--teal);">
+      d(sin x)/dx = <span style="color:#8a5500">cos x</span>
+    </div>
+    <p class="en" style="text-align:center;color:rgba(20,20,50,0.60);margin-top:8px;">cos x is the "speedometer" of sin x</p>
+    <p class="te" style="text-align:center;font-size:0.88rem;">cos x అనేది sin x యొక్క "స్పీడోమీటర్"</p>
+  </div>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     SECTION 6 — d(cos x)/dx = -sin x
+════════════════════════════════════════════ -->
+<section class="section" id="s6">
+<div class="container">
+  <div class="sec-header reveal">
+    <div class="sec-num">Section 06</div>
+    <h2 class="sec-title">Why d(cos x)/dx = −sin x ?</h2>
+    <p class="sec-title-te">d(cos x)/dx = −sin x ఎందుకు?</p>
+    <div class="sec-divider"></div>
+  </div>
+
+  <div class="card card-accent-red reveal">
+    <p class="en" style="font-size:1.05rem;font-weight:600;">Look at the horizontal position of the point on the circle.</p>
+    <p class="te" style="margin-bottom:16px;">వృత్తంపై బిందువు యొక్క క్షితిజ సమాంతర స్థానాన్ని చూడండి.</p>
+
+    <div class="grid-2">
+      <div>
+        <div class="highlight" style="margin-bottom:12px;">
+          <p class="en">At θ=0°: cos = 1 (maximum, rightmost) — not changing at this exact moment. sin = 0, so rate = 0.</p>
+          <p class="te">θ=0° వద్ద: cos = 1 (గరిష్టం) — ఈ క్షణంలో మారడం లేదు. sin = 0, కాబట్టి రేటు = 0.</p>
+        </div>
+        <div class="highlight" style="margin-bottom:12px;">
+          <p class="en">At θ=90°: cos = 0 — but falling steeply! sin = 1, so rate = −1.</p>
+          <p class="te">θ=90° వద్ద: cos = 0 — కానీ వేగంగా తగ్గుతోంది! sin = 1, కాబట్టి రేటు = −1.</p>
+        </div>
+        <div class="highlight">
+          <p class="en">At θ=180°: cos = −1 (minimum) — again not changing. sin = 0, rate = 0.</p>
+          <p class="te">θ=180° వద్ద: cos = −1 (కనిష్టం) — మళ్ళీ మారడం లేదు. sin = 0, రేటు = 0.</p>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:center;align-items:center;">
+        <!-- Animated cos graph SVG -->
+        <svg viewBox="0 0 210 180" width="100%" style="max-width:220px;" aria-label="cos x graph with slope indicator">
+          <defs>
+            <linearGradient id="cos-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#e84b30"/>
+              <stop offset="100%" stop-color="#f5a623"/>
+            </linearGradient>
+          </defs>
+          <line x1="10" y1="90" x2="205" y2="90" stroke="rgba(20,20,50,0.12)" stroke-width="1"/>
+          <line x1="10" y1="10" x2="10" y2="170" stroke="rgba(20,20,50,0.12)" stroke-width="1"/>
+          <!-- cos curve: starts high, goes down, back up -->
+          <path d="M10,20 C30,20 45,25 60,90 C75,155 90,160 110,160 C130,160 145,155 160,90 C175,25 190,20 205,20" fill="none" stroke="url(#cos-grad)" stroke-width="2.5" stroke-linecap="round"/>
+          <!-- tangent at 0 (flat) -->
+          <line x1="5" y1="20" x2="30" y2="20" stroke="rgba(245,166,35,0.6)" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <!-- tangent at 90 (steep negative) -->
+          <line x1="42" y1="48" x2="80" y2="132" stroke="rgba(232,75,48,0.8)" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <!-- points -->
+          <circle cx="10" cy="20" r="4" fill="#9be8d8"/>
+          <circle cx="60" cy="90" r="4" fill="var(--gold)"/>
+          <circle cx="110" cy="160" r="4" fill="#e84b30"/>
+          <!-- labels -->
+          <text x="8" y="16" font-size="9" fill="rgba(155,232,216,0.7)" font-family="sans-serif">0°</text>
+          <text x="55" y="105" font-size="9" fill="rgba(245,166,35,0.8)" font-family="sans-serif">90°</text>
+          <text x="105" y="175" font-size="9" fill="rgba(232,75,48,0.8)" font-family="sans-serif">180°</text>
+          <text x="80" y="84" font-size="8" fill="rgba(232,75,48,0.8)" font-family="sans-serif">slope: −sin x</text>
+          <text x="10" y="185" font-size="8" fill="rgba(20,20,50,0.30)" font-family="sans-serif">cos x falls → negative slope</text>
+        </svg>
+      </div>
+    </div>
+
+    <div class="formula" style="font-size:1.8rem;color:var(--accent);margin-top:8px;">
+      d(cos x)/dx = <span style="color:#8a5500">−sin x</span>
+    </div>
+    <p class="en" style="text-align:center;margin-top:8px;color:rgba(20,20,50,0.70);">The <strong>negative</strong> sign means cos initially <em>decreases</em> as θ increases from 0.</p>
+    <p class="te" style="text-align:center;font-size:0.88rem;margin-top:4px;">ఋణ గుర్తు అంటే cos θ 0 నుండి పెరిగేకొద్దీ <em>తగ్గుతుంది</em> అని అర్థం.</p>
+  </div>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     SECTION 7 — GRAPH AND DERIVATIVE RELATIONSHIP
+════════════════════════════════════════════ -->
+<section class="section" id="s7">
+<div class="container">
+  <div class="sec-header reveal">
+    <div class="sec-num">Section 07</div>
+    <h2 class="sec-title">The Graph and Its Derivative — Side by Side</h2>
+    <p class="sec-title-te">గ్రాఫ్ మరియు దాని డెరివేటివ్ — పక్కపక్కన</p>
+    <div class="sec-divider"></div>
+  </div>
+
+  <div class="card reveal">
+    <p class="en" style="font-weight:600;margin-bottom:6px;">Watch: as you move a point along sin x, its slope value draws the cos x graph.</p>
+    <p class="te" style="margin-bottom:20px;">చూడండి: sin x పై బిందువు కదులుతున్నప్పుడు, దాని వాలు విలువ cos x గ్రాఫ్‌ను గీస్తుంది.</p>
+
+    <div style="display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;">
+      <!-- sin graph -->
+      <div style="flex:1;min-width:200px;text-align:center;">
+        <div style="font-size:0.8rem;color:#0a5c4c;font-weight:700;margin-bottom:8px;letter-spacing:0.06em;">SIN X — The function</div>
+        <svg id="sin-graph-svg" viewBox="0 0 240 140" width="100%" aria-label="sin x graph with moving point">
+          <defs>
+            <linearGradient id="sg1" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#1a8c7a"/>
+              <stop offset="100%" stop-color="#2978e8"/>
+            </linearGradient>
+          </defs>
+          <line x1="10" y1="70" x2="230" y2="70" stroke="rgba(20,20,50,0.10)" stroke-width="1"/>
+          <line x1="10" y1="10" x2="10" y2="130" stroke="rgba(20,20,50,0.10)" stroke-width="1"/>
+          <!-- sin curve -->
+          <path d="M10,70 C30,70 35,15 60,15 C85,15 90,70 110,70 C130,70 135,125 160,125 C185,125 190,70 210,70" fill="none" stroke="url(#sg1)" stroke-width="2.5"/>
+          <!-- moving tangent -->
+          <line id="sin-tan" x1="50" y1="25" x2="75" y2="5" stroke="rgba(245,166,35,0.7)" stroke-width="1.5" stroke-dasharray="5,3"/>
+          <!-- moving point -->
+          <circle id="sin-pt" cx="60" cy="15" r="6" fill="#f5a623"/>
+          <!-- angle markers -->
+          <text x="10" y="140" font-size="8" fill="rgba(20,20,50,0.30)" font-family="sans-serif">0</text>
+          <text x="57" y="140" font-size="8" fill="rgba(20,20,50,0.30)" font-family="sans-serif">π/2</text>
+          <text x="107" y="140" font-size="8" fill="rgba(20,20,50,0.30)" font-family="sans-serif">π</text>
+          <text x="157" y="140" font-size="8" fill="rgba(20,20,50,0.30)" font-family="sans-serif">3π/2</text>
+          <text x="207" y="140" font-size="8" fill="rgba(20,20,50,0.30)" font-family="sans-serif">2π</text>
+        </svg>
+        <p style="font-size:0.8rem;color:rgba(20,20,50,0.45);margin-top:4px;">
+          Orange dot: current point<br>Dashed line: tangent (slope)
+          <br><span style="font-family:'Noto Sans Telugu',sans-serif;">నారింజ బిందువు: ప్రస్తుత స్థానం | టాంజెంట్: వాలు</span>
+        </p>
+      </div>
+
+      <!-- arrow -->
+      <div style="display:flex;align-items:center;padding:0 4px;">
+        <svg width="36" height="36" viewBox="0 0 36 36">
+          <line x1="4" y1="18" x2="28" y2="18" stroke="var(--gold)" stroke-width="2"/>
+          <polygon points="28,12 36,18 28,24" fill="var(--gold)"/>
+        </svg>
+      </div>
+
+      <!-- cos graph (derivative) -->
+      <div style="flex:1;min-width:200px;text-align:center;">
+        <div style="font-size:0.8rem;color:#8a5500;font-weight:700;margin-bottom:8px;letter-spacing:0.06em;">COS X — The slope of sin x</div>
+        <svg id="cos-graph-svg" viewBox="0 0 240 140" width="100%" aria-label="cos x graph">
+          <defs>
+            <linearGradient id="cg-g1" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#f5a623"/>
+              <stop offset="100%" stop-color="#e84b30"/>
+            </linearGradient>
+          </defs>
+          <line x1="10" y1="70" x2="230" y2="70" stroke="rgba(20,20,50,0.10)" stroke-width="1"/>
+          <line x1="10" y1="10" x2="10" y2="130" stroke="rgba(20,20,50,0.10)" stroke-width="1"/>
+          <!-- cos curve -->
+          <path d="M10,15 C35,15 40,70 60,70 C80,70 85,125 110,125 C135,125 140,70 160,70 C180,70 185,15 210,15" fill="none" stroke="url(#cg-g1)" stroke-width="2.5"/>
+          <!-- corresponding point on cos -->
+          <circle id="cos-pt" cx="60" cy="70" r="6" fill="#9be8d8"/>
+          <!-- vertical connector hint -->
+          <line id="cos-connect" x1="60" y1="5" x2="60" y2="130" stroke="rgba(20,20,50,0.07)" stroke-width="1" stroke-dasharray="3,4"/>
+          <text x="10" y="140" font-size="8" fill="rgba(20,20,50,0.30)" font-family="sans-serif">0</text>
+          <text x="57" y="140" font-size="8" fill="rgba(20,20,50,0.30)" font-family="sans-serif">π/2</text>
+          <text x="107" y="140" font-size="8" fill="rgba(20,20,50,0.30)" font-family="sans-serif">π</text>
+        </svg>
+        <p style="font-size:0.8rem;color:rgba(20,20,50,0.45);margin-top:4px;">
+          Teal dot: corresponding slope value<br>
+          <span style="font-family:'Noto Sans Telugu',sans-serif;">పచ్చని బిందువు: సంబంధిత వాలు విలువ</span>
+        </p>
+      </div>
+    </div>
+
+    <!-- Animated sync slider -->
+    <div class="slider-wrap" style="margin-top:20px;">
+      <div class="slider-label">
+        <span>Move along the curve: <strong id="sc-angle">0°</strong></span>
+        <span id="sc-slope-label" style="color:var(--gold)">Slope of sin = 1.00</span>
+      </div>
+      <input type="range" min="0" max="360" value="0" id="sc-slider" oninput="updateSinCosSync(this.value)">
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;font-size:0.88rem;text-align:center;">
+      <div style="background:rgba(26,140,122,0.06);padding:10px;border-radius:8px;">
+        sin(<span id="sc-a2">0</span>°) = <span id="sc-sinv" style="color:#0a5c4c;font-weight:700;">0.000</span>
+      </div>
+      <div style="background:rgba(245,166,35,0.1);padding:10px;border-radius:8px;">
+        cos(<span id="sc-a3">0</span>°) = <span id="sc-cosv" style="color:#8a5500;font-weight:700;">1.000</span>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     SECTION 8 — PHYSICS CONNECTION
+════════════════════════════════════════════ -->
+<section class="section" id="s8">
+<div class="container">
+  <div class="sec-header reveal">
+    <div class="sec-num">Section 08</div>
+    <h2 class="sec-title">Physics — Where Derivatives Live</h2>
+    <p class="sec-title-te">భౌతికశాస్త్రం — డెరివేటివ్‌లు నివసించే చోటు</p>
+    <div class="sec-divider"></div>
+  </div>
+
+  <!-- Position → Velocity → Acceleration chain -->
+  <div class="card card-accent-sky reveal">
+    <h3 class="en" style="margin-bottom:6px;">The Great Chain: Position → Velocity → Acceleration</h3>
+    <p class="te" style="margin-bottom:20px;">గొప్ప గొలుసు: స్థానం → వేగం → త్వరణం</p>
+
+    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:24px;">
+      <div style="text-align:center;background:rgba(26,140,122,0.07);border-radius:12px;padding:16px 20px;">
+        <div style="font-size:1.6rem;font-weight:800;color:#0a5c4c;">s(t)</div>
+        <div style="font-size:0.78rem;color:rgba(20,20,50,0.55);margin-top:4px;">Position<br><span style="font-family:'Noto Sans Telugu',sans-serif;">స్థానం</span></div>
+      </div>
+      <div style="font-size:1.5rem;color:#8a5500;">→<br><span style="font-size:0.7rem;">d/dt</span></div>
+      <div style="text-align:center;background:rgba(41,120,232,0.07);border-radius:12px;padding:16px 20px;">
+        <div style="font-size:1.6rem;font-weight:800;color:#1050b8;">v(t) = ds/dt</div>
+        <div style="font-size:0.78rem;color:rgba(20,20,50,0.55);margin-top:4px;">Velocity<br><span style="font-family:'Noto Sans Telugu',sans-serif;">వేగం</span></div>
+      </div>
+      <div style="font-size:1.5rem;color:#8a5500;">→<br><span style="font-size:0.7rem;">d/dt</span></div>
+      <div style="text-align:center;background:rgba(108,69,214,0.07);border-radius:12px;padding:16px 20px;">
+        <div style="font-size:1.6rem;font-weight:800;color:#4a2ab0;">a(t) = dv/dt</div>
+        <div style="font-size:0.78rem;color:rgba(20,20,50,0.55);margin-top:4px;">Acceleration<br><span style="font-family:'Noto Sans Telugu',sans-serif;">త్వరణం</span></div>
+      </div>
+    </div>
+
+    <!-- Moving car SVG -->
+    <svg viewBox="0 0 420 110" width="100%" style="max-width:420px;display:block;margin:0 auto;" aria-label="Car moving with speed indicators">
+      <defs>
+        <linearGradient id="road-g" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#1a8c7a" stop-opacity="0.4"/>
+          <stop offset="100%" stop-color="#2978e8" stop-opacity="0.4"/>
+        </linearGradient>
+      </defs>
+      <!-- road -->
+      <rect x="0" y="70" width="420" height="20" rx="4" fill="rgba(255,255,255,0.06)"/>
+      <line x1="0" y1="80" x2="420" y2="80" stroke="rgba(20,20,50,0.07)" stroke-dasharray="20,15" stroke-width="2"/>
+      <!-- car body (animated) -->
+      <g id="car-group">
+        <rect x="20" y="50" width="70" height="25" rx="6" fill="rgba(41,120,232,0.5)" stroke="#2978e8" stroke-width="1.5"/>
+        <rect x="30" y="40" width="50" height="16" rx="5" fill="rgba(41,120,232,0.35)" stroke="#2978e8" stroke-width="1"/>
+        <circle cx="35" cy="76" r="8" fill="#1a1a2e" stroke="#6eb8f8" stroke-width="2"/>
+        <circle cx="35" cy="76" r="3" fill="#6eb8f8"/>
+        <circle cx="75" cy="76" r="8" fill="#1a1a2e" stroke="#6eb8f8" stroke-width="2">
+          <animateTransform attributeName="transform" type="rotate" from="0 75 76" to="360 75 76" dur="1.2s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="35" cy="76" r="3" fill="#6eb8f8">
+          <animateTransform attributeName="transform" type="rotate" from="0 35 76" to="360 35 76" dur="1.2s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="75" cy="76" r="3" fill="#6eb8f8"/>
+        <animateTransform attributeName="transform" type="translate" values="0,0;310,0;0,0" dur="5s" repeatCount="indefinite"/>
+      </g>
+      <!-- speedometer-style dial -->
+      <circle cx="340" cy="45" r="35" fill="rgba(0,0,0,0.4)" stroke="rgba(20,20,50,0.12)" stroke-width="1.5"/>
+      <path d="M315,55 A30,30 0 0,1 365,55" fill="none" stroke="rgba(20,20,50,0.12)" stroke-width="2"/>
+      <line id="speed-needle" x1="340" y1="45" x2="340" y2="20" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round">
+        <animateTransform attributeName="transform" type="rotate" values="-60 340 45;60 340 45;-60 340 45" dur="5s" repeatCount="indefinite"/>
+      </line>
+      <circle cx="340" cy="45" r="4" fill="var(--gold)"/>
+      <text x="340" y="70" text-anchor="middle" font-size="8" fill="rgba(20,20,50,0.45)" font-family="sans-serif">v = ds/dt</text>
+    </svg>
+
+    <p class="en" style="margin-top:16px;">The speedometer needle shows <strong>ds/dt</strong> — the rate at which distance is changing. When you press the accelerator, the needle moves — that's <strong>dv/dt = acceleration</strong>.</p>
+    <p class="te" style="margin-top:8px;">స్పీడోమీటర్ సూది <strong>ds/dt</strong> ను చూపిస్తుంది — దూరం మారే రేటు. మీరు యాక్సిలరేటర్ నొక్కినప్పుడు, సూది కదులుతుంది — అదే <strong>dv/dt = త్వరణం</strong>.</p>
+  </div>
+
+  <!-- More physics examples -->
+  <div class="grid-2 reveal" style="margin-top:4px;">
+    <div class="card card-accent-teal">
+      <div style="font-size:1.5rem;margin-bottom:10px;">🎯</div>
+      <h3 class="en" style="margin-bottom:6px;font-size:1rem;">Falling Object</h3>
+      <p class="te" style="margin-bottom:12px;font-size:0.85rem;">పడిపోయే వస్తువు</p>
+      <div class="formula" style="font-size:0.95rem;padding:12px;">s(t) = ½gt²</div>
+      <p class="en" style="font-size:0.88rem;margin-top:8px;">v = ds/dt = gt → velocity grows with time!</p>
+      <p class="te" style="font-size:0.8rem;">v = gt → వేగం సమయంతో పెరుగుతుంది!</p>
+      <p class="en" style="font-size:0.88rem;">a = dv/dt = g → constant gravity</p>
+      <p class="te" style="font-size:0.8rem;">a = g → స్థిరమైన గురుత్వాకర్షణ</p>
+    </div>
+    <div class="card card-accent-gold">
+      <div style="font-size:1.5rem;margin-bottom:10px;">🌡️</div>
+      <h3 class="en" style="margin-bottom:6px;font-size:1rem;">Thermal Expansion</h3>
+      <p class="te" style="margin-bottom:12px;font-size:0.85rem;">ఉష్ణ వ్యాకోచం</p>
+      <div class="formula" style="font-size:0.95rem;padding:12px;">L(T) = L₀(1 + αT)</div>
+      <p class="en" style="font-size:0.88rem;margin-top:8px;">dL/dT = L₀α → expansion rate per degree</p>
+      <p class="te" style="font-size:0.8rem;">dL/dT = L₀α → ప్రతి డిగ్రీకి వ్యాకోచ రేటు</p>
+    </div>
+    <div class="card card-accent-violet">
+      <div style="font-size:1.5rem;margin-bottom:10px;">🎵</div>
+      <h3 class="en" style="margin-bottom:6px;font-size:1rem;">Pendulum Motion</h3>
+      <p class="te" style="margin-bottom:12px;font-size:0.85rem;">లోలక చలనం</p>
+      <div class="formula" style="font-size:0.95rem;padding:12px;">θ(t) = A·sin(ωt)</div>
+      <p class="en" style="font-size:0.88rem;margin-top:8px;">dθ/dt = Aω·cos(ωt) → angular velocity</p>
+      <p class="te" style="font-size:0.8rem;">dθ/dt = Aω·cos(ωt) → కోణీయ వేగం</p>
+    </div>
+    <div class="card card-accent-sky">
+      <div style="font-size:1.5rem;margin-bottom:10px;">🌱</div>
+      <h3 class="en" style="margin-bottom:6px;font-size:1rem;">Population Growth</h3>
+      <p class="te" style="margin-bottom:12px;font-size:0.85rem;">జనాభా వృద్ధి</p>
+      <div class="formula" style="font-size:0.95rem;padding:12px;">P(t) = P₀·eᵏᵗ</div>
+      <p class="en" style="font-size:0.88rem;margin-top:8px;">dP/dt = kP → growth proportional to population</p>
+      <p class="te" style="font-size:0.8rem;">dP/dt = kP → జనాభాకు అనులోమంగా వృద్ధి</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     SECTION 9 — MISCONCEPTIONS
+════════════════════════════════════════════ -->
+<section class="section" id="s9">
+<div class="container">
+  <div class="sec-header reveal">
+    <div class="sec-num">Section 09</div>
+    <h2 class="sec-title">Common Student Misconceptions</h2>
+    <p class="sec-title-te">విద్యార్థులకు సాధారణ తప్పు అభిప్రాయాలు</p>
+    <div class="sec-divider"></div>
+  </div>
+
+  <div class="reveal">
+    <div class="myth-card">
+      <div class="myth-icon">❌</div>
+      <div>
+        <p class="en" style="font-weight:700;color:#ff9080;">Myth: "Differentiation is just memorizing formulas like d(xⁿ)/dx = nxⁿ⁻¹"</p>
+        <p class="te" style="font-size:0.85rem;color:rgba(255,160,140,0.8);">అపోహ: "విభేదనం అంటే d(xⁿ)/dx = nxⁿ⁻¹ వంటి ఫార్ముల కంఠపాఠం చేయడమే"</p>
+      </div>
+    </div>
+    <div class="truth-card">
+      <div class="myth-icon">✅</div>
+      <div>
+        <p class="en" style="font-weight:700;color:#0a5c4c;">Truth: Formulas are compressed <em>answers</em> to the question "how fast does this change?" Understanding the question is more important than memorizing the answer.</p>
+        <p class="te" style="font-size:0.85rem;color:rgba(155,232,216,0.8);">నిజం: ఫార్ముల అంటే "ఇది ఎంత వేగంగా మారుతుంది?" అనే ప్రశ్నకు సంక్షిప్త <em>సమాధానాలు</em>. సమాధానం కంఠపాఠం చేయడం కంటే ప్రశ్నను అర్థం చేసుకోవడం ముఖ్యం.</p>
+      </div>
+    </div>
+
+    <div class="myth-card">
+      <div class="myth-icon">❌</div>
+      <div>
+        <p class="en" style="font-weight:700;color:#ff9080;">Myth: "d(x²)/dx = 2x because the rule says multiply exponent and reduce by 1"</p>
+        <p class="te" style="font-size:0.85rem;color:rgba(255,160,140,0.8);">అపోహ: "d(x²)/dx = 2x ఎందుకంటే నియమం చెప్పింది గుణకాన్ని తీసివేయి"</p>
+      </div>
+    </div>
+    <div class="truth-card">
+      <div class="myth-icon">✅</div>
+      <div>
+        <p class="en" style="font-weight:700;color:#0a5c4c;">Truth: 2x arises because a square has <em>two edges</em> that receive the new strip. The geometry created the formula.</p>
+        <p class="te" style="font-size:0.85rem;color:rgba(155,232,216,0.8);">నిజం: 2x వస్తుంది ఎందుకంటే చతురస్రానికి <em>రెండు అంచులు</em> ఉన్నాయి, అవి కొత్త పట్టీని అందుకుంటాయి. జ్యామితి ఫార్ముల సృష్టించింది.</p>
+      </div>
+    </div>
+
+    <div class="myth-card">
+      <div class="myth-icon">❌</div>
+      <div>
+        <p class="en" style="font-weight:700;color:#ff9080;">Myth: "d(sin x)/dx = cos x because I memorized the table"</p>
+        <p class="te" style="font-size:0.85rem;color:rgba(255,160,140,0.8);">అపోహ: "d(sin x)/dx = cos x ఎందుకంటే నేను పట్టికను కంఠపాఠం చేశాను"</p>
+      </div>
+    </div>
+    <div class="truth-card">
+      <div class="myth-icon">✅</div>
+      <div>
+        <p class="en" style="font-weight:700;color:#0a5c4c;">Truth: cos x is the <em>speedometer</em> of sin x. When sin is climbing fastest (at θ=0), cos is maximum. When sin is at peak (θ=90°), cos is zero — sin is momentarily not changing!</p>
+        <p class="te" style="font-size:0.85rem;color:rgba(155,232,216,0.8);">నిజం: cos x అనేది sin x యొక్క <em>స్పీడోమీటర్</em>. sin అత్యంత వేగంగా పెరుగుతున్నప్పుడు (θ=0 వద్ద), cos గరిష్టంగా ఉంటుంది. sin శిఖరం వద్ద (θ=90°) ఉన్నప్పుడు, cos శూన్యం — sin క్షణికంగా మారడం లేదు!</p>
+      </div>
+    </div>
+
+    <div class="myth-card">
+      <div class="myth-icon">❌</div>
+      <div>
+        <p class="en" style="font-weight:700;color:#ff9080;">Myth: "I cannot do JEE problems without knowing all derivative rules by heart"</p>
+        <p class="te" style="font-size:0.85rem;color:rgba(255,160,140,0.8);">అపోహ: "అన్ని డెరివేటివ్ నియమాలు గుర్తుంచుకోకపోతే JEE ప్రశ్నలు చేయలేను"</p>
+      </div>
+    </div>
+    <div class="truth-card">
+      <div class="myth-icon">✅</div>
+      <div>
+        <p class="en" style="font-weight:700;color:#0a5c4c;">Truth: Understanding gives you the ability to <em>derive</em> any rule from first principles under exam pressure. Memorization fails under pressure; understanding never does.</p>
+        <p class="te" style="font-size:0.85rem;color:rgba(155,232,216,0.8);">నిజం: అర్థం చేసుకోవడం ద్వారా పరీక్ష ఒత్తిడిలో ఏ నియమాన్ని అయినా మొదటి సూత్రాల నుండి <em>పొందగలరు</em>. కంఠపాఠం ఒత్తిడిలో వదిలేస్తుంది; అర్థం ఎప్పటికీ వదిలిపోదు.</p>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     SECTION 10 — IIT FOUNDATION CHALLENGE
+════════════════════════════════════════════ -->
+<section class="section" id="s10">
+<div class="container">
+  <div class="sec-header reveal">
+    <div class="sec-num">Section 10</div>
+    <h2 class="sec-title">IIT Foundation Challenge Questions</h2>
+    <p class="sec-title-te">IIT ఫౌండేషన్ సవాలు ప్రశ్నలు</p>
+    <div class="sec-divider"></div>
+  </div>
+
+  <p class="en reveal" style="margin-bottom:8px;color:rgba(20,20,50,0.70);">These questions test <strong>intuition and understanding</strong>, not formula substitution. Think before clicking!</p>
+  <p class="te reveal" style="margin-bottom:28px;font-size:0.88rem;">ఈ ప్రశ్నలు ఫార్ముల ప్రతిస్థాపన కాదు, <strong>అంతర్జ్ఞానం మరియు అవగాహన</strong>ను పరీక్షిస్తాయి.</p>
+
+  <!-- Q1 -->
+  <div class="q-block reveal">
+    <div class="q-num">Question 01 — Area Thinking</div>
+    <p class="q-text">A square has side 20 cm. If the side increases by a very tiny amount δ, approximately how much does the area increase?</p>
+    <p class="q-te">ఒక చతురస్రానికి భుజం 20 సెం.మీ. భుజం చాలా చిన్న మొత్తం δ పెరిగితే, వైశాల్యం సుమారుగా ఎంత పెరుగుతుంది?</p>
+    <div class="q-options">
+      <div class="q-opt" onclick="checkQ(this,'wrong','q1')">A) δ cm²</div>
+      <div class="q-opt" onclick="checkQ(this,'correct','q1')">B) 40δ cm²</div>
+      <div class="q-opt" onclick="checkQ(this,'wrong','q1')">C) 20δ² cm²</div>
+      <div class="q-opt" onclick="checkQ(this,'wrong','q1')">D) 400 cm²</div>
+    </div>
+    <div class="q-explanation" id="q1-exp">
+      <p class="en"><strong>Answer: B) 40δ cm²</strong><br>When side = x = 20, the derivative d(x²)/dx = 2x = 2×20 = 40. This means a tiny increase δ in side gives an area increase of approximately 40δ. The two long strips (each 20 cm long, each width δ) contribute 2×20×δ = 40δ.</p>
+      <p class="q-exp-te">సమాధానం: B) 40δ cm² — భుజం x = 20 అయినప్పుడు, d(x²)/dx = 2x = 40. అంటే భుజంలో చిన్న పెరుగుదల δ కు వైశాల్యంలో పెరుగుదల ≈ 40δ. రెండు పొడవైన పట్టీలు (ఒక్కొక్కటి 20 సెం.మీ పొడవు, వెడల్పు δ) 2×20×δ = 40δ ఇస్తాయి.</p>
+    </div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="q-block reveal">
+    <div class="q-num">Question 02 — Circle Motion</div>
+    <p class="q-text">A point moves along a unit circle. At θ = 90°, which of the following is true about the vertical height (sin θ)?</p>
+    <p class="q-te">ఒక బిందువు యూనిట్ వృత్తం వెంట కదులుతోంది. θ = 90° వద్ద, నిలువు ఎత్తు (sin θ) గురించి ఏది నిజం?</p>
+    <div class="q-options">
+      <div class="q-opt" onclick="checkQ(this,'wrong','q2')">A) sin is increasing at maximum speed</div>
+      <div class="q-opt" onclick="checkQ(this,'wrong','q2')">B) sin is decreasing</div>
+      <div class="q-opt" onclick="checkQ(this,'correct','q2')">C) sin is at its peak and momentarily not changing (rate = 0)</div>
+      <div class="q-opt" onclick="checkQ(this,'wrong','q2')">D) cos is at maximum here</div>
+    </div>
+    <div class="q-explanation" id="q2-exp">
+      <p class="en"><strong>Answer: C)</strong> At θ=90°, sin θ = 1 (maximum). A maximum means the function stops increasing and hasn't started decreasing yet — rate of change = 0. And indeed cos(90°) = 0, confirming d(sin x)/dx = cos x = 0 there.</p>
+      <p class="q-exp-te">సమాధానం: C) θ=90° వద్ద, sin θ = 1 (గరిష్టం). గరిష్టం అంటే ఫంక్షన్ పెరగడం ఆపింది మరియు తగ్గడం ఇంకా మొదలవలేదు — మార్పు రేటు = 0. cos(90°) = 0, ఇది d(sin x)/dx = cos x = 0 ని నిర్ధారిస్తుంది.</p>
+    </div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="q-block reveal">
+    <div class="q-num">Question 03 — Volume Growth</div>
+    <p class="q-text">A cube has side 5 cm. Its side grows by a tiny amount h. Approximately how much does the volume grow?</p>
+    <p class="q-te">ఒక ఘనానికి భుజం 5 సెం.మీ. దాని భుజం చిన్న మొత్తం h పెరుగుతుంది. ఘనపరిమాణం సుమారుగా ఎంత పెరుగుతుంది?</p>
+    <div class="q-options">
+      <div class="q-opt" onclick="checkQ(this,'wrong','q3')">A) 5h</div>
+      <div class="q-opt" onclick="checkQ(this,'wrong','q3')">B) 15h</div>
+      <div class="q-opt" onclick="checkQ(this,'correct','q3')">C) 75h</div>
+      <div class="q-opt" onclick="checkQ(this,'wrong','q3')">D) 125h</div>
+    </div>
+    <div class="q-explanation" id="q3-exp">
+      <p class="en"><strong>Answer: C) 75h</strong><br>d(x³)/dx = 3x². At x=5: 3×5² = 3×25 = 75. Three faces of the cube, each 5×5=25 cm², each growing by h, adds 3×25×h = 75h cm³.</p>
+      <p class="q-exp-te">సమాధానం: C) 75h — d(x³)/dx = 3x². x=5 వద్ద: 3×5² = 75. ఘనానికి మూడు ముఖాలు, ఒక్కొక్కటి 5×5=25 చ.సెం.మీ, ఒక్కొక్కటి h పెరుగుతుంది, 3×25×h = 75h సెం.మీ³ ఇస్తుంది.</p>
+    </div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="q-block reveal">
+    <div class="q-num">Question 04 — Speed Understanding</div>
+    <p class="q-text">A car's position is given by s = t³ meters (t in seconds). At t = 2s, what is the car's acceleration?</p>
+    <p class="q-te">ఒక కారు స్థానం s = t³ మీటర్లు (t సెకండులలో). t = 2 సె. వద్ద కారు యొక్క త్వరణం ఎంత?</p>
+    <div class="q-options">
+      <div class="q-opt" onclick="checkQ(this,'wrong','q4')">A) 12 m/s</div>
+      <div class="q-opt" onclick="checkQ(this,'correct','q4')">B) 12 m/s²</div>
+      <div class="q-opt" onclick="checkQ(this,'wrong','q4')">C) 8 m/s²</div>
+      <div class="q-opt" onclick="checkQ(this,'wrong','q4')">D) 6 m/s²</div>
+    </div>
+    <div class="q-explanation" id="q4-exp">
+      <p class="en"><strong>Answer: B) 12 m/s²</strong><br>v = ds/dt = 3t². Then a = dv/dt = 6t. At t=2: a = 6×2 = 12 m/s². (Note the unit: acceleration is m/s², not m/s — it's the rate of change of velocity, not velocity itself.)</p>
+      <p class="q-exp-te">సమాధానం: B) 12 m/s² — v = ds/dt = 3t². తర్వాత a = dv/dt = 6t. t=2 వద్ద: a = 6×2 = 12 m/s². (యూనిట్ గమనించండి: త్వరణం m/s², m/s కాదు — ఇది వేగం మార్పు రేటు.)</p>
+    </div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="q-block reveal">
+    <div class="q-num">Question 05 — Conceptual Trap</div>
+    <p class="q-text">If d(f)/dx = 0 at a point, what does that mean physically?</p>
+    <p class="q-te">ఒక బిందువు వద్ద d(f)/dx = 0 అయితే, దాని భౌతిక అర్థం ఏమిటి?</p>
+    <div class="q-options">
+      <div class="q-opt" onclick="checkQ(this,'wrong','q5')">A) f = 0 at that point</div>
+      <div class="q-opt" onclick="checkQ(this,'wrong','q5')">B) f is becoming negative</div>
+      <div class="q-opt" onclick="checkQ(this,'correct','q5')">C) f is momentarily not changing — it's at a peak or valley</div>
+      <div class="q-opt" onclick="checkQ(this,'wrong','q5')">D) x = 0</div>
+    </div>
+    <div class="q-explanation" id="q5-exp">
+      <p class="en"><strong>Answer: C)</strong> Derivative = 0 means the rate of change is zero — the function is neither increasing nor decreasing at that instant. This is a local maximum, minimum, or flat point. Like sin at 90° — it's at the top, momentarily still.</p>
+      <p class="q-exp-te">సమాధానం: C) డెరివేటివ్ = 0 అంటే మార్పు రేటు శూన్యం — ఆ క్షణంలో ఫంక్షన్ పెరగడం లేదా తగ్గడం జరగడం లేదు. ఇది స్థానిక గరిష్టం, కనిష్టం లేదా సమతల బిందువు. 90° వద్ద sin లాగా — అది శిఖరంలో ఉంది, క్షణికంగా స్థిరంగా ఉంది.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     FINAL QUOTE
+════════════════════════════════════════════ -->
+<section class="quote-section">
+  <div class="container">
+    <div style="font-size:4rem;margin-bottom:24px;opacity:0.2;">❝</div>
+    <p class="big-quote reveal">
+      "Derivative is not a mathematical trick.<br>
+      It is nature's language for describing change."
+    </p>
+    <p class="big-quote-te reveal" style="margin-top:20px;">
+      "డెరివేటివ్ ఒక గణిత ఉపాయం కాదు.<br>
+      మార్పును వర్ణించడానికి ఇది ప్రకృతి యొక్క భాష."
+    </p>
+    <p class="quote-attr reveal" style="margin-top:28px;">— VEDAS Academy · Faculty: Venkat Ragava (B.Tech ME, M.Tech Thermal Engg.)</p>
+
+    <!-- Final concept map SVG -->
+    <svg viewBox="0 0 500 180" width="100%" style="max-width:500px;display:block;margin:48px auto 0;opacity:0.85;" aria-label="Concept map">
+      <defs>
+        <linearGradient id="node-g1" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#1a8c7a"/>
+          <stop offset="100%" stop-color="#2978e8"/>
+        </linearGradient>
+        <linearGradient id="node-g2" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#6c45d6"/>
+          <stop offset="100%" stop-color="#e84b30"/>
+        </linearGradient>
+      </defs>
+      <!-- central node -->
+      <ellipse cx="250" cy="90" rx="65" ry="30" fill="url(#node-g1)" opacity="0.8"/>
+      <text x="250" y="86" text-anchor="middle" font-size="11" fill="#1a1a2e" font-weight="bold" font-family="sans-serif">Derivative</text>
+      <text x="250" y="100" text-anchor="middle" font-size="9" fill="rgba(20,20,50,0.55)" font-family="Noto Sans Telugu,sans-serif">డెరివేటివ్</text>
+      <!-- satellite nodes -->
+      <ellipse cx="80" cy="40" rx="55" ry="22" fill="url(#node-g2)" opacity="0.7"/>
+      <text x="80" y="36" text-anchor="middle" font-size="9" fill="#1a1a2e" font-weight="bold" font-family="sans-serif">Rate of Change</text>
+      <text x="80" y="48" text-anchor="middle" font-size="8" fill="rgba(20,20,50,0.50)" font-family="Noto Sans Telugu,sans-serif">మార్పు రేటు</text>
+      <line x1="130" y1="52" x2="190" y2="76" stroke="rgba(20,20,50,0.18)" stroke-width="1.5"/>
+
+      <ellipse cx="420" cy="40" rx="55" ry="22" fill="rgba(245,166,35,0.5)" stroke="rgba(245,166,35,0.6)" stroke-width="1"/>
+      <text x="420" y="36" text-anchor="middle" font-size="9" fill="#1a1a2e" font-weight="bold" font-family="sans-serif">Slope of Graph</text>
+      <text x="420" y="48" text-anchor="middle" font-size="8" fill="rgba(20,20,50,0.50)" font-family="Noto Sans Telugu,sans-serif">గ్రాఫ్ వాలు</text>
+      <line x1="370" y1="52" x2="312" y2="76" stroke="rgba(20,20,50,0.18)" stroke-width="1.5"/>
+
+      <ellipse cx="80" cy="145" rx="55" ry="22" fill="rgba(26,140,122,0.5)" stroke="rgba(26,140,122,0.5)" stroke-width="1"/>
+      <text x="80" y="141" text-anchor="middle" font-size="9" fill="#1a1a2e" font-weight="bold" font-family="sans-serif">Physics</text>
+      <text x="80" y="153" text-anchor="middle" font-size="8" fill="rgba(20,20,50,0.50)" font-family="Noto Sans Telugu,sans-serif">భౌతికశాస్త్రం</text>
+      <line x1="130" y1="133" x2="190" y2="106" stroke="rgba(20,20,50,0.18)" stroke-width="1.5"/>
+
+      <ellipse cx="420" cy="145" rx="55" ry="22" fill="rgba(108,69,214,0.5)" stroke="rgba(108,69,214,0.5)" stroke-width="1"/>
+      <text x="420" y="141" text-anchor="middle" font-size="9" fill="#1a1a2e" font-weight="bold" font-family="sans-serif">Geometry</text>
+      <text x="420" y="153" text-anchor="middle" font-size="8" fill="rgba(20,20,50,0.50)" font-family="Noto Sans Telugu,sans-serif">జ్యామితి</text>
+      <line x1="370" y1="133" x2="312" y2="106" stroke="rgba(20,20,50,0.18)" stroke-width="1.5"/>
+    </svg>
+
+    <!-- Badges -->
+    <div style="margin-top:36px;display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">
+      <span class="badge badge-teal">IIT Foundation</span>
+      <span class="badge badge-violet">Olympiad</span>
+      <span class="badge badge-gold">NEET Foundation</span>
+      <span class="badge badge-teal">Classes 9–11</span>
+      <span class="badge badge-violet">Calculus Intuition</span>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">VEDAS ACADEMY</div>
+  <div class="footer-sub">
+    Beside Market Yard Gate, Near Green Park, Wanaparthy – 509103, Telangana<br>
+    Faculty: Venkat Ragava (B.Tech ME, M.Tech Thermal Engineering)<br>
+    📞 81254 91205 &nbsp;|&nbsp; 
+    <a href="https://whatsapp.com/channel/0029VbCztaQHAdNXvPsC7Q34" style="color:var(--teal);text-decoration:none;">WhatsApp Channel</a><br>
+    <span style="font-family:'Noto Sans Telugu',sans-serif;">IIT ఫౌండేషన్ · JEE · NEET · ఒలింపియాడ్ · Classes 6–11</span>
+  </div>
+</footer>
+
+<!-- ═══════════════ ALL JAVASCRIPT ═══════════════ -->
+<script>
+// ── Power rule interactive ──
+function updatePower(val){
+  val = parseFloat(val);
+  document.getElementById('pw-x-val').textContent = val;
+  const r1 = 1;
+  const r2 = 2*val;
+  const r3 = 3*val*val;
+  const r4 = 4*val*val*val;
+  document.getElementById('pw1').textContent = r1.toFixed(0);
+  document.getElementById('pw2').textContent = r2.toFixed(1);
+  document.getElementById('pw3').textContent = r3.toFixed(1);
+  document.getElementById('pw4').textContent = r4.toFixed(1);
+
+  const maxR = Math.max(r1,r2,r3,r4,1);
+  const bars = ['b1','b2','b3','b4'];
+  const vals = [r1,r2,r3,r4];
+  const chartH = 90; // available height in svg
+  bars.forEach((id,i)=>{
+    const b = document.getElementById(id);
+    if(!b) return;
+    const h = Math.max(4, (vals[i]/maxR)*chartH);
+    b.setAttribute('height', h);
+    b.setAttribute('y', 100-h);
+  });
+}
+updatePower(3);
+
+// ── Circle / sin cos interactive ──
+function updateCircle(deg){
+  const rad = deg * Math.PI / 180;
+  const sinVal = Math.sin(rad);
+  const cosVal = Math.cos(rad);
+
+  document.getElementById('angle-deg').textContent = deg;
+  document.getElementById('sin-val').textContent = sinVal.toFixed(3);
+  document.getElementById('cos-val').textContent = cosVal.toFixed(3);
+
+  // rate description
+  const rateEl = document.getElementById('sin-change-rate');
+  const absCos = Math.abs(cosVal);
+  if(absCos > 0.7){ rateEl.textContent = cosVal > 0 ? 'sin changing: Fast ↑' : 'sin changing: Fast ↓'; }
+  else if(absCos > 0.3){ rateEl.textContent = 'sin changing: Medium'; }
+  else { rateEl.textContent = 'sin momentarily still'; }
+
+  // update SVG unit circle
+  const cx = 110, cy = 110, r = 80;
+  const px = cx + r * cosVal;
+  const py = cy - r * sinVal;
+
+  const pt = document.getElementById('uc-point');
+  const rad2 = document.getElementById('uc-radius');
+  const sinLine = document.getElementById('uc-sinline');
+  const cosLine = document.getElementById('uc-cosline');
+  if(pt){ pt.setAttribute('cx', px.toFixed(1)); pt.setAttribute('cy', py.toFixed(1)); }
+  if(rad2){ rad2.setAttribute('x2', px.toFixed(1)); rad2.setAttribute('y2', py.toFixed(1)); }
+  if(sinLine){
+    sinLine.setAttribute('x1', px.toFixed(1)); sinLine.setAttribute('y1', cy);
+    sinLine.setAttribute('x2', px.toFixed(1)); sinLine.setAttribute('y2', py.toFixed(1));
+  }
+  if(cosLine){
+    cosLine.setAttribute('x1', cx); cosLine.setAttribute('y1', cy);
+    cosLine.setAttribute('x2', px.toFixed(1)); cosLine.setAttribute('y2', cy);
+  }
+  // angle arc
+  const arcEl = document.getElementById('uc-arc');
+  if(arcEl && deg > 5){
+    const ar = 35;
+    const ax = cx + ar * cosVal;
+    const ay = cy - ar * sinVal;
+    const largeArc = deg > 180 ? 1 : 0;
+    arcEl.setAttribute('d', `M${(cx+ar).toFixed(1)},${cy} A${ar},${ar} 0 ${largeArc},0 ${ax.toFixed(1)},${ay.toFixed(1)}`);
+  }
+}
+updateCircle(0);
+
+// ── Sin/Cos sync slider ──
+function updateSinCosSync(deg){
+  const rad = deg * Math.PI / 180;
+  const s = Math.sin(rad);
+  const c = Math.cos(rad);
+
+  document.getElementById('sc-angle').textContent = deg;
+  document.getElementById('sc-a2').textContent = deg;
+  document.getElementById('sc-a3').textContent = deg;
+  document.getElementById('sc-sinv').textContent = s.toFixed(3);
+  document.getElementById('sc-cosv').textContent = c.toFixed(3);
+  document.getElementById('sc-slope-label').textContent = 'Slope of sin = ' + c.toFixed(2);
+
+  // map angle 0-360 to x position on graph (10 to 210 range = 200px wide for 2π)
+  const xPos = 10 + (deg/360)*200;
+
+  // sin point: y = 70 - 55*sin(rad)
+  const sinY = 70 - 55*s;
+  const sinPt = document.getElementById('sin-pt');
+  if(sinPt){ sinPt.setAttribute('cx', xPos.toFixed(1)); sinPt.setAttribute('cy', sinY.toFixed(1)); }
+
+  // tangent line on sin (slope = cos)
+  const tanEl = document.getElementById('sin-tan');
+  if(tanEl){
+    const slope = c; // dy/dx in graph units (y scaled by 55)
+    const dx = 18;
+    const x1 = xPos - dx; const y1 = sinY - slope*dx*0.7;
+    const x2 = xPos + dx; const y2 = sinY + slope*dx*0.7;
+    tanEl.setAttribute('x1', x1.toFixed(1)); tanEl.setAttribute('y1', y1.toFixed(1));
+    tanEl.setAttribute('x2', x2.toFixed(1)); tanEl.setAttribute('y2', y2.toFixed(1));
+  }
+
+  // cos point: y = 70 - 55*cos(rad) (cos curve is at top when cos=1 → y=15)
+  const cosY = 70 - 55*c;
+  const cosPt = document.getElementById('cos-pt');
+  if(cosPt){ cosPt.setAttribute('cx', xPos.toFixed(1)); cosPt.setAttribute('cy', cosY.toFixed(1)); }
+  const connEl = document.getElementById('cos-connect');
+  if(connEl){ connEl.setAttribute('x1', xPos.toFixed(1)); connEl.setAttribute('x2', xPos.toFixed(1)); }
+}
+updateSinCosSync(0);
+
+// ── Quiz logic ──
+function checkQ(el, verdict, qId){
+  // disable all options in this block
+  const block = el.closest('.q-block');
+  const opts = block.querySelectorAll('.q-opt');
+  opts.forEach(o => { o.style.pointerEvents='none'; });
+  el.classList.add(verdict);
+  // show explanation
+  const exp = document.getElementById(qId+'-exp');
+  if(exp) exp.classList.add('show');
+}
+
+// ── Intersection observer ──
+const observer = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
+},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+</script>
